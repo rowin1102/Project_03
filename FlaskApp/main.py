@@ -40,5 +40,25 @@ def api_danger_area():
       danger_msg.append(obs['name'])
   return jsonify({'danger_area' : danger_msg})
 
+@app.route('/incheon')
+def incheon_detail():
+    return render_template('incheon.html')
+
+@app.route('/taean')
+def taean_detail():
+    return render_template('taean.html')
+
+@app.route('/tongyeong')
+def tongyeong_detail():
+    return render_template('tongyeong.html')
+
+@app.route('/yeosu')
+def yeosu_detail():
+    return render_template('yeosu.html')
+
+@app.route('/uljin')
+def uljin_detail():
+    return render_template('uljin.html')
+
 if __name__ == '__main__':
   app.run(host='127.0.0.1', port=8080, debug=True)

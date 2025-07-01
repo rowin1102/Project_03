@@ -72,10 +72,11 @@
 
   .output-button {
     background: linear-gradient(45deg, #4CAF50, #45a049);
-    color: white;
+    color: gray;
     border: none;
-    padding: 12px 25px;
+    padding: 10px 40px;
     border-radius: 25px;
+    width: 250px;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
@@ -267,3 +268,16 @@
     border-radius: 50%;
     background: #4CAF50;
   }
+
+    .button-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 40px; /* 좌우 컬럼 간 간격 */
+  margin-top: 15px;
+}
+
+.button-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* 버튼 간 간격 */
+}
