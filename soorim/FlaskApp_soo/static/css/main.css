@@ -70,18 +70,21 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   }
 
+  /* ---------------------------------------------------------------------------- */
   .output-button {
     background: linear-gradient(45deg, #4CAF50, #45a049);
-    color: white;
+    color: gray;
     border: none;
-    padding: 12px 25px;
+    padding: 10px 40px;
     border-radius: 25px;
+    width: 250px;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   }
+  /* ------------------------------------------------------------------------------- */
 
   .output-button:hover {
     transform: translateY(-3px);
@@ -267,3 +270,17 @@
     border-radius: 50%;
     background: #4CAF50;
   }
+/* --------------------------------------------- */
+  .button-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 40px; /* 좌우 컬럼 간 간격 */
+  margin-top: 15px;
+}
+
+.button-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* 버튼 간 간격 */
+}
+

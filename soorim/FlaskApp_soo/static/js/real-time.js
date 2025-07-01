@@ -1,4 +1,4 @@
-const metrics = ['wind_speed', 'sea_high', 'sea_speed'];
+const metrics = ['wind_speed', 'sea_speed'];
 const regionConfigs = [
   { name: '태안', files: ['Taean_05.csv', 'Taean_04.csv'], color: 'red' },
   { name: '인천', files: ['InCheon_04.csv', 'InCheon_04.csv'], color: 'blue' },
@@ -7,18 +7,30 @@ const regionConfigs = [
   { name: '울진', files: ['Uljin_04.csv', 'Uljin_05.csv'], color: 'purple' },
 ];
 
-// 각 그래프용 Chart 인스턴스 저장
+// ✅ 저장소
 const charts = {};
-
-// 각 컬럼별로 데이터 버퍼와 인덱스 따로
 const dataBuffers = {};
 const indices = {};
+const timeIndices = {};       // 초기: -50 ~ -5
+const nextTimeIndices = {};   // 이후: 0부터 +5씩
 
-// ✅ 컬럼별 Chart.js 생성
+// ✅ sea_high 전용
+const seaHighThresholds = {
+  low: v => v < 70,
+  mid: v => v >= 70 && v <= 100,
+  high: v => v > 100
+};
+const seaHighCurrent = {};
+const seaHighBuffer = {};
+const seaHighIndex = {};
+regionConfigs.forEach(region => {
+  seaHighCurrent[region.name] = [0, 0, 0];
+});
+
+// ✅ wind_speed & sea_speed 꺾은선
 metrics.forEach(metric => {
   const ctx = document.getElementById(
-    metric === 'wind_speed' ? 'windChart' :
-    metric === 'sea_high' ? 'highChart' : 'speedChart'
+    metric === 'wind_speed' ? 'windChart' : 'speedChart'
   ).getContext('2d');
 
   charts[metric] = new Chart(ctx, {
@@ -27,14 +39,10 @@ metrics.forEach(metric => {
       datasets: regionConfigs.map(region => ({
         label: region.name,
         data: [],
-        borderColor: region.color,
-        borderWidth: 2,
         fill: false,
-        tension: 0.6,
+        tension: 0.4,
         pointRadius: 2,
-        pointBackgroundColor:region.color,
-        pointBorderColor: region.color,
-        pointBorderWidth: 2,
+
       }))
     },
     options: {
@@ -45,29 +53,69 @@ metrics.forEach(metric => {
       scales: {
         x: {
           type: 'linear',
-          title: { display: true, text: 'Index' },
+          title: { display: true, text: 'Time (s)' },
+          grid: { display: true }
         },
         y: {
-          beginAtZero: true
+          beginAtZero: true,
+          grid: { display: true }
         }
       },
       plugins: {
         legend: {
           display: true,
           labels: {
-            usePointStyle: true,   // ✔ 점 스타일 쓰겠다
-            pointStyle: 'line',    // ✔ 범례 아이콘을 선 모양으로
-            boxWidth: 100,          // ✔ 선 길이 조절
-            boxHeight: 7,          // ✔ 선 두께 조절
+            usePointStyle: true,
+            pointStyle: 'line',
+            boxWidth: 40,
+            boxHeight: 4
           }
-    },
-    tooltip: { enabled: true }
-  },
+        },
+        tooltip: { enabled: true }
+      }
     }
   });
 });
 
-// ✅ 모든 지역 데이터 한번에 로딩
+// ✅ sea_high 수평 막대
+const ctx = document.getElementById('highBarChart').getContext('2d');
+const seaHighChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: regionConfigs.map(r => r.name),
+    datasets: [
+      { label: '낮음(0~70)', data: [], backgroundColor: '#F44336' },
+      { label: '보통(70~100)', data: [], backgroundColor: '#FFC107' },
+      { label: '높음(100~)', data: [], backgroundColor: '#4CAF50' },
+    ]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        beginAtZero: true,
+        title: { display: true, text: '파고(cm)' }
+      },
+      y: {
+        title: { display: true, text: '지역' }
+      }
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top',
+        labels: {
+          usePointStyle: true,
+          pointStyle: 'rect'
+        }
+      }
+    }
+  }
+});
+
+// ✅ 데이터 로딩
 regionConfigs.forEach(region => {
   Promise.all(region.files.map(file =>
     fetch(`/static/finalData/${file}`).then(res => res.text())
@@ -77,32 +125,50 @@ regionConfigs.forEach(region => {
       Papa.parse(csvText, { header: true, dynamicTyping: true }).data
     );
 
+    // ✔ 꺾은선 초기 10개 (X: -50 ~ -5)
     metrics.forEach(metric => {
       if (!dataBuffers[metric]) dataBuffers[metric] = {};
       if (!indices[metric]) indices[metric] = {};
+      if (!timeIndices[metric]) timeIndices[metric] = {};
+      if (!nextTimeIndices[metric]) nextTimeIndices[metric] = {};
 
       dataBuffers[metric][region.name] = allData;
       indices[metric][region.name] = 0;
+      timeIndices[metric][region.name] = -50;
 
-      // ✅ 각 그래프 초기 10개 push
       for (let i = 0; i < 10; i++) {
-        const point = allData[i];
-        const value = point[metric];
-        if (value !== undefined && value !== null && isFinite(value)) {
+        const value = allData[i][metric];
+        if (value !== undefined && isFinite(value)) {
           charts[metric].data.datasets.find(d => d.label === region.name).data.push({
-            x: i,
+            x: timeIndices[metric][region.name],
             y: value
           });
           indices[metric][region.name]++;
+          timeIndices[metric][region.name] += 5;
         }
       }
 
+      nextTimeIndices[metric][region.name] = 0; // ✔ 이후 0부터 시작
       charts[metric].update();
     });
+
+    // ✔ sea_high 버퍼 + 시작 시 1개 반영
+    seaHighBuffer[region.name] = allData;
+    seaHighIndex[region.name] = 0;
+
+    const v = allData[0]?.sea_high;
+    seaHighCurrent[region.name] = [0, 0, 0];
+    if (v !== undefined && isFinite(v)) {
+      if (seaHighThresholds.low(v)) seaHighCurrent[region.name][0] = v;
+      else if (seaHighThresholds.mid(v)) seaHighCurrent[region.name][1] = v;
+      else if (seaHighThresholds.high(v)) seaHighCurrent[region.name][2] = v;
+    }
+    seaHighIndex[region.name] = 1;
+    updateSeaHighChart();
   });
 });
 
-// ✅ 이후 5초마다 각 컬럼/지역 데이터 1개씩 push
+// ✅ 5초마다
 setInterval(() => {
   metrics.forEach(metric => {
     regionConfigs.forEach(region => {
@@ -110,27 +176,48 @@ setInterval(() => {
       if (!buffer || buffer.length === 0) return;
 
       const i = indices[metric][region.name];
-      const point = buffer[i];
-      const value = point[metric];
-
-      if (value !== undefined && value !== null && isFinite(value)) {
+      const value = buffer[i][metric];
+      if (value !== undefined && isFinite(value)) {
         const dataset = charts[metric].data.datasets.find(d => d.label === region.name);
         dataset.data.push({
-          x: dataset.data.length,
+          x: nextTimeIndices[metric][region.name],
           y: value
         });
-
-        if (dataset.data.length > 1000) {
-          dataset.data.shift();
-        }
+        nextTimeIndices[metric][region.name] += 5; // ✔ 5초 증가
+        if (dataset.data.length > 20) dataset.data.shift();
       }
 
       indices[metric][region.name]++;
-      if (indices[metric][region.name] >= buffer.length) {
-        indices[metric][region.name] = 0; // 반복
-      }
+      if (indices[metric][region.name] >= buffer.length) indices[metric][region.name] = 0;
     });
-
     charts[metric].update();
   });
+
+  // ✔ sea_high
+  regionConfigs.forEach(region => {
+    const buffer = seaHighBuffer[region.name];
+    if (!buffer || buffer.length === 0) return;
+
+    const i = seaHighIndex[region.name];
+    const v = buffer[i]?.sea_high;
+
+    seaHighCurrent[region.name] = [0, 0, 0];
+    if (v !== undefined && isFinite(v)) {
+      if (seaHighThresholds.low(v)) seaHighCurrent[region.name][0] = v;
+      else if (seaHighThresholds.mid(v)) seaHighCurrent[region.name][1] = v;
+      else if (seaHighThresholds.high(v)) seaHighCurrent[region.name][2] = v;
+    }
+
+    seaHighIndex[region.name]++;
+    if (seaHighIndex[region.name] >= buffer.length) seaHighIndex[region.name] = 0;
+  });
+
+  updateSeaHighChart();
 }, 5000);
+
+function updateSeaHighChart() {
+  seaHighChart.data.datasets[0].data = regionConfigs.map(r => seaHighCurrent[r.name][0]);
+  seaHighChart.data.datasets[1].data = regionConfigs.map(r => seaHighCurrent[r.name][1]);
+  seaHighChart.data.datasets[2].data = regionConfigs.map(r => seaHighCurrent[r.name][2]);
+  seaHighChart.update();
+}

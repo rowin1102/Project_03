@@ -22,13 +22,41 @@
             </div>
         </div>
 
+         <!-- 1열 2행 - 텍스트 출력 버튼 -->
+          <!--
+        <div class="col1-row2">
+            <div class="section-title">상세 페이지 들어가기</div>
+            <button class="output-button" onclick="generateOutput()" style="background: linear-gradient(45deg, #FFB3BA, #FFB3BA);">인천항</button>
+            <button class="output-button" onclick="clearText()" style="background: linear-gradient(45deg, #A3D5FF, #A3D5FF);">태안항</button>
+            <button class="output-button" onclick="addMarker()" style="background: linear-gradient(45deg, #FFDFBA, #FFDFBA);">통영항</button>
+            <button class="output-button" onclick="addMarker()" style="background: linear-gradient(45deg, #FFFFBA, #FFFFBA);">여수항</button>
+            <button class="output-button" onclick="addMarker()" style="background: linear-gradient(45deg, #B5EAD7, #B5EAD7);">울진항</button>
+        </div> -->
         <!-- 1열 2행 - 텍스트 출력 버튼 -->
         <div class="col1-row2">
-            <div class="section-title">제어 센터</div>
-            <button class="output-button" onclick="generateOutput()">텍스트 출력</button>
-            <button class="output-button" onclick="clearText()" style="background: linear-gradient(45deg, #ff6b6b, #ee5a52);">초기화</button>
-            <button class="output-button" onclick="addMarker()" style="background: linear-gradient(45deg, #2196F3, #1976D2);">지도 마커</button>
+        <div class="section-title">상세 페이지 들어가기</div>
+
+        <div class="button-wrapper">
+      
+            <div class="button-col left-col">
+            <button class="output-button" onclick="location.href='{{ url_for('incheon_detail') }}'"
+             style="background: linear-gradient(45deg, #FFB3BA, #FFB3BA);">인천항</button>
+            <button class="output-button" onclick="location.href='{{ url_for('taean_detail') }}'"
+             style="background: linear-gradient(45deg, #A3D5FF, #A3D5FF);">태안항</button>
+            <button class="output-button" onclick="location.href='{{ url_for('tongyeong_detail') }}'"
+             style="background: linear-gradient(45deg, #FFDFBA, #FFDFBA);">통영항</button>
+            </div>
+
+            <div class="button-col right-col">
+            <button class="output-button" onclick="location.href='{{ url_for('yeosu_detail') }}'"
+             style="background: linear-gradient(45deg, #FFFFBA, #FFFFBA);">여수항</button>
+            <button class="output-button" onclick="location.href='{{ url_for('uljin_detail') }}'"
+             style="background: linear-gradient(45deg, #B5EAD7, #B5EAD7);">울진항</button>
+            </div>
+            <!>
         </div>
+        </div>
+
 
         <!-- 1열 3행 - 텍스트 표시 -->
         <div class="col1-row3">
@@ -88,34 +116,33 @@
             </div>
         </div>
        
-            <!-- 하단 그래프 3개 묶기 -->
             <div class="bottom-graphs">
             <!-- Wind Speed -->
             <div class="bottom-graph">
-                <div class="section-title">Wind Speed</div>
-                <div class="bottom-graph-content" id="windChartWrapper" style="width: 100%; max-width: 1200px; height: 350px;">
+                <div class="section-title">풍속</div>
+                <div class="bottom-graph-content" style="width: 100%; max-width: 1200px; height: 350px;">
                 <canvas id="windChart" style="width: 100%; height: 100%; max-height: none;"></canvas>
                 </div>
             </div>
 
             <!-- Sea Speed -->
             <div class="bottom-graph">
-                <div class="section-title">Sea Speed</div>
-                <div class="bottom-graph-content" id="speedChartWrapper" style="width: 100%; max-width: 1200px; height: 350px;">
+                <div class="section-title">유속</div>
+                <div class="bottom-graph-content" style="width: 100%; max-width: 1200px; height: 350px;">
                 <canvas id="speedChart" style="width: 100%; height: 100%; max-height: none;"></canvas>
                 </div>
             </div>
 
-            <!-- Sea High -->
+            <!-- Sea High 상태 분포 (수평 막대) -->
             <div class="bottom-graph">
-                <div class="section-title">Sea High</div>
-                <div class="bottom-graph-content" id="highChartWrapper" style="width: 100%; max-width: 1200px; height: 350px;">
-                <canvas id="highChart" style="width: 100%; height: 100%; max-height: none;"></canvas>
+                <div class="section-title">해수면의 높이</div>
+                <div class="bottom-graph-content" style="width: 100%; max-width: 1200px; height: 350px;">
+                <canvas id="highBarChart" style="width: 100%; height: 100%; max-height: none;"></canvas>
                 </div>
             </div>
             </div>
 
-            <!-- Chart.js & PapaParse는 한 번만! -->
+            <!-- Chart.js & PapaParse -->
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
             <script src="/static/js/real-time.js"></script>

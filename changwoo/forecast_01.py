@@ -82,7 +82,8 @@ for region in regions:
 
         try:
             model = load_model(model_path)
-            y_pred = np.argmax(model.predict(X_test_scaled, verbose=0), axis=1)
+            y_pred = model.predict(X_test_scaled).flatten()  # 예측값: 연속값 그대로
+
             pred_result[f"{col}_pred"] = y_pred
 
             # 실제값 (라벨) 가져오기
