@@ -10,35 +10,45 @@ ServiceKey = 'yw1Xau9HH4k4eQmO0r65AA=='
 
 
   
+  
+  
 @app.route('/piechart')
 def piechart():
-    
-    datas = []
+   
+    # 총합 저장
+    totals = {
+        'tide_level': 0,
+        'wind_speed': 0,
+        'current_speed': 0,
+        'air_temp': 0,
+        'air_press': 0,
+        'water_temp': 0
+    }
+
+    # 한글 항목명
+    labels_ko = {
+        'tide_level': '조위',
+        'wind_speed': '풍속',
+        'current_speed': '유속',
+        'air_temp': '기온',
+        'air_press': '기압',
+        'water_temp': '수온'
+    }
+
     for obs in ObsCode:
-        d = get_obs_data(obs, url, ServiceKey)
-        if d: datas.append(d)
+        data = get_obs_data(obs, url, ServiceKey)
+        for key in totals:
+            if key in data:
+                totals[key] += data[key]
 
-    # 풍속 분포: 약풍/미풍/강풍 기준 분류
-    cat = {'약풍 (<3.3m/s)':0, '미풍 (3.3~6.6m/s)':0, '강풍 (>6.6m/s)':0}
-    for d in datas:
-        ws = d['wind_speed']
-        if ws < 3.3:
-            cat['약풍 (<3.3m/s)'] += 1
-        elif ws < 6.6:
-            cat['미풍 (3.3~6.6m/s)'] += 1
-        else:
-            cat['강풍 (>6.6m/s)'] += 1
-
-    labels = list(cat.keys())
-    values = list(cat.values())
-    colors = ['#81c784', '#ffb74d', '#e57373']
+    labels = [labels_ko[k] for k in totals]
+    values = list(totals.values())
+    colors = ['#4dd0e1', '#81c784', '#ffb74d', '#9575cd', '#f06292', '#90a4ae']
 
     return render_template('chart.html',
-                           datas=datas,
                            labels=labels,
                            values=values,
                            colors=colors)
-
 
 @app.route('/')
 def dashboard():
