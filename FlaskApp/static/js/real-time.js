@@ -120,7 +120,7 @@ setInterval(() => {
           y: value
         });
 
-        if (dataset.data.length > 1000) {
+        if (dataset.data.length > 50) {
           dataset.data.shift();
         }
       }
