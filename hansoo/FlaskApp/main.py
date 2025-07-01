@@ -15,7 +15,7 @@ def piechart():
     
     datas = []
     for obs in ObsCode:
-        d = get_obs_data(obs, url, key)
+        d = get_obs_data(obs, url, ServiceKey)
         if d: datas.append(d)
 
     # 풍속 분포: 약풍/미풍/강풍 기준 분류

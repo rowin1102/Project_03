@@ -1,81 +1,70 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>실시간 관측 파이차트</title>
+  <meta charset="UTF-8" />
+  <title>지역별 풍속 분포 차트</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
   <style>
-    body {
-      font-family: 'Arial';
-      text-align: center;
-    }
-    canvas {
-      max-width: 500px;
-      margin: 40px auto;
-    }
+    body { font-family: Arial, sans-serif; text-align: center; }
+    canvas { max-width: 600px; margin: 30px auto; display: block; }
+    .list { margin-top: 20px; }
+    .item { font-size: 14px; margin-bottom: 4px; }
   </style>
 </head>
 <body>
 
-<h2>관측 항목별 비율 차트</h2>
-<canvas id="myPieChart"></canvas>
+<h2>지역별 실시간 풍속 분포</h2>
+<canvas id="pieChart"></canvas>
+
+<div class="list">
+  <h3>개별 관측소 실측값</h3>
+  {% for d in datas %}
+    <div class="item">
+      {{ d.name }} — 풍속: {{ d.wind_speed }} m/s, 풍향: {{ d.wind_dir }}°
+    </div>
+  {% endfor %}
+</div>
 
 <script>
-  const labels = {{ labels | tojson }};
-  const values = {{ values | tojson }};
-  const colors = {{ colors | tojson }};
-  const total = values.reduce((a, b) => a + b, 0);
+const labels = {{ labels|tojson }};
+const values = {{ values|tojson }};
+const colors = {{ colors|tojson }};
+const total = values.reduce((a,b) => a+b, 0);
 
-  const ctx = document.getElementById('myPieChart').getContext('2d');
-
-  new Chart(ctx, {
-    type: 'pie',
-    data: {
-      labels: labels,
-      datasets: [{
-        data: values,
-        backgroundColor: colors,
-        borderWidth: 1,
-        borderColor: '#fff'
-      }]
-    },
-    options: {
-      plugins: {
-        legend: {
-          position: 'bottom'
-        },
-        tooltip: {
-          callbacks: {
-            label: ctx => {
-              const label = ctx.label;
-              const val = ctx.parsed;
-              const percent = ((val / total) * 100).toFixed(1);
-              return `${label}: ${val} (${percent}%)`;
-            }
+new Chart(document.getElementById('pieChart'), {
+  type: 'pie',
+  data: { labels, datasets:[{ data: values, backgroundColor: colors }] },
+  options: {
+    plugins: {
+      legend: { position: 'bottom' },
+      tooltip: {
+        callbacks: {
+          label: ctx => {
+            const v = ctx.parsed;
+            const pct = ((v/total)*100).toFixed(1);
+            return `${ctx.label}: ${v}개 (${pct}%)`;
           }
-        },
-        datalabels: {
-          color: '#000',
-          font: {
-            size: 12,
-            weight: 'bold'
-          },
-          formatter: (value, ctx) => {
-            const label = ctx.chart.data.labels[ctx.dataIndex];
-            const percent = ((value / total) * 100).toFixed(1);
-            return `${label}\n${percent}%`;
-          },
-          align: 'center',
-          anchor: 'center',
-          display: 'auto',
-          clamp: true,
-          padding: 6
         }
+      },
+      datalabels: {
+        color: '#fff',
+        formatter: (v, ctx) => {
+          const lbl = ctx.chart.data.labels[ctx.dataIndex];
+          const pct = ((v/total)*100).toFixed(1);
+          return `${lbl}\n${pct}%`;
+        },
+        align: 'center',
+        anchor: 'center',
+        font: { size: 12, weight:'bold' },
+        clamp: true,
+        padding: 6,
+        display: true
       }
-    },
-    plugins: [ChartDataLabels]
-  });
+    }
+  },
+  plugins: [ChartDataLabels]
+});
 </script>
 
 </body>
