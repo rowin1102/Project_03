@@ -231,6 +231,7 @@
     border-radius: 5px;
     border-left: 3px solid #4CAF50;
     font-size: 12px;
+    font-family: 'Arial', sans-serif;
   }
 
   .metric-box {

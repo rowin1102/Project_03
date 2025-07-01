@@ -17,12 +17,15 @@ with open('./observatory/bui.json', encoding='utf-8') as f:
 @app.route('/')
 def dashboard():
   warning_msg = []
+  danger_msg = []
   for obs in ObsCode:
     data = get_obs_data(obs, url, ServiceKey)
     warning = detect_abnormal(data)
     for w in warning:
       warning_msg.append(f"{obs['name']} {w}") 
-  return render_template('mainPage.html', warning=warning_msg)
+    if any('위험' in w for w in warning):
+      danger_msg.append(f"{obs['name']} 출항 금지")
+  return render_template('mainPage.html', warning=warning_msg, danger_area=danger_msg)
 def index():
     return render_template('mainPage.html')
 
@@ -43,7 +46,7 @@ def api_danger_area():
     data = get_obs_data(obs, url ,ServiceKey)
     warning = detect_abnormal(data)
     if any('위험' in w for w in warning):
-      danger_msg.append(obs['name'])
+      danger_msg.append(f"{obs['name']} 출항 금지")
   return jsonify({'danger_area' : danger_msg})
 
 @app.route('/incheon')
