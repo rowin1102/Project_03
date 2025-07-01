@@ -7,6 +7,7 @@ def get_obs_data(obs, url, ServiceKey):
     'ResultType' : 'json'
   }
   response = requests.get(url, params=params)
+  
   if response.status_code == 200:
     try:
       data = response.json()['result']['data']

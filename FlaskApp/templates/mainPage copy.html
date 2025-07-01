@@ -42,9 +42,10 @@
         <!-- 2열 중간 - 지도 -->
         <div class="col2-map">
             <div class="section-title">실시간 위치 지도</div>
-            <div class="map-container" style="height: 430px">
+            <div class="map-container">
                 <div class="map-placeholder" id="mapArea">
-                    {% include 'obs_map.html' %}
+                    <h3>🗺️ 인터랙티브 맵</h3>
+                    <iframe src="./obs_map.html" width="600" height="400"></iframe>
                 </div>
             </div>
         </div>
@@ -52,10 +53,37 @@
         <!-- 3열 상단 - 대시보드 -->
         <div class="col3-dashboard">
             <div class="section-title">시스템 대시보드</div>
-            <div class="dashboard-content" style="height: 430px">
+            <div class="dashboard-content">
+                <div class="metric-box">
+                    <div class="metric-value" id="cpuUsage">45%</div>
+                    <div class="metric-label">CPU 사용률</div>
+                </div>
+                
+                <div class="metric-box" style="background: linear-gradient(45deg, #4CAF50, #45a049);">
+                    <div class="metric-value" id="memoryUsage">67%</div>
+                    <div class="metric-label">메모리 사용률</div>
+                </div>
+                
+                <div class="status-item">
+                    <span>서버 상태</span>
+                    <span class="status-indicator"></span>
+                </div>
+                
+                <div class="status-item">
+                    <span>데이터베이스</span>
+                    <span class="status-indicator" style="background: #ff9800;"></span>
+                </div>
+                
+                <div class="status-item">
+                    <span>네트워크</span>
+                    <span class="status-indicator"></span>
+                </div>
+
                 <h4 style="margin-top: 20px; margin-bottom: 10px;">실시간 알림</h4>
-                <div id="alertLog">
-                    {% include 'dashboard.html' %}
+                <div id="alertLog" style="max-height: 150px; overflow-y: auto;">
+                    <div class="log-entry">새로운 사용자 연결</div>
+                    <div class="log-entry">데이터 동기화 완료</div>
+                    <div class="log-entry">백업 프로세스 시작</div>
                 </div>
             </div>
         </div>

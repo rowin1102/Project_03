@@ -6,13 +6,18 @@
   <title>조위관측소 실시간 경고</title>
 </head>
 <body>
-  <h2>조위관측소 실시간 경고</h2>
     <ul id="warn-list">
-        {% for msg in warning %}
-            <li style="color:red">{{ msg }}</li>
+      {% for msg in warning %}
+        {% if '위험' in msg %}
+            <li class="log-entry" style="color:red">{{ msg }}</li>
+        {% elif '주의' in msg %}
+            <li class="log-entry" style="color:orange">{{ msg }}</li>
         {% else %}
-            <li style="color:green">이상 없음</li>
-        {% endfor %}
+            <li class="log-entry">{{ msg }}</li>
+        {% endif %}
+      {% else %}
+        <li class="log-entry">이상 없음</li>
+      {% endfor %}
     </ul>
 
     <script>
@@ -23,18 +28,23 @@
             const ul = document.getElementById('warn-list');
             ul.innerHTML = '';
             if(data.warning.length === 0) {
-              ul.innerHTML = '<li style="color:green">이상 없음</li>'
+              ul.innerHTML = '<li class="log-entry">이상 없음</li>'
             } else {
               data.warning.forEach(function(msg) {
                 const li = document.createElement('li');
+                li.className = 'log-entry';
+                if (msg.includes('위험')) {
+                  li.style.color = 'red'
+                } else if(msg.includes('주의')) {
+                  li.style.color = 'orange'
+                }
                 li.textContent = msg;
-                li.style.color = 'red';
                 ul.appendChild(li);
               });
             }
           });
       }
-      setInterval(updateWarning, 5000);
+    setInterval(updateWarning, 50000)
     </script>
 </body>
 </html>
