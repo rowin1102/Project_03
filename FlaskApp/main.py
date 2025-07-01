@@ -17,6 +17,8 @@ def dashboard():
     for w in warning:
       warning_msg.append(f"{obs['name']} {w}") 
   return render_template('mainPage.html', warning=warning_msg)
+def index():
+    return render_template('mainPage.html')
 
 @app.route('/api/warning')
 def api_warning():
