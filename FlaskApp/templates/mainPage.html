@@ -49,9 +49,8 @@
         <!-- 1열 3행 - 텍스트 표시 -->
         <div class="col1-row3">
             <div class="section-title">출력 영역</div>
-            <div class="text-display" id="textDisplay">
-                <div class="log-entry">시스템 준비 완료</div>
-                <div class="log-entry">버튼을 클릭하여 텍스트를 출력하세요</div>
+            <div class="text-display" id="textDisplay" style="height:340px">
+                {% include 'dangerArea.html' %}
             </div>
         </div>
 
@@ -59,9 +58,7 @@
         <div class="col2-map">
             <div class="section-title">실시간 위치 지도</div>
             <div class="map-container" style="height: 420px">
-                <div class="map-placeholder" id="mapArea">
-                    {% include 'obs_map.html' %}
-                </div>
+                <iframe src="/obs_map" width="100%" height="420" style="border:none;"></iframe>
             </div>
         </div>
 
@@ -107,178 +104,5 @@
             <script src="/static/js/real-time.js"></script>
         </div>
     </div>
-
-    <script>
-        let charts = {};
-        let outputCount = 0;
-        let markerCount = 3;
-
-        // 차트 초기화
-        function initCharts() {
-            // 차트 1 - 라인 차트
-            const ctx1 = document.getElementById('chart1').getContext('2d');
-            charts.chart1 = new Chart(ctx1, {
-                type: 'line',
-                data: {
-                    labels: ['1분', '2분', '3분', '4분', '5분', '6분'],
-                    datasets: [{
-                        label: '실시간 값',
-                        data: [12, 19, 3, 5, 2, 15],
-                        borderColor: '#4CAF50',
-                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true } }
-                }
-            });
-
-            // 차트 2 - 도넛 차트
-            const ctx2 = document.getElementById('chart2').getContext('2d');
-            charts.chart2 = new Chart(ctx2, {
-                type: 'doughnut',
-                data: {
-                    labels: ['성공', '오류', '대기'],
-                    datasets: [{
-                        data: [75, 15, 10],
-                        backgroundColor: ['#4CAF50', '#f44336', '#ff9800']
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } }
-                }
-            });
-
-            // 차트 3 - 바 차트
-            const ctx3 = document.getElementById('chart3').getContext('2d');
-            charts.chart3 = new Chart(ctx3, {
-                type: 'bar',
-                data: {
-                    labels: ['월', '화', '수', '목', '금'],
-                    datasets: [{
-                        label: '방문자',
-                        data: [120, 190, 300, 250, 220],
-                        backgroundColor: '#2196F3'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true } }
-                }
-            });
-
-            // 차트 4 - 레이더 차트
-            const ctx4 = document.getElementById('chart4').getContext('2d');
-            charts.chart4 = new Chart(ctx4, {
-                type: 'radar',
-                data: {
-                    labels: ['속도', '안정성', '보안', '사용성', '확장성'],
-                    datasets: [{
-                        label: '성능',
-                        data: [80, 90, 75, 85, 70],
-                        borderColor: '#ff6b6b',
-                        backgroundColor: 'rgba(255, 107, 107, 0.2)'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { r: { beginAtZero: true, max: 100 } }
-                }
-            });
-
-            // 차트 5 - 폴라 차트
-            const ctx5 = document.getElementById('chart5').getContext('2d');
-            charts.chart5 = new Chart(ctx5, {
-                type: 'polarArea',
-                data: {
-                    labels: ['모바일', '데스크톱', '태블릿'],
-                    datasets: [{
-                        data: [300, 150, 50],
-                        backgroundColor: ['#4CAF50', '#2196F3', '#ff9800']
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } }
-                }
-            });
-        }
-
-        // 텍스트 출력 함수
-        function generateOutput() {
-            outputCount++;
-            const textDisplay = document.getElementById('textDisplay');
-            const newEntry = document.createElement('div');
-            newEntry.className = 'log-entry';
-            newEntry.textContent = `[${new Date().toLocaleTimeString()}] 출력 #${outputCount}: 데이터 처리 완료`;
-            textDisplay.appendChild(newEntry);
-            textDisplay.scrollTop = textDisplay.scrollHeight;
-
-            // 대시보드 업데이트
-            updateDashboard();
-        }
-
-        function clearText() {
-            document.getElementById('textDisplay').innerHTML = '<div class="log-entry">출력이 초기화되었습니다.</div>';
-        }
-
-        function addMarker() {
-            const mapArea = document.getElementById('mapArea');
-            const marker = document.createElement('div');
-            marker.className = 'map-marker';
-            marker.style.top = Math.random() * 70 + '%';
-            marker.style.left = Math.random() * 70 + '%';
-            marker.style.background = ['#ff4444', '#4CAF50', '#ff9800', '#2196F3'][Math.floor(Math.random() * 4)];
-            mapArea.appendChild(marker);
-            
-            markerCount++;
-            addLog(`새로운 마커가 추가되었습니다. (총 ${markerCount}개)`);
-        }
-
-        function updateDashboard() {
-            document.getElementById('cpuUsage').textContent = Math.floor(Math.random() * 40 + 30) + '%';
-            document.getElementById('memoryUsage').textContent = Math.floor(Math.random() * 30 + 50) + '%';
-            
-            // 차트 데이터 업데이트
-            Object.values(charts).forEach(chart => {
-                if (chart.data.datasets[0].data) {
-                    chart.data.datasets[0].data = chart.data.datasets[0].data.map(() => 
-                        Math.floor(Math.random() * 100)
-                    );
-                    chart.update();
-                }
-            });
-        }
-
-        function addLog(message) {
-            const alertLog = document.getElementById('alertLog');
-            const logEntry = document.createElement('div');
-            logEntry.className = 'log-entry';
-            logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
-            alertLog.insertBefore(logEntry, alertLog.firstChild);
-            
-            // 최대 10개 항목만 유지
-            while (alertLog.children.length > 10) {
-                alertLog.removeChild(alertLog.lastChild);
-            }
-        }
-
-        // 초기화
-        window.onload = function() {
-            initCharts();
-            setInterval(updateDashboard, 3000); // 3초마다 대시보드 업데이트
-        };
-    </script>
 </body>
 </html>
