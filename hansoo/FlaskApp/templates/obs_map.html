@@ -1,0 +1,4185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_78bdee5102de4beac94a6bfd1b65961b {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_78bdee5102de4beac94a6bfd1b65961b" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_78bdee5102de4beac94a6bfd1b65961b = L.map(
+                "map_78bdee5102de4beac94a6bfd1b65961b",
+                {
+                    center: [36.5, 127.8],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 7,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_ab826beb2864898d807c4c203120f52f = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca target=\"_blank\" href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var marker_dbd1d32e8c4acd1df9a2478477da07f4 = L.marker(
+                [35.02417, 128.81093],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_639b228a37e457f9b959d5aa49364905 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_dbd1d32e8c4acd1df9a2478477da07f4.setIcon(icon_639b228a37e457f9b959d5aa49364905);
+        
+    
+            marker_dbd1d32e8c4acd1df9a2478477da07f4.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+가덕도<br>
+수온: 20.8 ℃<br>
+염분: 32.7 psu<br>
+기온: 27.0 ℃<br>
+기압: 1011.5 hPa<br>
+풍향: 176 deg<br>
+풍속: 2.8 m/s<br>
+돌풍: 4.5 m/s<br>
+조위: 150 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_5a334c71e2729db521ab5b2f4e1cf667 = L.marker(
+                [37.73194, 126.52222],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_835a19f5c8904c0343ea7352a2dd3742 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_5a334c71e2729db521ab5b2f4e1cf667.setIcon(icon_835a19f5c8904c0343ea7352a2dd3742);
+        
+    
+            marker_5a334c71e2729db521ab5b2f4e1cf667.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+강화대교<br>
+수온: null ℃<br>
+염분: null psu<br>
+기온: null ℃<br>
+기압: 1010.0 hPa<br>
+풍향: null deg<br>
+풍속: null m/s<br>
+돌풍: null m/s<br>
+조위: 363 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_f04251f31bcdd93dd8a605b9fb1de455 = L.marker(
+                [34.02833, 127.30888],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_be1ae66eac895e8516cf7c1e8dbf4b5c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_f04251f31bcdd93dd8a605b9fb1de455.setIcon(icon_be1ae66eac895e8516cf7c1e8dbf4b5c);
+        
+    
+            marker_f04251f31bcdd93dd8a605b9fb1de455.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+거문도<br>
+수온: 19.7 ℃<br>
+염분: 33.0 psu<br>
+기온: 26.8 ℃<br>
+기압: 1012.1 hPa<br>
+풍향: 185 deg<br>
+풍속: 1.6 m/s<br>
+돌풍: 2.3 m/s<br>
+조위: 261 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_676df165ddb0ac5b1e7a9b15976667a7 = L.marker(
+                [34.80138, 128.69916],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_fb4358e0e47df2486c22169772e65aba = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_676df165ddb0ac5b1e7a9b15976667a7.setIcon(icon_fb4358e0e47df2486c22169772e65aba);
+        
+    
+            marker_676df165ddb0ac5b1e7a9b15976667a7.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+거제도<br>
+수온: 17.8 ℃<br>
+염분: 33.9 psu<br>
+기온: 23.2 ℃<br>
+기압: 1011.6 hPa<br>
+풍향: 154 deg<br>
+풍속: 3.4 m/s<br>
+돌풍: 5.1 m/s<br>
+조위: 153 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_2863ddcd178100a44219c44c3c5501ae = L.marker(
+                [34.48111, 127.34277],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_5568caaedf7154b30da3316848460fe1 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_2863ddcd178100a44219c44c3c5501ae.setIcon(icon_5568caaedf7154b30da3316848460fe1);
+        
+    
+            marker_2863ddcd178100a44219c44c3c5501ae.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+고흥발포<br>
+수온: 21.7 ℃<br>
+염분: 32.8 psu<br>
+기온: 25.0 ℃<br>
+기압: 1012.0 hPa<br>
+풍향: 202 deg<br>
+풍속: 0.4 m/s<br>
+돌풍: 0.6 m/s<br>
+조위: 272 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_edd0020763e323b0de82b58dc275c9f8 = L.marker(
+                [34.90367, 127.75483],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_46a7f1f138de0bd395a73fd57be2b0de = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_edd0020763e323b0de82b58dc275c9f8.setIcon(icon_46a7f1f138de0bd395a73fd57be2b0de);
+        
+    
+            marker_edd0020763e323b0de82b58dc275c9f8.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+광양<br>
+수온: null ℃<br>
+염분: null psu<br>
+기온: 27.5 ℃<br>
+기압: 1011.9 hPa<br>
+풍향: 145 deg<br>
+풍속: 1.1 m/s<br>
+돌풍: 2.0 m/s<br>
+조위: 291 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_e12a607aa84197b1a390542324d27ca5 = L.marker(
+                [34.70472, 128.30638],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_0975fcc28cf8808ece2814da4b41094f = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_e12a607aa84197b1a390542324d27ca5.setIcon(icon_0975fcc28cf8808ece2814da4b41094f);
+        
+    
+            marker_e12a607aa84197b1a390542324d27ca5.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+교본초<br>
+수온: null ℃<br>
+염분: null psu<br>
+기온: 24.7 ℃<br>
+기압: 1011.4 hPa<br>
+풍향: 38 deg<br>
+풍속: 1.3 m/s<br>
+돌풍: 2.0 m/s<br>
+조위: 213 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_9eaa4737623298d29ec1bd07c0ff6395 = L.marker(
+                [35.97555, 126.56305],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_89a92f8f64500455d71edde44556db91 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_9eaa4737623298d29ec1bd07c0ff6395.setIcon(icon_89a92f8f64500455d71edde44556db91);
+        
+    
+            marker_9eaa4737623298d29ec1bd07c0ff6395.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+군산<br>
+수온: 22.8 ℃<br>
+염분: 27.8 psu<br>
+기온: 31.2 ℃<br>
+기압: 1010.8 hPa<br>
+풍향: 304 deg<br>
+풍속: 3.5 m/s<br>
+돌풍: 4.7 m/s<br>
+조위: 190 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_9a18d0390ac18c835bf4eb610d02737c = L.marker(
+                [37.0075, 126.35277],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_4ef60ba450f154c64dcadf24ffe75e93 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_9a18d0390ac18c835bf4eb610d02737c.setIcon(icon_4ef60ba450f154c64dcadf24ffe75e93);
+        
+    
+            marker_9a18d0390ac18c835bf4eb610d02737c.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+대산<br>
+수온: 17.7 ℃<br>
+염분: null psu<br>
+기온: 28.2 ℃<br>
+기압: 1010.2 hPa<br>
+풍향: 189 deg<br>
+풍속: 8.0 m/s<br>
+돌풍: 11.8 m/s<br>
+조위: 241 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_44c05c029b11d2a29d44ea65d8048c36 = L.marker(
+                [37.22633, 126.15655],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_5bd349d5de8bd8fe6be87a0cbc4e170c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_44c05c029b11d2a29d44ea65d8048c36.setIcon(icon_5bd349d5de8bd8fe6be87a0cbc4e170c);
+        
+    
+            marker_44c05c029b11d2a29d44ea65d8048c36.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+덕적도<br>
+수온: null ℃<br>
+염분: null psu<br>
+기온: 24.1 ℃<br>
+기압: 1010.8 hPa<br>
+풍향: 212 deg<br>
+풍속: 1.7 m/s<br>
+돌풍: 5.8 m/s<br>
+조위: 251 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_dd3f15641fee0c9733082c8e95924aa4 = L.marker(
+                [37.49472, 129.14388],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_e78a4a6b272c7f845bfec2d135ab6532 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_dd3f15641fee0c9733082c8e95924aa4.setIcon(icon_e78a4a6b272c7f845bfec2d135ab6532);
+        
+    
+            marker_dd3f15641fee0c9733082c8e95924aa4.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+동해항<br>
+수온: null ℃<br>
+염분: null psu<br>
+기온: 27.3 ℃<br>
+기압: 1009.1 hPa<br>
+풍향: null deg<br>
+풍속: null m/s<br>
+돌풍: null m/s<br>
+조위: 37 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_e9eb00afcf9e5b7b56acd5bf4333b969 = L.marker(
+                [35.1975, 128.57638],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_86644a6bd24bbe33ffb91a2db95e45b4 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_e9eb00afcf9e5b7b56acd5bf4333b969.setIcon(icon_86644a6bd24bbe33ffb91a2db95e45b4);
+        
+    
+            marker_e9eb00afcf9e5b7b56acd5bf4333b969.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+마산<br>
+수온: 18.5 ℃<br>
+염분: 32.9 psu<br>
+기온: 30.0 ℃<br>
+기압: 1010.9 hPa<br>
+풍향: 151 deg<br>
+풍속: 2.5 m/s<br>
+돌풍: 5.6 m/s<br>
+조위: 150 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_f2feefb33b549976f76dd8f6e190a538 = L.marker(
+                [33.21444, 126.25111],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_9245426ac7ad1b811a4c5486b722db03 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_f2feefb33b549976f76dd8f6e190a538.setIcon(icon_9245426ac7ad1b811a4c5486b722db03);
+        
+    
+            marker_f2feefb33b549976f76dd8f6e190a538.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+모슬포<br>
+수온: 19.6 ℃<br>
+염분: 32.0 psu<br>
+기온: 29.4 ℃<br>
+기압: 1011.5 hPa<br>
+풍향: 90 deg<br>
+풍속: 3.3 m/s<br>
+돌풍: 5.5 m/s<br>
+조위: 210 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_abbbf5966a369be0dea859be69b38dd7 = L.marker(
+                [34.77972, 126.37555],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_ab4ac893c46cb693bc73a611b8a51271 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_abbbf5966a369be0dea859be69b38dd7.setIcon(icon_ab4ac893c46cb693bc73a611b8a51271);
+        
+    
+            marker_abbbf5966a369be0dea859be69b38dd7.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+목포<br>
+수온: 22.4 ℃<br>
+염분: 27.5 psu<br>
+기온: 30.7 ℃<br>
+기압: 1011.3 hPa<br>
+풍향: 193 deg<br>
+풍속: 1.9 m/s<br>
+돌풍: 2.3 m/s<br>
+조위: 207 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_dcfb8c0263342e01294cb2fce66ce8f1 = L.marker(
+                [37.55027, 129.11638],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_3306515faaf8711da81f0f221f56ad5d = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_dcfb8c0263342e01294cb2fce66ce8f1.setIcon(icon_3306515faaf8711da81f0f221f56ad5d);
+        
+    
+            marker_dcfb8c0263342e01294cb2fce66ce8f1.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+묵호<br>
+수온: 19.2 ℃<br>
+염분: 34.0 psu<br>
+기온: 30.0 ℃<br>
+기압: 1009.2 hPa<br>
+풍향: 0 deg<br>
+풍속: 0.0 m/s<br>
+돌풍: 0.0 m/s<br>
+조위: 43 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_15718e30ef6629c03d86c3d8fa852562 = L.marker(
+                [36.40638, 126.48611],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_084b12cb66a4ed92d35603e892d07720 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_15718e30ef6629c03d86c3d8fa852562.setIcon(icon_084b12cb66a4ed92d35603e892d07720);
+        
+    
+            marker_15718e30ef6629c03d86c3d8fa852562.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+보령<br>
+수온: 23.2 ℃<br>
+염분: 30.7 psu<br>
+기온: 28.7 ℃<br>
+기압: 1010.3 hPa<br>
+풍향: 178 deg<br>
+풍속: 0.5 m/s<br>
+돌풍: 1.7 m/s<br>
+조위: 206 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_2dd7720e88093baeb406d72957371d25 = L.marker(
+                [35.09638, 129.03527],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_7cf698f93e0ab26d1f0ca0b3cbde1c82 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_2dd7720e88093baeb406d72957371d25.setIcon(icon_7cf698f93e0ab26d1f0ca0b3cbde1c82);
+        
+    
+            marker_2dd7720e88093baeb406d72957371d25.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+부산<br>
+수온: 17.7 ℃<br>
+염분: 32.2 psu<br>
+기온: 24.0 ℃<br>
+기압: 1011.3 hPa<br>
+풍향: 148 deg<br>
+풍속: 5.0 m/s<br>
+돌풍: 6.5 m/s<br>
+조위: 110 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_c50a47db03a0481d3b5da222edf52eb9 = L.marker(
+                [35.0775, 128.78472],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_b16c178929dedd2a8d47054da57b2228 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_c50a47db03a0481d3b5da222edf52eb9.setIcon(icon_b16c178929dedd2a8d47054da57b2228);
+        
+    
+            marker_c50a47db03a0481d3b5da222edf52eb9.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+부산항신항<br>
+수온: null ℃<br>
+염분: null psu<br>
+기온: 23.6 ℃<br>
+기압: 1012.2 hPa<br>
+풍향: 189 deg<br>
+풍속: 4.9 m/s<br>
+돌풍: 5.5 m/s<br>
+조위: 137 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_4cb2c9e579e1ad78ed2076558bccdf63 = L.marker(
+                [34.92416, 128.06972],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_40da23b575d7a00c2726ac0792a9a300 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_4cb2c9e579e1ad78ed2076558bccdf63.setIcon(icon_40da23b575d7a00c2726ac0792a9a300);
+        
+    
+            marker_4cb2c9e579e1ad78ed2076558bccdf63.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+삼천포<br>
+수온: 21.6 ℃<br>
+염분: 32.3 psu<br>
+기온: 27.2 ℃<br>
+기압: 1012.3 hPa<br>
+풍향: 105 deg<br>
+풍속: 3.6 m/s<br>
+돌풍: 5.0 m/s<br>
+조위: 232 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_35c09be892fc84d3928db0711f89ad9a = L.marker(
+                [34.25142, 125.91544],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_56e0dae53f313d150162860b954f31e0 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_35c09be892fc84d3928db0711f89ad9a.setIcon(icon_56e0dae53f313d150162860b954f31e0);
+        
+    
+            marker_35c09be892fc84d3928db0711f89ad9a.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+서거차도<br>
+수온: 16.4 ℃<br>
+염분: 33.2 psu<br>
+기온: 26.5 ℃<br>
+기압: 1011.1 hPa<br>
+풍향: 157 deg<br>
+풍속: 3.7 m/s<br>
+돌풍: 5.0 m/s<br>
+조위: 211 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_204e4d243b9279f8509769d49dac493d = L.marker(
+                [33.24, 126.56166],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_a3da4239b581f7961bcbb25c119193c1 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_204e4d243b9279f8509769d49dac493d.setIcon(icon_a3da4239b581f7961bcbb25c119193c1);
+        
+    
+            marker_204e4d243b9279f8509769d49dac493d.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+서귀포<br>
+수온: 19.9 ℃<br>
+염분: 32.2 psu<br>
+기온: 28.7 ℃<br>
+기압: 1012.1 hPa<br>
+풍향: 168 deg<br>
+풍속: 0.9 m/s<br>
+돌풍: 1.2 m/s<br>
+조위: 234 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ea058c9ca5936a4e2e021060aaf07557 = L.marker(
+                [36.12888, 126.49527],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_1d71ea44e6ae4846bebd360c998323f5 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_ea058c9ca5936a4e2e021060aaf07557.setIcon(icon_1d71ea44e6ae4846bebd360c998323f5);
+        
+    
+            marker_ea058c9ca5936a4e2e021060aaf07557.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+서천마량<br>
+수온: null ℃<br>
+염분: null psu<br>
+기온: 27.6 ℃<br>
+기압: 1010.9 hPa<br>
+풍향: 178 deg<br>
+풍속: 1.9 m/s<br>
+돌풍: 2.6 m/s<br>
+조위: 180 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_620b3c57053c6e1a0b6800a05151fc7c = L.marker(
+                [33.47472, 126.92777],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_ee3a6f4312ad4c2f1dc377e585cbbca7 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_620b3c57053c6e1a0b6800a05151fc7c.setIcon(icon_ee3a6f4312ad4c2f1dc377e585cbbca7);
+        
+    
+            marker_620b3c57053c6e1a0b6800a05151fc7c.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+성산포<br>
+수온: 19.1 ℃<br>
+염분: 33.3 psu<br>
+기온: 27.2 ℃<br>
+기압: 1011.5 hPa<br>
+풍향: 171 deg<br>
+풍속: 5.4 m/s<br>
+돌풍: 6.4 m/s<br>
+조위: 194 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_4bfe85fa120586cadf4be465d909764e = L.marker(
+                [37.37306, 126.44006],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_02bff9856e3ea25509d24ebb37758f5c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_4bfe85fa120586cadf4be465d909764e.setIcon(icon_02bff9856e3ea25509d24ebb37758f5c);
+        
+    
+            marker_4bfe85fa120586cadf4be465d909764e.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+소무의도<br>
+수온: null ℃<br>
+염분: null psu<br>
+기온: null ℃<br>
+기압: 1010.8 hPa<br>
+풍향: null deg<br>
+풍속: null m/s<br>
+돌풍: null m/s<br>
+조위: 276 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_c9fc0ce157371f84cca0839868087c3e = L.marker(
+                [38.20722, 128.59416],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_e035f5036ec50fbea5d48b0e862ebde0 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_c9fc0ce157371f84cca0839868087c3e.setIcon(icon_e035f5036ec50fbea5d48b0e862ebde0);
+        
+    
+            marker_c9fc0ce157371f84cca0839868087c3e.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+속초<br>
+수온: 18.3 ℃<br>
+염분: 33.2 psu<br>
+기온: 30.0 ℃<br>
+기압: 1008.2 hPa<br>
+풍향: 71 deg<br>
+풍속: 1.8 m/s<br>
+돌풍: 1.9 m/s<br>
+조위: 44 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_fb15bfe28bb6e0f753ec8e1d8fcbc008 = L.marker(
+                [33.94194, 124.59277],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_7a22df69efd5760f3bfff6117b510542 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_fb15bfe28bb6e0f753ec8e1d8fcbc008.setIcon(icon_7a22df69efd5760f3bfff6117b510542);
+        
+    
+            marker_fb15bfe28bb6e0f753ec8e1d8fcbc008.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+신안가거초<br>
+수온: 19.5 ℃<br>
+염분: 31.92 psu<br>
+기온: 25.3 ℃<br>
+기압: 1008.1 hPa<br>
+풍향: 131 deg<br>
+풍속: 7.0 m/s<br>
+돌풍: nan m/s<br>
+조위: 122 cm<br>
+유향: null deg<br>
+유속: null m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_0f145c915dd03fe8dbc41dd5eaa48b5b = L.marker(
+                [37.19222, 126.64722],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_82eb913ff8921ec8481bb22863e762ce = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_0f145c915dd03fe8dbc41dd5eaa48b5b.setIcon(icon_82eb913ff8921ec8481bb22863e762ce);
+        
+    
+            marker_0f145c915dd03fe8dbc41dd5eaa48b5b.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+안산<br>
+수온: 23.3 ℃<br>
+염분: 29.8 psu<br>
+기온: 29.0 ℃<br>
+기압: 1010.1 hPa<br>
+풍향: 270 deg<br>
+풍속: 1.5 m/s<br>
+돌풍: 2.8 m/s<br>
+조위: 266 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_137170a960e61eed16dface9134bd954 = L.marker(
+                [36.67463, 126.12955],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_6a35e75110c04df15ae3bbed20ca8403 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_137170a960e61eed16dface9134bd954.setIcon(icon_6a35e75110c04df15ae3bbed20ca8403);
+        
+    
+            marker_137170a960e61eed16dface9134bd954.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+안흥<br>
+수온: 17.5 ℃<br>
+염분: 31.7 psu<br>
+기온: 24.6 ℃<br>
+기압: 1010.9 hPa<br>
+풍향: 180 deg<br>
+풍속: 4.3 m/s<br>
+돌풍: 7.4 m/s<br>
+조위: 187 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_bfa3964407de9491693f6743f6c716f4 = L.marker(
+                [36.11722, 125.98472],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_e4cdab0dcb5e3133285d012edccca77f = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_bfa3964407de9491693f6743f6c716f4.setIcon(icon_e4cdab0dcb5e3133285d012edccca77f);
+        
+    
+            marker_bfa3964407de9491693f6743f6c716f4.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+어청도<br>
+수온: 21.7 ℃<br>
+염분: 31.7 psu<br>
+기온: 24.7 ℃<br>
+기압: 1010.9 hPa<br>
+풍향: 162 deg<br>
+풍속: 4.3 m/s<br>
+돌풍: 5.6 m/s<br>
+조위: 160 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_af0b041a281a87399343803f2eb92e4c = L.marker(
+                [34.74722, 127.76555],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_c0bccab37ac1b2551a77deca2392691d = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_af0b041a281a87399343803f2eb92e4c.setIcon(icon_c0bccab37ac1b2551a77deca2392691d);
+        
+    
+            marker_af0b041a281a87399343803f2eb92e4c.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+여수<br>
+수온: 21.4 ℃<br>
+염분: 31.4 psu<br>
+기온: 25.1 ℃<br>
+기압: 1011.7 hPa<br>
+풍향: 124 deg<br>
+풍속: 3.8 m/s<br>
+돌풍: 5.1 m/s<br>
+조위: 265 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_a4dc192ea40ea26203055cf9a51cc7d2 = L.marker(
+                [34.66194, 127.46916],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_f913c82b85975a16f07266be96b150be = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_a4dc192ea40ea26203055cf9a51cc7d2.setIcon(icon_f913c82b85975a16f07266be96b150be);
+        
+    
+            marker_a4dc192ea40ea26203055cf9a51cc7d2.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+여호항<br>
+수온: null ℃<br>
+염분: null psu<br>
+기온: -39.4 ℃<br>
+기압: 1012.1 hPa<br>
+풍향: 100 deg<br>
+풍속: 4.6 m/s<br>
+돌풍: 5.0 m/s<br>
+조위: 279 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_da7bb047f51b675b3ca5f0ed866d6017 = L.marker(
+                [35.42611, 126.42055],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_6fc69b4d67c426de625ec9b7303e52bd = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_da7bb047f51b675b3ca5f0ed866d6017.setIcon(icon_6fc69b4d67c426de625ec9b7303e52bd);
+        
+    
+            marker_da7bb047f51b675b3ca5f0ed866d6017.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+영광<br>
+수온: null ℃<br>
+염분: null psu<br>
+기온: 28.6 ℃<br>
+기압: 1010.6 hPa<br>
+풍향: 253 deg<br>
+풍속: 3.9 m/s<br>
+돌풍: 4.5 m/s<br>
+조위: 170 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_b5571f6a2261d2d86ed2b10c3c78852c = L.marker(
+                [37.54555, 126.58444],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_e9e446b065a94d390699e5c8ae3e4cdd = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_b5571f6a2261d2d86ed2b10c3c78852c.setIcon(icon_e9e446b065a94d390699e5c8ae3e4cdd);
+        
+    
+            marker_b5571f6a2261d2d86ed2b10c3c78852c.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+영종대교<br>
+수온: null ℃<br>
+염분: null psu<br>
+기온: null ℃<br>
+기압: 1010.4 hPa<br>
+풍향: null deg<br>
+풍속: null m/s<br>
+돌풍: null m/s<br>
+조위: 319 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_fb91cea0ae2e799a14f476f5da280541 = L.marker(
+                [37.23861, 126.42861],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_89f92e9815b611b00d27d0236daa8aaa = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_fb91cea0ae2e799a14f476f5da280541.setIcon(icon_89f92e9815b611b00d27d0236daa8aaa);
+        
+    
+            marker_fb91cea0ae2e799a14f476f5da280541.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+영흥도<br>
+수온: null ℃<br>
+염분: null psu<br>
+기온: 23.3 ℃<br>
+기압: 1010.1 hPa<br>
+풍향: 195 deg<br>
+풍속: 1.4 m/s<br>
+돌풍: 1.7 m/s<br>
+조위: 270 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_925e571c1376364eefd7e8f0c5fd9159 = L.marker(
+                [37.42305, 124.73805],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_5612e4b9b14d0f8d4db08b8eafa5f2a9 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_925e571c1376364eefd7e8f0c5fd9159.setIcon(icon_5612e4b9b14d0f8d4db08b8eafa5f2a9);
+        
+    
+            marker_925e571c1376364eefd7e8f0c5fd9159.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+옹진소청초<br>
+수온: 21.9 ℃<br>
+염분: 31.51 psu<br>
+기온: null ℃<br>
+기압: null hPa<br>
+풍향: null deg<br>
+풍속: null m/s<br>
+돌풍: nan m/s<br>
+조위: 200 cm<br>
+유향: null deg<br>
+유속: null m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_70644d1fea017318aa6194d86c95b018 = L.marker(
+                [34.31555, 126.75972],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_a97601354bc86b569fb1cfbed6536a61 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_70644d1fea017318aa6194d86c95b018.setIcon(icon_a97601354bc86b569fb1cfbed6536a61);
+        
+    
+            marker_70644d1fea017318aa6194d86c95b018.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+완도<br>
+수온: 18.8 ℃<br>
+염분: 32.9 psu<br>
+기온: 27.9 ℃<br>
+기압: 1011.8 hPa<br>
+풍향: 116 deg<br>
+풍속: 1.6 m/s<br>
+돌풍: 2.5 m/s<br>
+조위: 295 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_2591ae0c645c9cf501025560d151783d = L.marker(
+                [36.71916, 129.7325],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_3c2da3e3c34ea91f050eedc305cd2848 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_2591ae0c645c9cf501025560d151783d.setIcon(icon_3c2da3e3c34ea91f050eedc305cd2848);
+        
+    
+            marker_2591ae0c645c9cf501025560d151783d.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+왕돌초<br>
+수온: null ℃<br>
+염분: null psu<br>
+기온: 24.3 ℃<br>
+기압: 1008.8 hPa<br>
+풍향: null deg<br>
+풍속: null m/s<br>
+돌풍: nan m/s<br>
+조위: 36 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_c8879706c6a1fed3077ae77a69f15fcd = L.marker(
+                [37.49138, 130.91361],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_6c6b76b634e9b68d9cb0b5c89189e978 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_c8879706c6a1fed3077ae77a69f15fcd.setIcon(icon_6c6b76b634e9b68d9cb0b5c89189e978);
+        
+    
+            marker_c8879706c6a1fed3077ae77a69f15fcd.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+울릉도<br>
+수온: 21.4 ℃<br>
+염분: 33.3 psu<br>
+기온: 27.9 ℃<br>
+기압: 1009.4 hPa<br>
+풍향: 340 deg<br>
+풍속: 0.8 m/s<br>
+돌풍: 1.1 m/s<br>
+조위: 48 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_532057af3bbc4391db08af57c86bf519 = L.marker(
+                [35.50194, 129.38722],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_5cdaadcdc2359e1b4d8abc82bd9340d8 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_532057af3bbc4391db08af57c86bf519.setIcon(icon_5cdaadcdc2359e1b4d8abc82bd9340d8);
+        
+    
+            marker_532057af3bbc4391db08af57c86bf519.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+울산<br>
+수온: 16.1 ℃<br>
+염분: 31.5 psu<br>
+기온: 23.2 ℃<br>
+기압: 1009.8 hPa<br>
+풍향: 167 deg<br>
+풍속: 7.4 m/s<br>
+돌풍: 8.6 m/s<br>
+조위: 60 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_d95b3061d8b7afe35cc48a0453b46201 = L.marker(
+                [35.61808, 126.30181],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_92e21a0e0761b21ff4df946a757689aa = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_d95b3061d8b7afe35cc48a0453b46201.setIcon(icon_92e21a0e0761b21ff4df946a757689aa);
+        
+    
+            marker_d95b3061d8b7afe35cc48a0453b46201.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+위도<br>
+수온: null ℃<br>
+염분: null psu<br>
+기온: 30.0 ℃<br>
+기압: 1011.1 hPa<br>
+풍향: 208 deg<br>
+풍속: 4.2 m/s<br>
+돌풍: 7.8 m/s<br>
+조위: 172 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_6ab673eb4b945e69ba1749b720a3f323 = L.marker(
+                [32.12277, 125.18222],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_713484170c66ab3c956a329d5bed2d31 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_6ab673eb4b945e69ba1749b720a3f323.setIcon(icon_713484170c66ab3c956a329d5bed2d31);
+        
+    
+            marker_6ab673eb4b945e69ba1749b720a3f323.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+이어도<br>
+수온: 21.4 ℃<br>
+염분: 30.47 psu<br>
+기온: 26.8 ℃<br>
+기압: 1007.4 hPa<br>
+풍향: 142 deg<br>
+풍속: 7.2 m/s<br>
+돌풍: nan m/s<br>
+조위: 196 cm<br>
+유향: null deg<br>
+유속: null m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_903137ae459afa851f0b0266efdae622 = L.marker(
+                [37.45194, 126.59222],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_973a60c2bcafd665404606d91feebff1 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_903137ae459afa851f0b0266efdae622.setIcon(icon_973a60c2bcafd665404606d91feebff1);
+        
+    
+            marker_903137ae459afa851f0b0266efdae622.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+인천<br>
+수온: 21.8 ℃<br>
+염분: 29.5 psu<br>
+기온: 24.2 ℃<br>
+기압: 1010.9 hPa<br>
+풍향: 203 deg<br>
+풍속: 1.7 m/s<br>
+돌풍: 2.3 m/s<br>
+조위: 297 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_744b37e477dc18d4890942db096397d0 = L.marker(
+                [37.33805, 126.58611],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_8557a0bfffec5c0bf5e639139a134d64 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_744b37e477dc18d4890942db096397d0.setIcon(icon_8557a0bfffec5c0bf5e639139a134d64);
+        
+    
+            marker_744b37e477dc18d4890942db096397d0.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+인천송도<br>
+수온: null ℃<br>
+염분: null psu<br>
+기온: 25.0 ℃<br>
+기압: 1010.6 hPa<br>
+풍향: 266 deg<br>
+풍속: 2.9 m/s<br>
+돌풍: 3.1 m/s<br>
+조위: 299 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_0715eed46b358ed277444f94a68fd3fb = L.marker(
+                [36.00694, 126.6875],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_331ddcaf7071d8788e95b42baab0f47c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_0715eed46b358ed277444f94a68fd3fb.setIcon(icon_331ddcaf7071d8788e95b42baab0f47c);
+        
+    
+            marker_0715eed46b358ed277444f94a68fd3fb.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+장항<br>
+수온: null ℃<br>
+염분: null psu<br>
+기온: 29.8 ℃<br>
+기압: 1011.4 hPa<br>
+풍향: 232 deg<br>
+풍속: 3.7 m/s<br>
+돌풍: 4.1 m/s<br>
+조위: 187 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_c9b0a901126ae5791bfb4854b2fb5b44 = L.marker(
+                [33.5275, 126.54305],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_967bcd45f2097a62c6fc69b7c273cf81 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_c9b0a901126ae5791bfb4854b2fb5b44.setIcon(icon_967bcd45f2097a62c6fc69b7c273cf81);
+        
+    
+            marker_c9b0a901126ae5791bfb4854b2fb5b44.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+제주<br>
+수온: 20.2 ℃<br>
+염분: 32.9 psu<br>
+기온: 26.2 ℃<br>
+기압: 1011.5 hPa<br>
+풍향: 353 deg<br>
+풍속: 0.8 m/s<br>
+돌풍: 1.1 m/s<br>
+조위: 215 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_5aafd6725165b6bb0604f1e5309df6fb = L.marker(
+                [34.37777, 126.30861],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_6ca11f16d8b89f1db239a48bb62b37ed = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_5aafd6725165b6bb0604f1e5309df6fb.setIcon(icon_6ca11f16d8b89f1db239a48bb62b37ed);
+        
+    
+            marker_5aafd6725165b6bb0604f1e5309df6fb.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+진도<br>
+수온: 19.8 ℃<br>
+염분: 31.0 psu<br>
+기온: 25.1 ℃<br>
+기압: 1011.4 hPa<br>
+풍향: 166 deg<br>
+풍속: 2.1 m/s<br>
+돌풍: 2.7 m/s<br>
+조위: 259 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_24ef540158dfea4aca7d148b285b8ded = L.marker(
+                [33.96194, 126.30027],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_d390107cf8529d22685d9f71990aac08 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_24ef540158dfea4aca7d148b285b8ded.setIcon(icon_d390107cf8529d22685d9f71990aac08);
+        
+    
+            marker_24ef540158dfea4aca7d148b285b8ded.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+추자도<br>
+수온: 18.4 ℃<br>
+염분: 33.3 psu<br>
+기온: 23.7 ℃<br>
+기압: 1012.2 hPa<br>
+풍향: 233 deg<br>
+풍속: 0.2 m/s<br>
+돌풍: 0.7 m/s<br>
+조위: 226 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_b0f7f8082857f08c956b77da1cd2e0e8 = L.marker(
+                [36.91305, 126.23888],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_2953b4f064594fba06ee17f9e2fc1ebb = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_b0f7f8082857f08c956b77da1cd2e0e8.setIcon(icon_2953b4f064594fba06ee17f9e2fc1ebb);
+        
+    
+            marker_b0f7f8082857f08c956b77da1cd2e0e8.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+태안<br>
+수온: null ℃<br>
+염분: null psu<br>
+기온: 27.1 ℃<br>
+기압: 1010.4 hPa<br>
+풍향: 67 deg<br>
+풍속: 2.0 m/s<br>
+돌풍: 3.0 m/s<br>
+조위: 228 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_09477ebdbfdf1162ed5b588ae97ea91b = L.marker(
+                [34.82777, 128.43472],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_e2f00d2cff2faf669db0d534ed9015d5 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_09477ebdbfdf1162ed5b588ae97ea91b.setIcon(icon_e2f00d2cff2faf669db0d534ed9015d5);
+        
+    
+            marker_09477ebdbfdf1162ed5b588ae97ea91b.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+통영<br>
+수온: 19.9 ℃<br>
+염분: 33.2 psu<br>
+기온: 26.0 ℃<br>
+기압: 1012.5 hPa<br>
+풍향: 93 deg<br>
+풍속: 2.2 m/s<br>
+돌풍: 3.3 m/s<br>
+조위: 214 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_71d7b9afb829d8f9b19bbad3d02825e2 = L.marker(
+                [36.96694, 126.82277],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_39f1d06c2f5cf7479f707714cb004748 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_71d7b9afb829d8f9b19bbad3d02825e2.setIcon(icon_39f1d06c2f5cf7479f707714cb004748);
+        
+    
+            marker_71d7b9afb829d8f9b19bbad3d02825e2.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+평택<br>
+수온: 21.5 ℃<br>
+염분: null psu<br>
+기온: 28.5 ℃<br>
+기압: 1010.4 hPa<br>
+풍향: 264 deg<br>
+풍속: 0.4 m/s<br>
+돌풍: 0.6 m/s<br>
+조위: 312 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_3e9e58d5378f0eac271026505c6f75f2 = L.marker(
+                [36.05177, 129.37627],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_09334c03a266cfbe9e2fd81e91eb26e0 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_3e9e58d5378f0eac271026505c6f75f2.setIcon(icon_09334c03a266cfbe9e2fd81e91eb26e0);
+        
+    
+            marker_3e9e58d5378f0eac271026505c6f75f2.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+포항<br>
+수온: 21.7 ℃<br>
+염분: 32.7 psu<br>
+기온: 34.7 ℃<br>
+기압: 1009.6 hPa<br>
+풍향: 280 deg<br>
+풍속: 3.1 m/s<br>
+돌풍: 5.4 m/s<br>
+조위: 51 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_0aea1f7270a946993da3b6fbf7944ec4 = L.marker(
+                [36.0032, 129.4132],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_e75bf443d3704d9798d89871424e882a = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_0aea1f7270a946993da3b6fbf7944ec4.setIcon(icon_e75bf443d3704d9798d89871424e882a);
+        
+    
+            marker_0aea1f7270a946993da3b6fbf7944ec4.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+포항시청_냉천항만교(수위)<br>
+수온: 22.6 ℃<br>
+염분: 33.7 psu<br>
+기온: null ℃<br>
+기압: 1009.6 hPa<br>
+풍향: null deg<br>
+풍속: null m/s<br>
+돌풍: null m/s<br>
+조위: null cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_43139599da52c8ad4dfa6cc269a81d0f = L.marker(
+                [35.16766, 126.35955],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_be481102ef8c3218e093e8cdb3a8a6bf = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_43139599da52c8ad4dfa6cc269a81d0f.setIcon(icon_be481102ef8c3218e093e8cdb3a8a6bf);
+        
+    
+            marker_43139599da52c8ad4dfa6cc269a81d0f.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+향화도<br>
+수온: null ℃<br>
+염분: null psu<br>
+기온: 30.3 ℃<br>
+기압: 1011.1 hPa<br>
+풍향: 186 deg<br>
+풍속: 2.4 m/s<br>
+돌풍: 4.7 m/s<br>
+조위: 172 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_36775be9323d1262547fccc80820bdf5 = L.marker(
+                [36.6775, 129.45305],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_3c3a2966de65628fc0a786f5eeebaf86 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_36775be9323d1262547fccc80820bdf5.setIcon(icon_3c3a2966de65628fc0a786f5eeebaf86);
+        
+    
+            marker_36775be9323d1262547fccc80820bdf5.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+후포<br>
+수온: 20.7 ℃<br>
+염분: 33.6 psu<br>
+기온: 25.4 ℃<br>
+기압: 1009.8 hPa<br>
+풍향: 222 deg<br>
+풍속: 2.5 m/s<br>
+돌풍: 3.2 m/s<br>
+조위: 34 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_4175cd5c26726c8404960bab49f56fbf = L.marker(
+                [34.68416, 125.43555],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_ca5dbaf3c54564ae2aba8807d3a15923 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "home", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_4175cd5c26726c8404960bab49f56fbf.setIcon(icon_ca5dbaf3c54564ae2aba8807d3a15923);
+        
+    
+            marker_4175cd5c26726c8404960bab49f56fbf.bindTooltip(
+                `<div>
+                     <b>조위관측소</b><br>
+흑산도<br>
+수온: 15.8 ℃<br>
+염분: 32.1 psu<br>
+기온: 25.5 ℃<br>
+기압: 1011.0 hPa<br>
+풍향: 128 deg<br>
+풍속: 2.2 m/s<br>
+돌풍: 4.0 m/s<br>
+조위: 145 cm<br>
+유향: nan deg<br>
+유속: nan m/s
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ca8dfad5166e503ab647f607bb1ed9ad = L.marker(
+                [35.0528, 129.00308],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_eedfeef9b838bdada2ab09f59c8c1e7a = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_ca8dfad5166e503ab647f607bb1ed9ad.setIcon(icon_eedfeef9b838bdada2ab09f59c8c1e7a);
+        
+    
+            marker_ca8dfad5166e503ab647f607bb1ed9ad.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+감천항<br>
+수온: 14.5 ℃<br>
+염분: 31.3 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 251 deg<br>
+유속: 3.3 cm/s<br>
+파고: 0.2 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_290a9dfb126584ba1921f78e3f730dc0 = L.marker(
+                [37.52338, 126.59208],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_ca83b81d19c14f13056b35c581a46c3f = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_290a9dfb126584ba1921f78e3f730dc0.setIcon(icon_ca83b81d19c14f13056b35c581a46c3f);
+        
+    
+            marker_290a9dfb126584ba1921f78e3f730dc0.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+경인항<br>
+수온:  ℃<br>
+염분:  psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향:  deg<br>
+유속:  cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_b4d7716fc5dc23a2f37d2e0bfcf641e5 = L.marker(
+                [37.80897, 128.93188],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_9c1ee942d095b413b1b97852fed90488 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_b4d7716fc5dc23a2f37d2e0bfcf641e5.setIcon(icon_9c1ee942d095b413b1b97852fed90488);
+        
+    
+            marker_b4d7716fc5dc23a2f37d2e0bfcf641e5.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+경포대해수욕장<br>
+수온: 20.5 ℃<br>
+염분: 34.0 psu<br>
+기온: 25.7 ℃<br>
+기압:  hPa<br>
+풍향: 95 deg<br>
+풍속: 5.0 m/s<br>
+유향: 315 deg<br>
+유속: 20.0 cm/s<br>
+파고: 0.1 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_590e0705f0d661d363d9b71ab6bc03ae = L.marker(
+                [36.58, 129.45408],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_1131080aad496f4b6adb0d0484bab145 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_590e0705f0d661d363d9b71ab6bc03ae.setIcon(icon_1131080aad496f4b6adb0d0484bab145);
+        
+    
+            marker_590e0705f0d661d363d9b71ab6bc03ae.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+고래불해수욕장<br>
+수온: 20.9 ℃<br>
+염분: 31.4 psu<br>
+기온: 25.5 ℃<br>
+기압:  hPa<br>
+풍향: 173 deg<br>
+풍속: 6.2 m/s<br>
+유향: 335 deg<br>
+유속: 10.5 cm/s<br>
+파고: 0.2 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_32bcb4a39bb33acc9530a5a77e32be59 = L.marker(
+                [34.85972, 127.79277],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_b24944caff6cdf90abd7beb0a535842e = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_32bcb4a39bb33acc9530a5a77e32be59.setIcon(icon_b24944caff6cdf90abd7beb0a535842e);
+        
+    
+            marker_32bcb4a39bb33acc9530a5a77e32be59.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+광양항<br>
+수온: 20.9 ℃<br>
+염분: 18.2 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 50 deg<br>
+유속: 1.6 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_feca98691187375947f6f29a67ddc1b6 = L.marker(
+                [35.98416, 126.50875],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_87fdcef7155446e5a276aa2b0d4da5a0 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_feca98691187375947f6f29a67ddc1b6.setIcon(icon_87fdcef7155446e5a276aa2b0d4da5a0);
+        
+    
+            marker_feca98691187375947f6f29a67ddc1b6.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+군산항<br>
+수온: 22.8 ℃<br>
+염분:  psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 243 deg<br>
+유속: 7.6 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_f84f3bd30cb01822b324146568056bb7 = L.marker(
+                [38.1225, 128.65055],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_7e4b4aee8b41c6190ff15b6f457da07a = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_f84f3bd30cb01822b324146568056bb7.setIcon(icon_7e4b4aee8b41c6190ff15b6f457da07a);
+        
+    
+            marker_f84f3bd30cb01822b324146568056bb7.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+낙산해수욕장<br>
+수온: 19.8 ℃<br>
+염분: 34.1 psu<br>
+기온: 31.3 ℃<br>
+기압:  hPa<br>
+풍향: 230 deg<br>
+풍속: 5.7 m/s<br>
+유향: 281 deg<br>
+유속: 17.9 cm/s<br>
+파고: 0.1 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_7c411afc7df70a83136b421e061a931b = L.marker(
+                [34.22247, 128.41902],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_3f67b8f9e1b00003ece57d481aecf23f = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_7c411afc7df70a83136b421e061a931b.setIcon(icon_3f67b8f9e1b00003ece57d481aecf23f);
+        
+    
+            marker_7c411afc7df70a83136b421e061a931b.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+남해동부<br>
+수온: 22.9 ℃<br>
+염분: 26.65 psu<br>
+기온: 24.8 ℃<br>
+기압:  hPa<br>
+풍향: 193 deg<br>
+풍속: 2.9 m/s<br>
+유향: 81 deg<br>
+유속: 63.1 cm/s<br>
+파고: 0.3 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ccdc11a7ae2ef098b4d93c5a23f0a3dc = L.marker(
+                [36.27411, 126.4578],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_b4150387662876564b8e9bf6fa9ff406 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_ccdc11a7ae2ef098b4d93c5a23f0a3dc.setIcon(icon_b4150387662876564b8e9bf6fa9ff406);
+        
+    
+            marker_ccdc11a7ae2ef098b4d93c5a23f0a3dc.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+대천해수욕장<br>
+수온: 22.3 ℃<br>
+염분: 18.7 psu<br>
+기온: 25.2 ℃<br>
+기압:  hPa<br>
+풍향: 171 deg<br>
+풍속: 3.8 m/s<br>
+유향: 202 deg<br>
+유속: 39.0 cm/s<br>
+파고: 0.3 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_52f20173ee603ca47d1c57dd5be7f01f = L.marker(
+                [34.919, 129.12125],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_ec895bb91961de35979a5ffb1f43855f = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_52f20173ee603ca47d1c57dd5be7f01f.setIcon(icon_ec895bb91961de35979a5ffb1f43855f);
+        
+    
+            marker_52f20173ee603ca47d1c57dd5be7f01f.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+대한해협<br>
+수온: 22.9 ℃<br>
+염분: 29.73 psu<br>
+기온: 23.1 ℃<br>
+기압:  hPa<br>
+풍향: 175 deg<br>
+풍속: 6.3 m/s<br>
+유향: 56 deg<br>
+유속: 91.1 cm/s<br>
+파고: 0.3 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_2e71e02014e4b94b995e7fd17fe4c23b = L.marker(
+                [35.10319, 128.63183],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_4825f4c1472c66ffbead3928bf03b4fc = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_2e71e02014e4b94b995e7fd17fe4c23b.setIcon(icon_4825f4c1472c66ffbead3928bf03b4fc);
+        
+    
+            marker_2e71e02014e4b94b995e7fd17fe4c23b.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+마산항<br>
+수온: 20.1 ℃<br>
+염분:  psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 173 deg<br>
+유속: 8.1 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_e28a2b87246dd9db16fe578ac54f481f = L.marker(
+                [37.61611, 129.10305],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_7f836006be0d9a2fd4f4a6c1ae14ff9c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_e28a2b87246dd9db16fe578ac54f481f.setIcon(icon_7f836006be0d9a2fd4f4a6c1ae14ff9c);
+        
+    
+            marker_e28a2b87246dd9db16fe578ac54f481f.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+망상해수욕장<br>
+수온: 20.6 ℃<br>
+염분: 34.0 psu<br>
+기온: 24.4 ℃<br>
+기압:  hPa<br>
+풍향: 91 deg<br>
+풍속: 4.2 m/s<br>
+유향: 300 deg<br>
+유속: 18.0 cm/s<br>
+파고: 0.2 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_3ccaf9a9f9d08cf1b684acfaf2a600fa = L.marker(
+                [35.09175, 129.08525],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_d5d0a7e372eb7140f8f2f666dbf6435a = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_3ccaf9a9f9d08cf1b684acfaf2a600fa.setIcon(icon_d5d0a7e372eb7140f8f2f666dbf6435a);
+        
+    
+            marker_3ccaf9a9f9d08cf1b684acfaf2a600fa.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+부산항<br>
+수온: 17.0 ℃<br>
+염분: 31.4 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 125 deg<br>
+유속: 11.8 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_a760cdcdbb08e453488c5019797dd541 = L.marker(
+                [35.04377, 128.76175],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_105e6e09d5b495bbe0ab8be9411e02e5 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_a760cdcdbb08e453488c5019797dd541.setIcon(icon_105e6e09d5b495bbe0ab8be9411e02e5);
+        
+    
+            marker_a760cdcdbb08e453488c5019797dd541.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+부산항신항<br>
+수온: 19.7 ℃<br>
+염분: 25.9 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 78 deg<br>
+유속: 64.6 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_cbb46306fe403692ce91cf26201fac12 = L.marker(
+                [35.65247, 126.19425],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_8de085572984431801f5ab00df5dfc16 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_cbb46306fe403692ce91cf26201fac12.setIcon(icon_8de085572984431801f5ab00df5dfc16);
+        
+    
+            marker_cbb46306fe403692ce91cf26201fac12.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+상왕등도<br>
+수온: 22.8 ℃<br>
+염분: 24.5 psu<br>
+기온: 24.7 ℃<br>
+기압:  hPa<br>
+풍향: 184 deg<br>
+풍속: 2.7 m/s<br>
+유향: 239 deg<br>
+유속: 13.0 cm/s<br>
+파고: 0.2 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ea8f72f7ec1f5a253ddba0377c46529c = L.marker(
+                [34.25872, 126.96027],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_c3ade2fa1469294db787d37c58e2beb7 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_ea8f72f7ec1f5a253ddba0377c46529c.setIcon(icon_c3ade2fa1469294db787d37c58e2beb7);
+        
+    
+            marker_ea8f72f7ec1f5a253ddba0377c46529c.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+생일도<br>
+수온: 16.2 ℃<br>
+염분: 25.4 psu<br>
+기온: 20.1 ℃<br>
+기압:  hPa<br>
+풍향: 182 deg<br>
+풍속: 2.9 m/s<br>
+유향: 321 deg<br>
+유속: 52.2 cm/s<br>
+파고: 0.1 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_de1d8f604925ca910e2fad2161f331d9 = L.marker(
+                [38.19861, 128.63138],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_e55ffce07811355af8901b4c47fb64ef = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_de1d8f604925ca910e2fad2161f331d9.setIcon(icon_e55ffce07811355af8901b4c47fb64ef);
+        
+    
+            marker_de1d8f604925ca910e2fad2161f331d9.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+속초해수욕장<br>
+수온: 20.4 ℃<br>
+염분: 34.3 psu<br>
+기온: 26.3 ℃<br>
+기압:  hPa<br>
+풍향: 87 deg<br>
+풍속: 2.0 m/s<br>
+유향: 350 deg<br>
+유속: 16.7 cm/s<br>
+파고: 0.2 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_1c8aa602937315118116bbbffe7f8fc7 = L.marker(
+                [35.16472, 129.21944],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_8e3c85e676119de40ef7added93ef32b = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_1c8aa602937315118116bbbffe7f8fc7.setIcon(icon_8e3c85e676119de40ef7added93ef32b);
+        
+    
+            marker_1c8aa602937315118116bbbffe7f8fc7.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+송정해수욕장<br>
+수온: 18.6 ℃<br>
+염분: 30.3 psu<br>
+기온: 21.7 ℃<br>
+기압:  hPa<br>
+풍향: 216 deg<br>
+풍속: 7.6 m/s<br>
+유향: 34 deg<br>
+유속: 109.1 cm/s<br>
+파고: 0.3 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_77fb4e57e855dfb014db3c8c3a09fa3a = L.marker(
+                [34.79472, 127.80805],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_efcf5e20a6e02bd4f8921d6f1ae10d30 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_77fb4e57e855dfb014db3c8c3a09fa3a.setIcon(icon_efcf5e20a6e02bd4f8921d6f1ae10d30);
+        
+    
+            marker_77fb4e57e855dfb014db3c8c3a09fa3a.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+여수항<br>
+수온: 20.5 ℃<br>
+염분: 23.0 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 340 deg<br>
+유속: 53.4 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_e0dab9d27a6a9dc60a9992cea4374f07 = L.marker(
+                [34.32508, 126.76319],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_062a34d7cc361b6b46eaac540dcfa2cc = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_e0dab9d27a6a9dc60a9992cea4374f07.setIcon(icon_062a34d7cc361b6b46eaac540dcfa2cc);
+        
+    
+            marker_e0dab9d27a6a9dc60a9992cea4374f07.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+완도항<br>
+수온: 18.8 ℃<br>
+염분: 25.3 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 116 deg<br>
+유속: 40.1 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_9030047e9bcf169c8c1dbeee8ec819d6 = L.marker(
+                [34.54305, 125.80277],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_48d4bfd30b9d7ea69ae27ac476daef61 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_9030047e9bcf169c8c1dbeee8ec819d6.setIcon(icon_48d4bfd30b9d7ea69ae27ac476daef61);
+        
+    
+            marker_9030047e9bcf169c8c1dbeee8ec819d6.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+우이도<br>
+수온: 16.3 ℃<br>
+염분: 29.6 psu<br>
+기온: 19.8 ℃<br>
+기압:  hPa<br>
+풍향: 111 deg<br>
+풍속: 2.8 m/s<br>
+유향: 148 deg<br>
+유속: 17.6 cm/s<br>
+파고: 0.4 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_02182e5907c9656caa59b511c65380dc = L.marker(
+                [38.00736, 131.55258],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_db83cc4d3451801a277b86c5209d49cd = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_02182e5907c9656caa59b511c65380dc.setIcon(icon_db83cc4d3451801a277b86c5209d49cd);
+        
+    
+            marker_02182e5907c9656caa59b511c65380dc.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+울릉도북동<br>
+수온: 21.7 ℃<br>
+염분: 33.0 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향:  deg<br>
+유속:  cm/s<br>
+파고: 0.3 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_11b3c4bbbcfbbae35ddbc4a0305f9f2c = L.marker(
+                [37.74272, 130.60119],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_c8670769934c84903772f1f96763ca31 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_11b3c4bbbcfbbae35ddbc4a0305f9f2c.setIcon(icon_c8670769934c84903772f1f96763ca31);
+        
+    
+            marker_11b3c4bbbcfbbae35ddbc4a0305f9f2c.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+울릉도북서<br>
+수온: 29.3 ℃<br>
+염분: 37.23 psu<br>
+기온: 31.4 ℃<br>
+기압:  hPa<br>
+풍향: 31 deg<br>
+풍속: 1.6 m/s<br>
+유향: 277 deg<br>
+유속: 8.1 cm/s<br>
+파고: 0.0 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_b9098e8e9a9ecdcbd64d5fc6ac7b255c = L.marker(
+                [37.38944, 126.53305],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_332dd4855adb1ed1346b4c2758259a60 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_b9098e8e9a9ecdcbd64d5fc6ac7b255c.setIcon(icon_332dd4855adb1ed1346b4c2758259a60);
+        
+    
+            marker_b9098e8e9a9ecdcbd64d5fc6ac7b255c.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+인천항<br>
+수온: 21.5 ℃<br>
+염분: 31.9 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 235 deg<br>
+유속: 61.4 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_0b7316f981687232c37389196cb594e3 = L.marker(
+                [35.3025, 129.2925],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_61e595ea608db6459749edebf0ce3c1f = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_0b7316f981687232c37389196cb594e3.setIcon(icon_61e595ea608db6459749edebf0ce3c1f);
+        
+    
+            marker_0b7316f981687232c37389196cb594e3.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+임랑해수욕장<br>
+수온: 14.3 ℃<br>
+염분: 32.7 psu<br>
+기온: 19.9 ℃<br>
+기압:  hPa<br>
+풍향: 204 deg<br>
+풍속: 9.8 m/s<br>
+유향: 20 deg<br>
+유속: 30.8 cm/s<br>
+파고: 0.4 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_0cfd2dfab9c3f3cf2590ddc53565e93b = L.marker(
+                [32.09041, 126.96586],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_1b94ca66e618d37c58a1d66c8b156b5e = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_0cfd2dfab9c3f3cf2590ddc53565e93b.setIcon(icon_1b94ca66e618d37c58a1d66c8b156b5e);
+        
+    
+            marker_0cfd2dfab9c3f3cf2590ddc53565e93b.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+제주남부<br>
+수온: 27.8 ℃<br>
+염분: 27.53 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 265 deg<br>
+유속: 10.4 cm/s<br>
+파고: 0.0 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_1de142e0ff559cec232a341b44057e58 = L.marker(
+                [33.70011, 126.5905],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_6089ca7421b23e295d23e262289434b4 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_1de142e0ff559cec232a341b44057e58.setIcon(icon_6089ca7421b23e295d23e262289434b4);
+        
+    
+            marker_1de142e0ff559cec232a341b44057e58.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+제주해협<br>
+수온: 25.3 ℃<br>
+염분: 24.94 psu<br>
+기온: 24.5 ℃<br>
+기압:  hPa<br>
+풍향: 38 deg<br>
+풍속: 4.1 m/s<br>
+유향: 172 deg<br>
+유속: 112.7 cm/s<br>
+파고: 0.3 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_519788b7e083b9f5aee5d6ccce35cdcb = L.marker(
+                [33.2345, 126.40955],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_f051f61ba75783703aa119d301fa564a = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_519788b7e083b9f5aee5d6ccce35cdcb.setIcon(icon_f051f61ba75783703aa119d301fa564a);
+        
+    
+            marker_519788b7e083b9f5aee5d6ccce35cdcb.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+중문해수욕장<br>
+수온: 23.2 ℃<br>
+염분: 30.6 psu<br>
+기온: 27.2 ℃<br>
+기압:  hPa<br>
+풍향: 67 deg<br>
+풍속: 2.4 m/s<br>
+유향: 327 deg<br>
+유속: 14.3 cm/s<br>
+파고: 0.3 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ff2fbc01b76233974037e4413422af7f = L.marker(
+                [37.00672, 126.27022],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_b8494663d33506ebd3c9d2779394b6bb = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_ff2fbc01b76233974037e4413422af7f.setIcon(icon_b8494663d33506ebd3c9d2779394b6bb);
+        
+    
+            marker_ff2fbc01b76233974037e4413422af7f.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+태안항<br>
+수온: 17.7 ℃<br>
+염분: 40.0 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 252 deg<br>
+유속: 96.1 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_69498e5d225ed7fc4df058a59aabc0b4 = L.marker(
+                [34.77333, 128.46],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_79f6ec5aef7c9e1e65a992c011036d66 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_69498e5d225ed7fc4df058a59aabc0b4.setIcon(icon_79f6ec5aef7c9e1e65a992c011036d66);
+        
+    
+            marker_69498e5d225ed7fc4df058a59aabc0b4.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+통영항<br>
+수온: 19.3 ℃<br>
+염분: 24.6 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 138 deg<br>
+유속: 134.7 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ac9fcdd04471d7f9e4d24eafbe40862b = L.marker(
+                [37.13666, 126.54083],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_581bd9db2fbea213c9b2b9aed2595178 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_ac9fcdd04471d7f9e4d24eafbe40862b.setIcon(icon_581bd9db2fbea213c9b2b9aed2595178);
+        
+    
+            marker_ac9fcdd04471d7f9e4d24eafbe40862b.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+평택당진항<br>
+수온: 20.1 ℃<br>
+염분: 22.3 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 299 deg<br>
+유속: 39.0 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_a8d54b7bd907f7e8b5bf37cb3cdd0ae1 = L.marker(
+                [35.3185, 129.31472],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_01991a90798328c64f0021450858dc6a = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_a8d54b7bd907f7e8b5bf37cb3cdd0ae1.setIcon(icon_01991a90798328c64f0021450858dc6a);
+        
+    
+            marker_a8d54b7bd907f7e8b5bf37cb3cdd0ae1.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+한수원_고리<br>
+수온: 14.8 ℃<br>
+염분:  psu<br>
+기온: 20.4 ℃<br>
+기압:  hPa<br>
+풍향: 222 deg<br>
+풍속: 10.0 m/s<br>
+유향: 0 deg<br>
+유속: 0.0 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_5d55b9177e2ac223d4f5cac1b6dd892c = L.marker(
+                [35.18244, 129.23525],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_c38c9c225afa17c2dfc1d28c0c45eff3 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_5d55b9177e2ac223d4f5cac1b6dd892c.setIcon(icon_c38c9c225afa17c2dfc1d28c0c45eff3);
+        
+    
+            marker_5d55b9177e2ac223d4f5cac1b6dd892c.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+한수원_기장<br>
+수온: 18.5 ℃<br>
+염분:  psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 345 deg<br>
+유속: 47.0 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_5d02984dbb89541f72346a3802c23fa8 = L.marker(
+                [37.11916, 129.39583],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_5e580e864175a21623fcc2130aebb004 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_5d02984dbb89541f72346a3802c23fa8.setIcon(icon_5e580e864175a21623fcc2130aebb004);
+        
+    
+            marker_5d02984dbb89541f72346a3802c23fa8.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+한수원_나곡<br>
+수온: 20.3 ℃<br>
+염분:  psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 312 deg<br>
+유속: 25.8 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_2a46e89fb8d9fa55949810f6232584d0 = L.marker(
+                [37.1, 129.40416],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_f2598ae258bc5cbc7db85e4ee6cdb09f = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_2a46e89fb8d9fa55949810f6232584d0.setIcon(icon_f2598ae258bc5cbc7db85e4ee6cdb09f);
+        
+    
+            marker_2a46e89fb8d9fa55949810f6232584d0.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+한수원_덕천<br>
+수온: 22.4 ℃<br>
+염분:  psu<br>
+기온: 24.4 ℃<br>
+기압:  hPa<br>
+풍향: 118 deg<br>
+풍속: 7.2 m/s<br>
+유향: 338 deg<br>
+유속: 24.5 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_c4415c9bd31b9b9511a8049f9a1d8ebc = L.marker(
+                [37.01944, 129.425],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_645b00fd8f6c6602baa0e983b733e5e4 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_c4415c9bd31b9b9511a8049f9a1d8ebc.setIcon(icon_645b00fd8f6c6602baa0e983b733e5e4);
+        
+    
+            marker_c4415c9bd31b9b9511a8049f9a1d8ebc.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+한수원_온양<br>
+수온: 20.8 ℃<br>
+염분:  psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 0 deg<br>
+유속: 0.0 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_869b3ead6f35e8240f2c86e168268329 = L.marker(
+                [35.38472, 129.36805],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_77f0539ab7546670f3891a1b5626652e = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_869b3ead6f35e8240f2c86e168268329.setIcon(icon_77f0539ab7546670f3891a1b5626652e);
+        
+    
+            marker_869b3ead6f35e8240f2c86e168268329.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+한수원_진하<br>
+수온: 16.2 ℃<br>
+염분:  psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 334 deg<br>
+유속: 10.8 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_be8262994634f5ca3369c71218ae0321 = L.marker(
+                [35.14897, 129.17016],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_8729b03b96e4bb342d04e7f8a10f42c2 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "orange", "prefix": "fa"}
+            );
+            marker_be8262994634f5ca3369c71218ae0321.setIcon(icon_8729b03b96e4bb342d04e7f8a10f42c2);
+        
+    
+            marker_be8262994634f5ca3369c71218ae0321.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+해운대해수욕장<br>
+수온: 16.0 ℃<br>
+염분: 33.7 psu<br>
+기온: 20.7 ℃<br>
+기압:  hPa<br>
+풍향: 198 deg<br>
+풍속: 5.7 m/s<br>
+유향: 51 deg<br>
+유속: 25.5 cm/s<br>
+파고: 0.2 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_857be009e15fbe71b8504ed770f0ddf8 = L.marker(
+                [35.0528, 129.00308],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_d42142c7af5c365d0dc4e8734b1d08ed = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_857be009e15fbe71b8504ed770f0ddf8.setIcon(icon_d42142c7af5c365d0dc4e8734b1d08ed);
+        
+    
+            marker_857be009e15fbe71b8504ed770f0ddf8.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+감천항<br>
+수온: 14.5 ℃<br>
+염분: 31.3 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 251 deg<br>
+유속: 3.3 cm/s<br>
+파고: 0.2 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_19d29b11a064a450ed295fd40286f447 = L.marker(
+                [37.52338, 126.59208],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_b04c41a5dc58b778cf0dcf434e361804 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_19d29b11a064a450ed295fd40286f447.setIcon(icon_b04c41a5dc58b778cf0dcf434e361804);
+        
+    
+            marker_19d29b11a064a450ed295fd40286f447.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+경인항<br>
+수온:  ℃<br>
+염분:  psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향:  deg<br>
+유속:  cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ac18fd2210b04867113a5c429a425312 = L.marker(
+                [37.80897, 128.93188],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_a1cdd4f2d7196f4bcc976947c27c3b02 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_ac18fd2210b04867113a5c429a425312.setIcon(icon_a1cdd4f2d7196f4bcc976947c27c3b02);
+        
+    
+            marker_ac18fd2210b04867113a5c429a425312.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+경포대해수욕장<br>
+수온: 20.5 ℃<br>
+염분: 34.0 psu<br>
+기온: 25.7 ℃<br>
+기압:  hPa<br>
+풍향: 95 deg<br>
+풍속: 5.0 m/s<br>
+유향: 315 deg<br>
+유속: 20.0 cm/s<br>
+파고: 0.1 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_56622014d1ddb885b44eef5389a3bcb6 = L.marker(
+                [36.58, 129.45408],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_3273574049689ad51c9a3f500e3e8cfd = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_56622014d1ddb885b44eef5389a3bcb6.setIcon(icon_3273574049689ad51c9a3f500e3e8cfd);
+        
+    
+            marker_56622014d1ddb885b44eef5389a3bcb6.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+고래불해수욕장<br>
+수온: 20.9 ℃<br>
+염분: 31.4 psu<br>
+기온: 25.5 ℃<br>
+기압:  hPa<br>
+풍향: 173 deg<br>
+풍속: 6.2 m/s<br>
+유향: 335 deg<br>
+유속: 10.5 cm/s<br>
+파고: 0.2 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_fd0d4ecaa200991119d584a152b88617 = L.marker(
+                [34.85972, 127.79277],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_1a4e323cc2a793f995c04af5b3d31f21 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_fd0d4ecaa200991119d584a152b88617.setIcon(icon_1a4e323cc2a793f995c04af5b3d31f21);
+        
+    
+            marker_fd0d4ecaa200991119d584a152b88617.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+광양항<br>
+수온: 20.9 ℃<br>
+염분: 18.2 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 50 deg<br>
+유속: 1.6 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_8be335505c9bcf913cad47f8410fcaaa = L.marker(
+                [35.98416, 126.50875],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_106240820d50109d60db47784cb272fd = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_8be335505c9bcf913cad47f8410fcaaa.setIcon(icon_106240820d50109d60db47784cb272fd);
+        
+    
+            marker_8be335505c9bcf913cad47f8410fcaaa.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+군산항<br>
+수온: 22.8 ℃<br>
+염분:  psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 243 deg<br>
+유속: 7.6 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_598fbffce5607f851df0db9f3b31241e = L.marker(
+                [38.1225, 128.65055],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_778796bca641385c18fa13e1eae6da43 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_598fbffce5607f851df0db9f3b31241e.setIcon(icon_778796bca641385c18fa13e1eae6da43);
+        
+    
+            marker_598fbffce5607f851df0db9f3b31241e.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+낙산해수욕장<br>
+수온: 19.8 ℃<br>
+염분: 34.1 psu<br>
+기온: 31.3 ℃<br>
+기압:  hPa<br>
+풍향: 230 deg<br>
+풍속: 5.7 m/s<br>
+유향: 281 deg<br>
+유속: 17.9 cm/s<br>
+파고: 0.1 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_6873209cfba60a5187baf971a511b2a7 = L.marker(
+                [34.22247, 128.41902],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_eab419683bfd57d0eff0125ee4145472 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_6873209cfba60a5187baf971a511b2a7.setIcon(icon_eab419683bfd57d0eff0125ee4145472);
+        
+    
+            marker_6873209cfba60a5187baf971a511b2a7.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+남해동부<br>
+수온: 22.9 ℃<br>
+염분: 26.65 psu<br>
+기온: 24.8 ℃<br>
+기압:  hPa<br>
+풍향: 193 deg<br>
+풍속: 2.9 m/s<br>
+유향: 81 deg<br>
+유속: 63.1 cm/s<br>
+파고: 0.3 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_fbf5a0fd0daea6dcb4f4dc5722adfb86 = L.marker(
+                [36.27411, 126.4578],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_022413ad8e0de4bd546dc35efc7d7e0e = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_fbf5a0fd0daea6dcb4f4dc5722adfb86.setIcon(icon_022413ad8e0de4bd546dc35efc7d7e0e);
+        
+    
+            marker_fbf5a0fd0daea6dcb4f4dc5722adfb86.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+대천해수욕장<br>
+수온: 22.3 ℃<br>
+염분: 18.7 psu<br>
+기온: 25.2 ℃<br>
+기압:  hPa<br>
+풍향: 171 deg<br>
+풍속: 3.8 m/s<br>
+유향: 202 deg<br>
+유속: 39.0 cm/s<br>
+파고: 0.3 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_f4fa07388775b53f1a950ec341d2cc1f = L.marker(
+                [34.919, 129.12125],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_8f2355d88378693abc9be9fef6e7b405 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_f4fa07388775b53f1a950ec341d2cc1f.setIcon(icon_8f2355d88378693abc9be9fef6e7b405);
+        
+    
+            marker_f4fa07388775b53f1a950ec341d2cc1f.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+대한해협<br>
+수온: 22.9 ℃<br>
+염분: 29.73 psu<br>
+기온: 23.1 ℃<br>
+기압:  hPa<br>
+풍향: 175 deg<br>
+풍속: 6.3 m/s<br>
+유향: 56 deg<br>
+유속: 91.1 cm/s<br>
+파고: 0.3 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_85c9e726aeaeedc46c9825a4ec7306bd = L.marker(
+                [35.10319, 128.63183],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_8b8caafed5e9abeff8664f4377d1dbe6 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_85c9e726aeaeedc46c9825a4ec7306bd.setIcon(icon_8b8caafed5e9abeff8664f4377d1dbe6);
+        
+    
+            marker_85c9e726aeaeedc46c9825a4ec7306bd.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+마산항<br>
+수온: 20.1 ℃<br>
+염분:  psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 173 deg<br>
+유속: 8.1 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_8c0efacd2557a2d484d5672ff9d9e58d = L.marker(
+                [37.61611, 129.10305],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_c99150f74b20f0629f6c9b42d6ad6b1c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_8c0efacd2557a2d484d5672ff9d9e58d.setIcon(icon_c99150f74b20f0629f6c9b42d6ad6b1c);
+        
+    
+            marker_8c0efacd2557a2d484d5672ff9d9e58d.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+망상해수욕장<br>
+수온: 20.6 ℃<br>
+염분: 34.0 psu<br>
+기온: 24.4 ℃<br>
+기압:  hPa<br>
+풍향: 91 deg<br>
+풍속: 4.2 m/s<br>
+유향: 300 deg<br>
+유속: 18.0 cm/s<br>
+파고: 0.2 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_1b9b8169326dd25cb827ad2084f4a8f3 = L.marker(
+                [35.09175, 129.08525],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_12bc206d6c0a5148bcd6025d65ef104c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_1b9b8169326dd25cb827ad2084f4a8f3.setIcon(icon_12bc206d6c0a5148bcd6025d65ef104c);
+        
+    
+            marker_1b9b8169326dd25cb827ad2084f4a8f3.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+부산항<br>
+수온: 17.0 ℃<br>
+염분: 31.4 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 125 deg<br>
+유속: 11.8 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_f4675f2a56e4bcdb185397ae1316764b = L.marker(
+                [35.04377, 128.76175],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_cf91fe6fc40b9de8869e17be5fa2f6c7 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_f4675f2a56e4bcdb185397ae1316764b.setIcon(icon_cf91fe6fc40b9de8869e17be5fa2f6c7);
+        
+    
+            marker_f4675f2a56e4bcdb185397ae1316764b.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+부산항신항<br>
+수온: 19.7 ℃<br>
+염분: 25.9 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 78 deg<br>
+유속: 64.6 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_c6301f6f91c584c6b2c954cec9dfcc7b = L.marker(
+                [35.65247, 126.19425],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_f10ee82dbf13347969e42289d5c10e10 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_c6301f6f91c584c6b2c954cec9dfcc7b.setIcon(icon_f10ee82dbf13347969e42289d5c10e10);
+        
+    
+            marker_c6301f6f91c584c6b2c954cec9dfcc7b.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+상왕등도<br>
+수온: 22.8 ℃<br>
+염분: 24.5 psu<br>
+기온: 24.7 ℃<br>
+기압:  hPa<br>
+풍향: 184 deg<br>
+풍속: 2.7 m/s<br>
+유향: 239 deg<br>
+유속: 13.0 cm/s<br>
+파고: 0.2 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_26cbf2342c87a264d1eef4402571434b = L.marker(
+                [34.25872, 126.96027],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_39b30ba17b37d09e7d5937edc4acb4a0 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_26cbf2342c87a264d1eef4402571434b.setIcon(icon_39b30ba17b37d09e7d5937edc4acb4a0);
+        
+    
+            marker_26cbf2342c87a264d1eef4402571434b.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+생일도<br>
+수온: 16.2 ℃<br>
+염분: 25.4 psu<br>
+기온: 20.1 ℃<br>
+기압:  hPa<br>
+풍향: 182 deg<br>
+풍속: 2.9 m/s<br>
+유향: 321 deg<br>
+유속: 52.2 cm/s<br>
+파고: 0.1 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_e5b8ef3b60a59c700edd8ac790c6c58f = L.marker(
+                [38.19861, 128.63138],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_5db65b4bcaf2045ab1d060b24981674c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_e5b8ef3b60a59c700edd8ac790c6c58f.setIcon(icon_5db65b4bcaf2045ab1d060b24981674c);
+        
+    
+            marker_e5b8ef3b60a59c700edd8ac790c6c58f.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+속초해수욕장<br>
+수온: 20.4 ℃<br>
+염분: 34.3 psu<br>
+기온: 26.3 ℃<br>
+기압:  hPa<br>
+풍향: 87 deg<br>
+풍속: 2.0 m/s<br>
+유향: 350 deg<br>
+유속: 16.7 cm/s<br>
+파고: 0.2 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_b13dfc2a17e37689acc3e717749567d1 = L.marker(
+                [35.16472, 129.21944],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_2ba9ccb8ed25233c9ac33424f35447bc = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_b13dfc2a17e37689acc3e717749567d1.setIcon(icon_2ba9ccb8ed25233c9ac33424f35447bc);
+        
+    
+            marker_b13dfc2a17e37689acc3e717749567d1.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+송정해수욕장<br>
+수온: 18.6 ℃<br>
+염분: 30.3 psu<br>
+기온: 21.7 ℃<br>
+기압:  hPa<br>
+풍향: 216 deg<br>
+풍속: 7.6 m/s<br>
+유향: 34 deg<br>
+유속: 109.1 cm/s<br>
+파고: 0.3 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_4de5bd64154faa62940306a68fcd4e1d = L.marker(
+                [34.79472, 127.80805],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_7cb2624a6c5b4a9a235b7493ee2816ab = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_4de5bd64154faa62940306a68fcd4e1d.setIcon(icon_7cb2624a6c5b4a9a235b7493ee2816ab);
+        
+    
+            marker_4de5bd64154faa62940306a68fcd4e1d.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+여수항<br>
+수온: 20.5 ℃<br>
+염분: 23.0 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 340 deg<br>
+유속: 53.4 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_7c1c70e07998cb41aa9b0d2a6f007f3a = L.marker(
+                [34.32508, 126.76319],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_b57b8cd8978b342f798942d8c2d5dcd9 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_7c1c70e07998cb41aa9b0d2a6f007f3a.setIcon(icon_b57b8cd8978b342f798942d8c2d5dcd9);
+        
+    
+            marker_7c1c70e07998cb41aa9b0d2a6f007f3a.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+완도항<br>
+수온: 18.8 ℃<br>
+염분: 25.3 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 116 deg<br>
+유속: 40.1 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_3fea7b3e1d11159a0c0fb5d0259e9d51 = L.marker(
+                [34.54305, 125.80277],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_119cf2fe40323823560ea70a7abd2dab = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_3fea7b3e1d11159a0c0fb5d0259e9d51.setIcon(icon_119cf2fe40323823560ea70a7abd2dab);
+        
+    
+            marker_3fea7b3e1d11159a0c0fb5d0259e9d51.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+우이도<br>
+수온: 16.3 ℃<br>
+염분: 29.6 psu<br>
+기온: 19.8 ℃<br>
+기압:  hPa<br>
+풍향: 111 deg<br>
+풍속: 2.8 m/s<br>
+유향: 148 deg<br>
+유속: 17.6 cm/s<br>
+파고: 0.4 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_d9c3eeca8729c1a397d41d02b71e0be6 = L.marker(
+                [38.00736, 131.55258],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_55e9d325b19433f37d8567479f84cb64 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_d9c3eeca8729c1a397d41d02b71e0be6.setIcon(icon_55e9d325b19433f37d8567479f84cb64);
+        
+    
+            marker_d9c3eeca8729c1a397d41d02b71e0be6.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+울릉도북동<br>
+수온: 21.7 ℃<br>
+염분: 33.0 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향:  deg<br>
+유속:  cm/s<br>
+파고: 0.3 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_e34490d8aa7904c75637c62ae0f42f4d = L.marker(
+                [37.74272, 130.60119],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_348424596c6d9fdeaae8ea55c7618fa5 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_e34490d8aa7904c75637c62ae0f42f4d.setIcon(icon_348424596c6d9fdeaae8ea55c7618fa5);
+        
+    
+            marker_e34490d8aa7904c75637c62ae0f42f4d.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+울릉도북서<br>
+수온: 29.3 ℃<br>
+염분: 37.23 psu<br>
+기온: 31.4 ℃<br>
+기압:  hPa<br>
+풍향: 31 deg<br>
+풍속: 1.6 m/s<br>
+유향: 277 deg<br>
+유속: 8.1 cm/s<br>
+파고: 0.0 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_66c19be3c7a9ce2a0670a4e59847afad = L.marker(
+                [37.38944, 126.53305],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_6aa8c27aea0b62c4e553eb99f7c2e3db = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_66c19be3c7a9ce2a0670a4e59847afad.setIcon(icon_6aa8c27aea0b62c4e553eb99f7c2e3db);
+        
+    
+            marker_66c19be3c7a9ce2a0670a4e59847afad.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+인천항<br>
+수온: 21.5 ℃<br>
+염분: 31.9 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 235 deg<br>
+유속: 61.4 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_78d2330de91b36e37904edf21cd19e18 = L.marker(
+                [35.3025, 129.2925],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_c612f43acedd2604846daec7a23a4ce2 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_78d2330de91b36e37904edf21cd19e18.setIcon(icon_c612f43acedd2604846daec7a23a4ce2);
+        
+    
+            marker_78d2330de91b36e37904edf21cd19e18.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+임랑해수욕장<br>
+수온: 14.3 ℃<br>
+염분: 32.7 psu<br>
+기온: 19.9 ℃<br>
+기압:  hPa<br>
+풍향: 204 deg<br>
+풍속: 9.8 m/s<br>
+유향: 20 deg<br>
+유속: 30.8 cm/s<br>
+파고: 0.4 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_71a062210911d4ab49a241ef8932a698 = L.marker(
+                [32.09041, 126.96586],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_a76cbcb6127b03f5e9a236d8c9fc1957 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_71a062210911d4ab49a241ef8932a698.setIcon(icon_a76cbcb6127b03f5e9a236d8c9fc1957);
+        
+    
+            marker_71a062210911d4ab49a241ef8932a698.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+제주남부<br>
+수온: 27.8 ℃<br>
+염분: 27.53 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 265 deg<br>
+유속: 10.4 cm/s<br>
+파고: 0.0 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_7ca609037b77c89e612463a30ad6fe56 = L.marker(
+                [33.70011, 126.5905],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_a199f12a66402508cdfaf841776a5157 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_7ca609037b77c89e612463a30ad6fe56.setIcon(icon_a199f12a66402508cdfaf841776a5157);
+        
+    
+            marker_7ca609037b77c89e612463a30ad6fe56.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+제주해협<br>
+수온: 25.3 ℃<br>
+염분: 24.94 psu<br>
+기온: 24.5 ℃<br>
+기압:  hPa<br>
+풍향: 38 deg<br>
+풍속: 4.1 m/s<br>
+유향: 172 deg<br>
+유속: 112.7 cm/s<br>
+파고: 0.3 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_85fdf12ce8e6d42b5e44671faf6f7984 = L.marker(
+                [33.2345, 126.40955],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_a23f6a2001d04e74c4a1e9da27166c98 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_85fdf12ce8e6d42b5e44671faf6f7984.setIcon(icon_a23f6a2001d04e74c4a1e9da27166c98);
+        
+    
+            marker_85fdf12ce8e6d42b5e44671faf6f7984.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+중문해수욕장<br>
+수온: 23.2 ℃<br>
+염분: 30.6 psu<br>
+기온: 27.2 ℃<br>
+기압:  hPa<br>
+풍향: 67 deg<br>
+풍속: 2.4 m/s<br>
+유향: 327 deg<br>
+유속: 14.3 cm/s<br>
+파고: 0.3 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_8c35cf2dd6e8819f1731f0107161c2e4 = L.marker(
+                [37.00672, 126.27022],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_10cec635344ca009fd48d9ccc236d7eb = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_8c35cf2dd6e8819f1731f0107161c2e4.setIcon(icon_10cec635344ca009fd48d9ccc236d7eb);
+        
+    
+            marker_8c35cf2dd6e8819f1731f0107161c2e4.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+태안항<br>
+수온: 17.7 ℃<br>
+염분: 40.0 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 252 deg<br>
+유속: 96.1 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_876e2838ea784e3e14d2e669d40cb155 = L.marker(
+                [34.77333, 128.46],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_5b28d77855d1b318c1e2f9e74576de97 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_876e2838ea784e3e14d2e669d40cb155.setIcon(icon_5b28d77855d1b318c1e2f9e74576de97);
+        
+    
+            marker_876e2838ea784e3e14d2e669d40cb155.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+통영항<br>
+수온: 19.3 ℃<br>
+염분: 24.6 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 138 deg<br>
+유속: 134.7 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_37d2a4e99977936414ca325bb8abc671 = L.marker(
+                [37.13666, 126.54083],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_723823064ae3faf303be5076a358a226 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_37d2a4e99977936414ca325bb8abc671.setIcon(icon_723823064ae3faf303be5076a358a226);
+        
+    
+            marker_37d2a4e99977936414ca325bb8abc671.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+평택당진항<br>
+수온: 20.1 ℃<br>
+염분: 22.3 psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 299 deg<br>
+유속: 39.0 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_0553feae4533ed4841a2d186bbc39a82 = L.marker(
+                [35.3185, 129.31472],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_009c69ce85071026599098cb7cea8840 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_0553feae4533ed4841a2d186bbc39a82.setIcon(icon_009c69ce85071026599098cb7cea8840);
+        
+    
+            marker_0553feae4533ed4841a2d186bbc39a82.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+한수원_고리<br>
+수온: 14.8 ℃<br>
+염분:  psu<br>
+기온: 20.4 ℃<br>
+기압:  hPa<br>
+풍향: 222 deg<br>
+풍속: 10.0 m/s<br>
+유향: 0 deg<br>
+유속: 0.0 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_23d535e51742947ef6282322f6d3592e = L.marker(
+                [35.18244, 129.23525],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_6c6a856e04e18875af001bfa992c542d = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_23d535e51742947ef6282322f6d3592e.setIcon(icon_6c6a856e04e18875af001bfa992c542d);
+        
+    
+            marker_23d535e51742947ef6282322f6d3592e.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+한수원_기장<br>
+수온: 18.5 ℃<br>
+염분:  psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 345 deg<br>
+유속: 47.0 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_efde50c2772b18ae2313be3fe80bb998 = L.marker(
+                [37.11916, 129.39583],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_b8c2d920a6fb12bdd50208b4cdde43db = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_efde50c2772b18ae2313be3fe80bb998.setIcon(icon_b8c2d920a6fb12bdd50208b4cdde43db);
+        
+    
+            marker_efde50c2772b18ae2313be3fe80bb998.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+한수원_나곡<br>
+수온: 20.3 ℃<br>
+염분:  psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 312 deg<br>
+유속: 25.8 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_db0584e6083cc0cc2c93a7ad2a5cd4e7 = L.marker(
+                [37.1, 129.40416],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_142fd4f1e68194ed8c1646a65d0a32ef = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_db0584e6083cc0cc2c93a7ad2a5cd4e7.setIcon(icon_142fd4f1e68194ed8c1646a65d0a32ef);
+        
+    
+            marker_db0584e6083cc0cc2c93a7ad2a5cd4e7.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+한수원_덕천<br>
+수온: 22.4 ℃<br>
+염분:  psu<br>
+기온: 24.4 ℃<br>
+기압:  hPa<br>
+풍향: 118 deg<br>
+풍속: 7.2 m/s<br>
+유향: 338 deg<br>
+유속: 24.5 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_0095a65f6f00d06a2a519321672a61ef = L.marker(
+                [37.01944, 129.425],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_f8ebcaa181072be9d3781797045b23b2 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_0095a65f6f00d06a2a519321672a61ef.setIcon(icon_f8ebcaa181072be9d3781797045b23b2);
+        
+    
+            marker_0095a65f6f00d06a2a519321672a61ef.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+한수원_온양<br>
+수온: 20.8 ℃<br>
+염분:  psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 0 deg<br>
+유속: 0.0 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_9cbb95e73dd7ab98a46f69f8c8e9203c = L.marker(
+                [35.38472, 129.36805],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_6fb4d4b96e81ea6c7289dbee0a6cabc9 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_9cbb95e73dd7ab98a46f69f8c8e9203c.setIcon(icon_6fb4d4b96e81ea6c7289dbee0a6cabc9);
+        
+    
+            marker_9cbb95e73dd7ab98a46f69f8c8e9203c.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+한수원_진하<br>
+수온: 16.2 ℃<br>
+염분:  psu<br>
+기온:  ℃<br>
+기압:  hPa<br>
+풍향:  deg<br>
+풍속:  m/s<br>
+유향: 334 deg<br>
+유속: 10.8 cm/s<br>
+파고:  m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_8ab90ccf6543d714f90b40167de75e74 = L.marker(
+                [35.14897, 129.17016],
+                {}
+            ).addTo(map_78bdee5102de4beac94a6bfd1b65961b);
+        
+    
+            var icon_26b1c9925cac83218b9cbdf336801d8b = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "star", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_8ab90ccf6543d714f90b40167de75e74.setIcon(icon_26b1c9925cac83218b9cbdf336801d8b);
+        
+    
+            marker_8ab90ccf6543d714f90b40167de75e74.bindTooltip(
+                `<div>
+                     <b>해양관측부이</b><br>
+해운대해수욕장<br>
+수온: 16.0 ℃<br>
+염분: 33.7 psu<br>
+기온: 20.7 ℃<br>
+기압:  hPa<br>
+풍향: 198 deg<br>
+풍속: 5.7 m/s<br>
+유향: 51 deg<br>
+유속: 25.5 cm/s<br>
+파고: 0.2 m
+
+                 </div>`,
+                {"sticky": true}
+            );
+        
+</script>
+</html>
