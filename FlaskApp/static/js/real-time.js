@@ -7,12 +7,11 @@ const regionConfigs = [
   { name: '울진', files: ['Uljin_04.csv', 'Uljin_05.csv'], color: 'purple' },
 ];
 
-// 각 그래프용 Chart 인스턴스 저장
+// 각 그래프 Chart 저장
 const charts = {};
-
-// 각 컬럼별로 데이터 버퍼와 인덱스 따로
 const dataBuffers = {};
 const indices = {};
+const xIndices = {}; // ✅ X축 카운터 관리용
 
 // ✅ 컬럼별 Chart.js 생성
 metrics.forEach(metric => {
@@ -27,14 +26,9 @@ metrics.forEach(metric => {
       datasets: regionConfigs.map(region => ({
         label: region.name,
         data: [],
-        borderColor: region.color,
-        borderWidth: 2,
         fill: false,
-        tension: 0.6,
-        pointRadius: 2,
-        pointBackgroundColor:region.color,
-        pointBorderColor: region.color,
-        pointBorderWidth: 2,
+        tension: 0.4,
+        pointRadius: 0.5,
       }))
     },
     options: {
@@ -47,27 +41,25 @@ metrics.forEach(metric => {
           type: 'linear',
           title: { display: true, text: 'Index' },
         },
-        y: {
-          beginAtZero: true
-        }
+        y: { beginAtZero: true }
       },
       plugins: {
         legend: {
           display: true,
           labels: {
-            usePointStyle: true,   // ✔ 점 스타일 쓰겠다
-            pointStyle: 'line',    // ✔ 범례 아이콘을 선 모양으로
-            boxWidth: 100,          // ✔ 선 길이 조절
-            boxHeight: 7,          // ✔ 선 두께 조절
+            usePointStyle: true,
+            pointStyle: 'line',
+            boxWidth: 100,
+            boxHeight: 7,
           }
-    },
-    tooltip: { enabled: true }
-  },
+        },
+        tooltip: { enabled: true }
+      },
     }
   });
 });
 
-// ✅ 모든 지역 데이터 한번에 로딩
+// ✅ 지역 데이터 로딩 + 초기 10개 push
 regionConfigs.forEach(region => {
   Promise.all(region.files.map(file =>
     fetch(`/static/finalData/${file}`).then(res => res.text())
@@ -80,11 +72,12 @@ regionConfigs.forEach(region => {
     metrics.forEach(metric => {
       if (!dataBuffers[metric]) dataBuffers[metric] = {};
       if (!indices[metric]) indices[metric] = {};
+      if (!xIndices[metric]) xIndices[metric] = {};
 
       dataBuffers[metric][region.name] = allData;
       indices[metric][region.name] = 0;
 
-      // ✅ 각 그래프 초기 10개 push
+      // ✅ 초기 10개 push
       for (let i = 0; i < 10; i++) {
         const point = allData[i];
         const value = point[metric];
@@ -97,12 +90,15 @@ regionConfigs.forEach(region => {
         }
       }
 
+      // ✅ 초기 xIndex는 10부터 시작!
+      xIndices[metric][region.name] = 10;
+
       charts[metric].update();
     });
   });
 });
 
-// ✅ 이후 5초마다 각 컬럼/지역 데이터 1개씩 push
+// ✅ 이후 실시간: 5초마다 1개 push
 setInterval(() => {
   metrics.forEach(metric => {
     regionConfigs.forEach(region => {
@@ -115,19 +111,21 @@ setInterval(() => {
 
       if (value !== undefined && value !== null && isFinite(value)) {
         const dataset = charts[metric].data.datasets.find(d => d.label === region.name);
+        
         dataset.data.push({
-          x: dataset.data.length,
+          x: xIndices[metric][region.name], // ✅ X값: 항상 증가하는 카운터 사용
           y: value
         });
+        xIndices[metric][region.name]++; // ✅ 다음 push를 위해 +1
 
-        if (dataset.data.length > 50) {
+        if (dataset.data.length >= 20) {
           dataset.data.shift();
         }
       }
 
       indices[metric][region.name]++;
       if (indices[metric][region.name] >= buffer.length) {
-        indices[metric][region.name] = 0; // 반복
+        indices[metric][region.name] = 0;
       }
     });
 
