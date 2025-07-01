@@ -8,12 +8,37 @@ app = Flask(__name__)
 url = 'http://www.khoa.go.kr/api/oceangrid/tideObsRecent/search.do'
 ServiceKey = 'yw1Xau9HH4k4eQmO0r65AA=='
 
+
+  
 @app.route('/piechart')
 def piechart():
-  for obs in ObsCode:
-    data = get_obs_data(obs, url, ServiceKey)
-    print('data = ', data)
-  return render_template('chart.html', datas=data)
+    
+    datas = []
+    for obs in ObsCode:
+        d = get_obs_data(obs, url, key)
+        if d: datas.append(d)
+
+    # 풍속 분포: 약풍/미풍/강풍 기준 분류
+    cat = {'약풍 (<3.3m/s)':0, '미풍 (3.3~6.6m/s)':0, '강풍 (>6.6m/s)':0}
+    for d in datas:
+        ws = d['wind_speed']
+        if ws < 3.3:
+            cat['약풍 (<3.3m/s)'] += 1
+        elif ws < 6.6:
+            cat['미풍 (3.3~6.6m/s)'] += 1
+        else:
+            cat['강풍 (>6.6m/s)'] += 1
+
+    labels = list(cat.keys())
+    values = list(cat.values())
+    colors = ['#81c784', '#ffb74d', '#e57373']
+
+    return render_template('chart.html',
+                           datas=datas,
+                           labels=labels,
+                           values=values,
+                           colors=colors)
+
 
 @app.route('/')
 def dashboard():
