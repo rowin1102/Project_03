@@ -23,7 +23,7 @@ def dashboard():
     warning = detect_abnormal(data)
     for w in warning:
       warning_msg.append(f"{obs['name']} {w} 경고") 
-  return render_template('dashboard.html', warning=warning_msg)
+  return render_template('mainPage.html', warning=warning_msg)
 
 @app.route('/api/warning')
 def api_warning():
