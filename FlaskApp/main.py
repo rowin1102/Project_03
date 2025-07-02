@@ -136,7 +136,7 @@ def winddata():
     return jsonify(wind_data)
 
 @app.route('/tidedata')
-def winddata():
+def tidedata():
     target_names = ['인천', '통영', '태안', '여수', '울진']
     selected_obs = [obs for obs in ObsCode if obs['name'] in target_names]
 
