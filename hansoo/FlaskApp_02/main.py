@@ -70,8 +70,8 @@ def uljin_detail():
     return render_template('uljin.html')
 
 @app.route('/obs_map')
-def obs_map():
-    m = folium.Map(location=[36.5, 127.8], zoom_start=6, width="100%", height="420px")
+def obs_map():                                                                                             #700px
+    m = folium.Map(location=[36.5, 127.8], zoom_start=6, width="100%", height="700px")
 
     url_jo = 'http://www.khoa.go.kr/api/oceangrid/tideObsRecent/search.do'
     for name, code in ObsCode_json.items():
@@ -121,23 +121,6 @@ def obs_map():
             print(f'부이 {name} 위치 정보 없음: {e}')
     html = m._repr_html_()
     return html
-
-@app.route('/piechart')
-def piechart():
-    return render_template('chart05.html')
-
-@app.route('/winddata')
-def winddata():
-    target_names = ['인천', '통영', '태안', '여수', '울진']
-    selected_obs = [obs for obs in ObsCode if obs['name'] in target_names]
-
-    wind_data = []
-    for obs in selected_obs:
-        result = get_obs_data(obs, url, ServiceKey)  # 여기서 항상 최신 데이터를 호출
-        wind_speed = result.get('wind_speed', 0) if result else 0
-        wind_data.append({'name': obs['name'], 'wind_speed': wind_speed})
-
-    return jsonify(wind_data)
 
 if __name__ == '__main__':
   app.run(host='127.0.0.1', port=8080, debug=True)

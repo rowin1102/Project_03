@@ -25,6 +25,7 @@ def dashboard():
       warning_msg.append(f"{obs['name']} {w}") 
     if any('위험' in w for w in warning):
       danger_msg.append(f"{obs['name']} 출항 금지")
+      
   return render_template('mainPage.html', warning=warning_msg, danger_area=danger_msg)
 def index():
     return render_template('mainPage.html')
@@ -71,7 +72,7 @@ def uljin_detail():
 
 @app.route('/obs_map')
 def obs_map():
-    m = folium.Map(location=[36.5, 127.8], zoom_start=6, width="100%", height="420px")
+    m = folium.Map(location=[36.5, 127.8], zoom_start=6, width="100%", height="480px")
 
     url_jo = 'http://www.khoa.go.kr/api/oceangrid/tideObsRecent/search.do'
     for name, code in ObsCode_json.items():

@@ -12,8 +12,8 @@
         <!-- 1열 1행 - 그래프 2개 -->
         <div class="col1-row1">
             <div class="graph-container">
-                <div class="graph-title">실시간 풍속 데이터</div>
-                <canvas id="chart1" width="300" height="300"></canvas>
+                <div class="graph-title">실시간 데이터</div>
+                <canvas id="chart1"></canvas>
             </div>
             <div class="graph-container">
                 <div class="graph-title">분석 차트</div>
@@ -47,24 +47,40 @@
 
         <!-- 1열 3행 - 텍스트 표시 -->
         <div class="col1-row3">
-            <div class="section-title">출항 금지 지역</div>
+            <div class="section-title">출력 영역</div>
             <div class="text-display" id="textDisplay" style="height:340px">
                 {% include 'dangerArea.html' %}
             </div>
         </div>
 
         <!-- 2열 중간 - 지도 -->
+        <!--        
         <div class="col2-map">
             <div class="section-title">실시간 위치 지도</div>
             <div class="map-container" style="height: 420px">
-                <iframe src="/obs_map" width="100%" height="420px" style="border:none;"></iframe>
+            <div class="map-container" style="margin: 0; padding: 0;border:none;display: block;height: 420px">
+                <iframe src="/obs_map" width="100%" height="420px" style="margin: 0; padding: 0;border:none;display: block;"></iframe>
             </div>
         </div>
+        style="margin: 0; padding: 0; border: none; display: block;"
+
+         width="100%" height="500px" 
+         width: 100vw;
+        -->
+        <div class="col2-map">
+        <div class="section-title">실시간 위치 지도</div>
+        <div class="map-container" style="height: 420px" >
+            <iframe src="/obs_map" style="border: none;width: 32vw;height: 100vh;display: block;"></iframe>          
+         
+        </div>
+        </div>
+
 
         <!-- 3열 상단 - 대시보드 -->
         <div class="col3-dashboard">
-            <div class="section-title">실시간 대시보드</div>
+            <div class="section-title">시스템 대시보드</div>
             <div class="dashboard-content" style="height: 420px">
+                <h4 style="margin-top: 20px; margin-bottom: 10px;">실시간 알림</h4>
                 <div id="alertLog">
                     {% include 'dashboard.html' %}
                 </div>
@@ -98,10 +114,8 @@
             </div>
             <!-- Chart.js & PapaParse는 한 번만! -->
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
             <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
             <script src="/static/js/real-time.js"></script>
-            <script src="/static/js/chart-wind.js"></script>
         </div>
     </div>
 </body>
