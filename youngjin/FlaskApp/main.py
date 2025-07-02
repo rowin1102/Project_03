@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify
 import json, json, folium
+import pandas as pd
 from abnormal import detect_abnormal
 from obs_data import get_obs_data
 from obs_list import ObsCode
@@ -51,23 +52,73 @@ def api_danger_area():
 
 @app.route('/incheon')
 def incheon_detail():
-    return render_template('incheon.html')
+    obs_code = 'DT_0011'
+    data = get_obs_data({'code': obs_code, 'name': '인천'}, url, ServiceKey)
+    tide_level = data.get('tide_level', 0)
+    wind_speed = data.get('wind_speed', 0)
+    current_speed = data.get('current_speed', 0)
+    return render_template(
+        'incheon.html',
+        tide_level=tide_level,
+        wind_speed=wind_speed,
+        current_speed=current_speed
+    )
 
 @app.route('/taean')
 def taean_detail():
-    return render_template('taean.html')
+    obs_code = 'DT_0025'
+    data = get_obs_data({'code': obs_code, 'name': '태안'}, url, ServiceKey)
+    tide_level = data.get('tide_level', 0)
+    wind_speed = data.get('wind_speed', 0)
+    current_speed = data.get('current_speed', 0)
+    return render_template(
+        'taean.html',
+        tide_level=tide_level,
+        wind_speed=wind_speed,
+        current_speed=current_speed
+    )
 
 @app.route('/tongyeong')
 def tongyeong_detail():
-    return render_template('tongyeong.html')
+    obs_code = 'DT_0040'
+    data = get_obs_data({'code': obs_code, 'name': '통영'}, url, ServiceKey)
+    tide_level = data.get('tide_level', 0)
+    wind_speed = data.get('wind_speed', 0)
+    current_speed = data.get('current_speed', 0)
+    return render_template(
+        'tongyeong.html',
+        tide_level=tide_level,
+        wind_speed=wind_speed,
+        current_speed=current_speed
+    )
 
 @app.route('/yeosu')
 def yeosu_detail():
-    return render_template('yeosu.html')
+    obs_code = 'DT_0041'
+    data = get_obs_data({'code': obs_code, 'name': '여수'}, url, ServiceKey)
+    tide_level = data.get('tide_level', 0)
+    wind_speed = data.get('wind_speed', 0)
+    current_speed = data.get('current_speed', 0)
+    return render_template(
+        'yeosu.html',
+        tide_level=tide_level,
+        wind_speed=wind_speed,
+        current_speed=current_speed
+    )
 
 @app.route('/uljin')
 def uljin_detail():
-    return render_template('uljin.html')
+    obs_code = 'DT_0036'
+    data = get_obs_data({'code': obs_code, 'name': '울진'}, url, ServiceKey)
+    tide_level = data.get('tide_level', 0)
+    wind_speed = data.get('wind_speed', 0)
+    current_speed = data.get('current_speed', 0)
+    return render_template(
+        'uljin.html',
+        tide_level=tide_level,
+        wind_speed=wind_speed,
+        current_speed=current_speed
+    )
 
 @app.route('/obs_map')
 def obs_map():
@@ -147,6 +198,25 @@ def tidedata():
         tide_data.append({'name': obs['name'], 'tide_level': tide_level})
 
     return jsonify(tide_data)
+
+@app.route('/api/incheon_chart_data')
+def incheon_chart_data():
+    obs_df = pd.read_csv('../finalData/InCheon_05.csv')
+    pred_df = pd.read_csv('../pred/this_InCheon_06.csv')
+
+    def parse(df):
+        df['datetime'] = pd.to_datetime(df['datetime']).dt.strftime('%Y-%m-%dT%H:%M:%S')
+        return df[['datetime', 'sea_high', 'wind_speed', 'pressure', 'sea_speed']]\
+            .rename(columns={'wind_speed': 'wind_speed'})\
+            .dropna()
+
+    obs = parse(obs_df)
+    pred = parse(pred_df)
+
+    return jsonify({
+        'observed': obs.to_dict(orient='records'),
+        'predicted': pred.to_dict(orient='records')
+    })
 
 if __name__ == '__main__':
   app.run(host='127.0.0.1', port=8080, debug=True)
