@@ -122,10 +122,6 @@ def obs_map():
     html = m._repr_html_()
     return html
 
-@app.route('/piechart')
-def piechart():
-    return render_template('chart05.html')
-
 @app.route('/winddata')
 def winddata():
     target_names = ['인천', '통영', '태안', '여수', '울진']
@@ -138,10 +134,6 @@ def winddata():
         wind_data.append({'name': obs['name'], 'wind_speed': wind_speed})
 
     return jsonify(wind_data)
-
-@app.route('/piechart2')
-def piechart2():
-    return render_template('chart05.html')
 
 @app.route('/tidedata')
 def winddata():
