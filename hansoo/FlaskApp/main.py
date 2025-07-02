@@ -8,48 +8,25 @@ app = Flask(__name__)
 url = 'http://www.khoa.go.kr/api/oceangrid/tideObsRecent/search.do'
 ServiceKey = 'yw1Xau9HH4k4eQmO0r65AA=='
 
-
-  
-  
   
 @app.route('/piechart')
 def piechart():
-   
-    # 총합 저장
-    totals = {
-        'tide_level': 0,
-        'wind_speed': 0,
-        'current_speed': 0,
-        'air_temp': 0,
-        'air_press': 0,
-        'water_temp': 0
-    }
+    return render_template('chart05.html')
 
-    # 한글 항목명
-    labels_ko = {
-        'tide_level': '조위',
-        'wind_speed': '풍속',
-        'current_speed': '유속',
-        'air_temp': '기온',
-        'air_press': '기압',
-        'water_temp': '수온'
-    }
+@app.route('/winddata')
+def winddata():
+    target_names = ['인천', '통영', '태안', '여수', '울진']
+    selected_obs = [obs for obs in ObsCode if obs['name'] in target_names]
 
-    for obs in ObsCode:
-        data = get_obs_data(obs, url, ServiceKey)
-        for key in totals:
-            if key in data:
-                totals[key] += data[key]
+    wind_data = []
+    for obs in selected_obs:
+        result = get_obs_data(obs, url, ServiceKey)  # 여기서 항상 최신 데이터를 호출
+        wind_speed = result.get('wind_speed', 0) if result else 0
+        wind_data.append({'name': obs['name'], 'wind_speed': wind_speed})
 
-    labels = [labels_ko[k] for k in totals]
-    values = list(totals.values())
-    colors = ['#4dd0e1', '#81c784', '#ffb74d', '#9575cd', '#f06292', '#90a4ae']
+    return jsonify(wind_data)
 
-    return render_template('chart.html',
-                           labels=labels,
-                           values=values,
-                           colors=colors)
-
+    
 @app.route('/')
 def dashboard():
   warning_msg = []

@@ -11,6 +11,7 @@ def get_obs_data(obs, url, ServiceKey):
   if response.status_code == 200:
     try:
       data = response.json()['result']['data']
+      meta = response.json()['result']['meta']
       return {
         'tide_level' : float(data.get('tide_level', 0) or 0),
         'wind_speed' : float(data.get('wind_speed', 0) or 0),
@@ -18,6 +19,8 @@ def get_obs_data(obs, url, ServiceKey):
         'air_temp' : float(data.get('air_temp', 0) or 0),
         'air_press' : float(data.get('air_press', 0) or 0),
         'water_temp' : float(data.get('water_temp', 0) or 0),
+        'obs_lat': float(meta.get('obs_lat', 0) or 0),
+        'obs_lon': float(meta.get('obs_lon', 0) or 0),
       }
     except Exception as e:
       print(obs['name'], '데이터 파싱 오류 :', e)
