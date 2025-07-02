@@ -23,27 +23,26 @@
 
         <!-- 1열 2행 - 텍스트 출력 버튼 -->
         <div class="col1-row2">
-        <div class="section-title">상세 페이지 들어가기</div>
+            <div class="section-title">상세 페이지 들어가기</div>
 
-        <div class="button-wrapper">
+            <div class="button-wrapper">
       
-            <div class="button-col left-col">
-            <button class="output-button" onclick="location.href='{{ url_for('incheon_detail') }}'"
-             style="background: linear-gradient(45deg, #FFB3BA, #FFB3BA);">인천항</button>
-            <button class="output-button" onclick="location.href='{{ url_for('taean_detail') }}'"
-             style="background: linear-gradient(45deg, #A3D5FF, #A3D5FF);">태안항</button>
-            <button class="output-button" onclick="location.href='{{ url_for('tongyeong_detail') }}'"
-             style="background: linear-gradient(45deg, #FFDFBA, #FFDFBA);">통영항</button>
-            </div>
+                <div class="button-col left-col">
+                <button class="output-button" onclick="location.href='{{ url_for('incheon_detail') }}'"
+                style="background: linear-gradient(45deg, #FFB3BA, #FFB3BA);">인천항</button>
+                <button class="output-button" onclick="location.href='{{ url_for('taean_detail') }}'"
+                style="background: linear-gradient(45deg, #A3D5FF, #A3D5FF);">태안항</button>
+                <button class="output-button" onclick="location.href='{{ url_for('tongyeong_detail') }}'"
+                style="background: linear-gradient(45deg, #FFDFBA, #FFDFBA);">통영항</button>
+                </div>
 
-            <div class="button-col right-col">
-            <button class="output-button" onclick="location.href='{{ url_for('yeosu_detail') }}'"
-             style="background: linear-gradient(45deg, #FFFFBA, #FFFFBA);">여수항</button>
-            <button class="output-button" onclick="location.href='{{ url_for('uljin_detail') }}'"
-             style="background: linear-gradient(45deg, #B5EAD7, #B5EAD7);">울진항</button>
+                <div class="button-col right-col">
+                <button class="output-button" onclick="location.href='{{ url_for('yeosu_detail') }}'"
+                style="background: linear-gradient(45deg, #FFFFBA, #FFFFBA);">여수항</button>
+                <button class="output-button" onclick="location.href='{{ url_for('uljin_detail') }}'"
+                style="background: linear-gradient(45deg, #B5EAD7, #B5EAD7);">울진항</button>
+                </div>
             </div>
-            <!>
-        </div>
         </div>
 
         <!-- 1열 3행 - 텍스트 표시 -->
@@ -58,7 +57,7 @@
         <div class="col2-map">
             <div class="section-title">실시간 위치 지도</div>
             <div class="map-container" style="height: 420px">
-                <iframe src="/obs_map" width="100%" height="420" style="border:none;"></iframe>
+                <iframe src="/obs_map" width="100%" height="420px" style="border:none;"></iframe>
             </div>
         </div>
 
@@ -73,7 +72,7 @@
             </div>
         </div>
        
-             <div class="bottom-graphs">
+            <div class="bottom-graphs">
             <!-- Wind Speed -->
             <div class="bottom-graph">
                 <div class="section-title">풍속</div>

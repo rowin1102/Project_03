@@ -71,7 +71,7 @@ def uljin_detail():
 
 @app.route('/obs_map')
 def obs_map():
-    m = folium.Map(location=[36.5, 127.8], zoom_start=6, width="100%", height=420)
+    m = folium.Map(location=[36.5, 127.8], zoom_start=6, width="100%", height="420px")
 
     url_jo = 'http://www.khoa.go.kr/api/oceangrid/tideObsRecent/search.do'
     for name, code in ObsCode_json.items():
