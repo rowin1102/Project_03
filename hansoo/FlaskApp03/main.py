@@ -7,7 +7,7 @@ from obs_list import ObsCode
 app = Flask(__name__)
 
 url = 'http://www.khoa.go.kr/api/oceangrid/tideObsRecent/search.do'
-ServiceKey = 'c2jVwblwmcHB5tOEWxEjbg=='
+ServiceKey = 'uHRQY9ctKuLtELm0nTRpg=='
 
 with open('./observatory/jo.json', encoding='utf-8') as f:
     ObsCode_json = json.load(f)
