@@ -3,11 +3,10 @@ import requests
 def get_obs_data(obs, url, ServiceKey):
     """
     관측소 실시간 데이터 파싱 함수
-
-    :param obs: {'name': '인천', 'code': 'DT_0011', ...}
+    :param obs: {'name': '인천', 'code': 'DT_0011'}
     :param url: API 엔드포인트 URL
     :param ServiceKey: KHOA API 서비스 키
-    :return: 데이터 dict (실패시 값은 '-' 또는 0)
+    :return: dict (실패시 {} 리턴)
     """
     params = {
         'ServiceKey': ServiceKey,
@@ -22,14 +21,17 @@ def get_obs_data(obs, url, ServiceKey):
 
     if response.status_code == 200:
         try:
-            res_json = response.json()
+            try:
+                res_json = response.json()
+            except Exception as je:
+                print(f"[{obs.get('name', '')}] JSON 디코딩 오류: {je}, 응답: {response.text[:100]}")
+                return {}
             data = res_json['result']['data']
             meta = res_json['result']['meta']
-            # null, None, '' 등 모두 안전하게 float 변환
             def safe_float(x):
                 try:
                     return float(x) if x not in (None, '', 'null') else 0
-                except:
+                except Exception:
                     return 0
 
             return {
