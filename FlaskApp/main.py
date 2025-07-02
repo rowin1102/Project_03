@@ -139,5 +139,22 @@ def winddata():
 
     return jsonify(wind_data)
 
+@app.route('/piechart2')
+def piechart2():
+    return render_template('chart05.html')
+
+@app.route('/tidedata')
+def winddata():
+    target_names = ['인천', '통영', '태안', '여수', '울진']
+    selected_obs = [obs for obs in ObsCode if obs['name'] in target_names]
+
+    tide_data = []
+    for obs in selected_obs:
+        result = get_obs_data(obs, url, ServiceKey)  # 최신 데이터 호출
+        tide_level = result.get('tide_level', 0) if result else 0
+        tide_data.append({'name': obs['name'], 'tide_level': tide_level})
+
+    return jsonify(tide_data)
+
 if __name__ == '__main__':
   app.run(host='127.0.0.1', port=8080, debug=True)
