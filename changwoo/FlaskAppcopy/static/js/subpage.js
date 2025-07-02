@@ -82,11 +82,43 @@ document.addEventListener('DOMContentLoaded', function() {
             // 그래프 타이틀/내용 변경
             const selected = this.textContent.trim();
             const titleEl = document.getElementById('chartTitle');
-            const chartEl = document.getElementById('chartPlaceholder');
+            // 그래프 제목 변경
             if (chartColumnMap[selected]) {
                 titleEl.textContent = chartColumnMap[selected].title;
-                chartEl.innerHTML = `🔄 [${chartColumnMap[selected].title}]<br><small>이 자리에 실시간 차트/그래프가 표시됩니다</small>`;
+                // 만약 항목 따라 다른 그래프 이미지를 띄우고 싶으면 아래 코드 사용:
+                // document.getElementById('chartImg').src = '/incheon/graph.png?start=' + encodeURIComponent(chartStart) + '&type=' + chartColumnMap[selected].field;
             }
         });
+    });
+
+    // ============ 그래프 이미지 슬라이딩 (6시간 단위) ============
+    let chartStart = '2025-05-31 21:00:00'; // 기본 시작시간
+
+    function updateChartImg() {
+        document.getElementById('chartImg').src = '/incheon/graph.png?start=' + encodeURIComponent(chartStart);
+    }
+
+    // 좌우 버튼 이벤트
+    document.getElementById('prevMonth').addEventListener('click', function(e) {
+        e.preventDefault(); // 혹시 버튼이 form이면 새로고침 방지
+        let dt = new Date(chartStart.replace(/-/g, '/'));
+        dt.setHours(dt.getHours() - 6);
+        chartStart =
+            dt.getFullYear() + '-' +
+            String(dt.getMonth() + 1).padStart(2, '0') + '-' +
+            String(dt.getDate()).padStart(2, '0') + ' ' +
+            String(dt.getHours()).padStart(2, '0') + ':00:00';
+        updateChartImg();
+    });
+    document.getElementById('nextMonth').addEventListener('click', function(e) {
+        e.preventDefault();
+        let dt = new Date(chartStart.replace(/-/g, '/'));
+        dt.setHours(dt.getHours() + 6);
+        chartStart =
+            dt.getFullYear() + '-' +
+            String(dt.getMonth() + 1).padStart(2, '0') + '-' +
+            String(dt.getDate()).padStart(2, '0') + ' ' +
+            String(dt.getHours()).padStart(2, '0') + ':00:00';
+        updateChartImg();
     });
 });
