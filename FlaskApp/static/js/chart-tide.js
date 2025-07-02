@@ -36,18 +36,18 @@ function drawChart(labels, values) {
     plugins: [ChartDataLabels]
   };
 
-  if (chart) {
-    chart.data = data;
-    chart.update();
+  if (pieChart2) {
+    pieChart2.data = data;
+    pieChart2.update();
   } else {
     const ctx = document.getElementById('chart2').getContext('2d');
-    chart = new Chart(ctx, config);
+    pieChart2 = new Chart(ctx, config);
   }
 }
 
 async function fetchAndUpdate() {
   try {
-    const response = await fetch('/winddata?t=' + Date.now());  // 캐시 방지
+    const response = await fetch('/tidedata?t=' + Date.now());  // 캐시 방지
     const json = await response.json();
 
     const labels = json.map(item => item.name);
@@ -59,6 +59,6 @@ async function fetchAndUpdate() {
   }
 }
 if (document.getElementById('chart2')) {
-  fetchAndUpdatePie();
-  setInterval(fetchAndUpdatePie, 10000);
+  fetchAndUpdate();
+  setInterval(fetchAndUpdate, 10000);
 }
