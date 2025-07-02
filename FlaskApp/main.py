@@ -144,7 +144,7 @@ def piechart2():
     return render_template('chart05.html')
 
 @app.route('/tidedata')
-def winddata():
+def tidedata():
     target_names = ['인천', '통영', '태안', '여수', '울진']
     selected_obs = [obs for obs in ObsCode if obs['name'] in target_names]
 
