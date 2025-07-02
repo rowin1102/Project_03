@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>항구 상세정보</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            min-height: 100vh;
+            width: 100vw;
+            background: #b3e5fc;
+            /* 밝은 파스텔 하늘색 */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 14px 24px 8px 24px;
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 24px;
+            align-items: flex-start;
+        }
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(120,180,255,0.10);
+            padding: 20px 22px;
+            margin: 0;
+        }
+        .port-info .port-title {
+            font-size: 1.2em;
+            color: #389be6;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .port-detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 7px;
+            font-size: 1em;
+            color: #4180b7;
+        }
+        .calendar-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 13px;
+        }
+        .month-btn {
+            flex: 1;
+            padding: 7px 0;
+            border: none;
+            border-radius: 8px;
+            background: #e3f2fd;
+            color: #389be6;
+            font-weight: 500;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.16s;
+        }
+        .month-btn.active, .month-btn:hover {
+            background: #389be6;
+            color: #fff;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            background: #f5fbff;
+            color: #389be6;
+            transition: all 0.15s;
+        }
+        .calendar-day.header {
+            font-weight: bold;
+            background: none;
+            color: #b0bec5;
+        }
+        .calendar-day.selected {
+            background: #a5d6f8;
+            color: #fff;
+            font-weight: bold;
+        }
+        .calendar-day:hover:not(.header) {
+            background: #389be6;
+            color: #fff;
+        }
+        .columns-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 9px;
+        }
+        .column-btn {
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            background: #e3f2fd;
+            color: #389be6;
+            font-size: 1em;
+            font-weight: 500;
+            transition: all 0.18s;
+            cursor: pointer;
+        }
+        .column-btn.active, .column-btn:hover {
+            background: #389be6;
+            color: #fff;
+        }
+
+        /* ------ 그래프 카드/영역 더 크게! ------ */
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .card.chart-card {
+            flex: 1 1 0;
+            padding: 18px 22px 10px 22px;
+            min-height: 650px; /* 전체 카드 자체 높이 더 넓게 */
+            display: flex;
+            flex-direction: column;
+        }
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .chart-title {
+            font-size: 1.18em;
+            color: #389be6;
+            font-weight: 600;
+        }
+        .chart-nav {
+            display: flex;
+            gap: 10px;
+        }
+        .nav-btn {
+            padding: 7px 14px;
+            border: none;
+            border-radius: 8px;
+            background: #e3f2fd;
+            color: #389be6;
+            font-weight: 500;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .nav-btn:hover {
+            background: #389be6;
+            color: #fff;
+        }
+        .chart-container {
+            flex: 1 1 0;
+            min-height: 500px; /* 그래프 영역 확장! */
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 18px rgba(120,180,255,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 8px;
+            margin-bottom: 0;
+        }
+        .chart-placeholder {
+            color: #389be6;
+            font-size: 1.22em;
+            opacity: 0.92;
+        }
+        @media (max-width: 1050px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .right-panel { min-width: 0; }
+            .card.chart-card, .chart-container { min-height: 320px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div style="height:4px"></div>
+    <div class="dashboard-grid">
+        <!-- 좌측 패널 -->
+        <div class="left-panel">
+            <div class="card port-info">
+                <div class="port-title">🚢 부산항</div>
+                <div class="port-detail-row"><span>위치</span><span>부산광역시</span></div>
+                <div class="port-detail-row"><span>수심</span><span>15.0m</span></div>
+                <div class="port-detail-row"><span>접안능력</span><span>50,000톤급</span></div>
+                <div class="port-detail-row"><span>운영상태</span><span>정상</span></div>
+            </div>
+            <div class="card">
+                <div class="calendar-header">
+                    <button class="month-btn" data-month="4">04월</button>
+                    <button class="month-btn active" data-month="5">05월</button>
+                    <button class="month-btn" data-month="6">06월</button>
+                </div>
+                <div class="calendar" id="calendar"></div>
+            </div>
+            <div class="card">
+                <div class="columns-grid">
+                    <button class="column-btn active">입항선박수</button>
+                    <button class="column-btn">출항선박수</button>
+                    <button class="column-btn">화물처리량</button>
+                    <button class="column-btn">컨테이너</button>
+                    <button class="column-btn">벌크화물</button>
+                    <button class="column-btn">일반화물</button>
+                    <button class="column-btn">승객수</button>
+                    <button class="column-btn">대기시간</button>
+                    <button class="column-btn">운영효율</button>
+                    <button class="column-btn">안전지수</button>
+                </div>
+            </div>
+        </div>
+        <!-- 우측 패널 -->
+        <div class="right-panel">
+            <div class="card chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">📊 입항선박수 추이</div>
+                    <div class="chart-nav">
+                        <button class="nav-btn" id="prevMonth">◀ 전월</button>
+                        <button class="nav-btn" id="nextMonth">다음월 ▶</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-placeholder">
+                        📈 그래프 영역<br>
+                        <small>실제 차트 라이브러리를 연동하여 데이터를 표시할 수 있습니다</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let currentMonth = 5;
+    function generateCalendar(month) {
+        const calendar = document.getElementById('calendar');
+        calendar.innerHTML = '';
+        const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+        weekdays.forEach(day => {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'calendar-day header';
+            dayElement.textContent = day;
+            calendar.appendChild(dayElement);
+        });
+        const daysInMonth = month === 4 ? 30 : (month === 5 ? 31 : 30);
+        const today = new Date();
+        const isCurrentMonth = (month === today.getMonth() + 1);
+        for (let i = 1; i <= daysInMonth; i++) {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'calendar-day date';
+            dayElement.textContent = i;
+            dayElement.style.justifyContent = 'center';
+            dayElement.addEventListener('click', () => {
+                document.querySelectorAll('.calendar-day.selected').forEach(el => {
+                    el.classList.remove('selected');
+                });
+                dayElement.classList.add('selected');
+            });
+            if (isCurrentMonth && i === today.getDate()) {
+                dayElement.classList.add('selected');
+            }
+            calendar.appendChild(dayElement);
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        generateCalendar(currentMonth);
+        document.querySelectorAll('.month-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentMonth = parseInt(this.dataset.month);
+                generateCalendar(currentMonth);
+            });
+        });
+        document.getElementById('prevMonth').addEventListener('click', function() {
+            if (currentMonth > 1) {
+                currentMonth--;
+                document.querySelectorAll('.month-btn').forEach(b => {
+                    b.classList.toggle('active', parseInt(b.dataset.month) === currentMonth);
+                });
+                generateCalendar(currentMonth);
+            }
+        });
+        document.getElementById('nextMonth').addEventListener('click', function() {
+            if (currentMonth < 12) {
+                currentMonth++;
+                document.querySelectorAll('.month-btn').forEach(b => {
+                    b.classList.toggle('active', parseInt(b.dataset.month) === currentMonth);
+                });
+                generateCalendar(currentMonth);
+            }
+        });
+    });
+</script>
+</body>
+</html>
