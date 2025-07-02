@@ -7,7 +7,7 @@ from obs_list import ObsCode
 app = Flask(__name__)
 
 url = 'http://www.khoa.go.kr/api/oceangrid/tideObsRecent/search.do'
-ServiceKey = 'c2jVwblwmcHB5tOEWxEjbg=='
+ServiceKey = 'uHRQY9ctKuLtELm0nTRpg=='
 
 with open('./observatory/jo.json', encoding='utf-8') as f:
     ObsCode_json = json.load(f)
@@ -136,7 +136,7 @@ def winddata():
     return jsonify(wind_data)
 
 @app.route('/tidedata')
-def tidedata():
+def winddata():
     target_names = ['인천', '통영', '태안', '여수', '울진']
     selected_obs = [obs for obs in ObsCode if obs['name'] in target_names]
 
