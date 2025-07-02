@@ -1,13 +1,6 @@
 import requests
 
 def get_obs_data(obs, url, ServiceKey):
-    """
-    관측소 실시간 데이터 파싱 함수
-    :param obs: {'name': '인천', 'code': 'DT_0011'}
-    :param url: API 엔드포인트 URL
-    :param ServiceKey: KHOA API 서비스 키
-    :return: dict (실패시 {} 리턴)
-    """
     params = {
         'ServiceKey': ServiceKey,
         'ObsCode': obs['code'],
@@ -21,17 +14,29 @@ def get_obs_data(obs, url, ServiceKey):
 
     if response.status_code == 200:
         try:
+            # 실제로 JSON인지 검사
             try:
                 res_json = response.json()
-            except Exception as je:
-                print(f"[{obs.get('name', '')}] JSON 디코딩 오류: {je}, 응답: {response.text[:100]}")
+            except Exception as e:
+                print(f"[{obs.get('name', '')}] JSON 디코딩 오류: {e}, 응답: {response.text}")
                 return {}
-            data = res_json['result']['data']
-            meta = res_json['result']['meta']
+            
+            # 에러 응답 구조 방어
+            if 'result' in res_json and 'error' in res_json['result']:
+                print(f"[{obs.get('name', '')}] API 에러: {res_json['result']['error']}")
+                return {}
+
+            # 정상 데이터 구조 방어
+            data = res_json.get('result', {}).get('data')
+            meta = res_json.get('result', {}).get('meta')
+            if data is None or meta is None:
+                print(f"[{obs.get('name', '')}] 데이터 파싱 오류 : 'data' or 'meta' 없음")
+                return {}
+
             def safe_float(x):
                 try:
                     return float(x) if x not in (None, '', 'null') else 0
-                except Exception:
+                except:
                     return 0
 
             return {

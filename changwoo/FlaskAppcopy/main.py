@@ -119,7 +119,6 @@ def uljin_detail():
         current_speed=current_speed
     )
 
-
 @app.route('/obs_map')
 def obs_map():
     m = folium.Map(location=[36.5, 127.8], zoom_start=6, width="100%", height="420px")
