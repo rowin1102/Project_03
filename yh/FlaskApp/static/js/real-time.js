@@ -7,14 +7,13 @@ const regionConfigs = [
   { name: '울진', files: ['Uljin_04.csv', 'Uljin_05.csv'], color: 'purple' },
 ];
 
-// 각 그래프용 Chart 인스턴스 저장
+// 각 그래프 Chart 저장
 const charts = {};
-
-// 각 컬럼별로 데이터 버퍼와 인덱스 따로
 const dataBuffers = {};
 const indices = {};
+const xIndices = {}; // ✅ X축 카운터 관리용
 
-// 1) 기존 라인 차트 생성 (wind_speed, sea_high, sea_speed)
+// ✅ 컬럼별 Chart.js 생성
 metrics.forEach(metric => {
   const ctx = document.getElementById(
     metric === 'wind_speed' ? 'windChart' :
@@ -27,14 +26,9 @@ metrics.forEach(metric => {
       datasets: regionConfigs.map(region => ({
         label: region.name,
         data: [],
-        borderColor: region.color,
-        borderWidth: 2,
         fill: false,
-        tension: 0.6,
-        pointRadius: 2,
-        pointBackgroundColor: region.color,
-        pointBorderColor: region.color,
-        pointBorderWidth: 2,
+        tension: 0.4,
+        pointRadius: 0.5,
       }))
     },
     options: {
@@ -47,9 +41,7 @@ metrics.forEach(metric => {
           type: 'linear',
           title: { display: true, text: 'Index' },
         },
-        y: {
-          beginAtZero: true
-        }
+        y: { beginAtZero: true }
       },
       plugins: {
         legend: {
@@ -67,7 +59,7 @@ metrics.forEach(metric => {
   });
 });
 
-// 2) 모든 지역 데이터 한번에 로딩 및 라인 차트 초기 10개 데이터 세팅
+// ✅ 지역 데이터 로딩 + 초기 10개 push
 regionConfigs.forEach(region => {
   Promise.all(region.files.map(file =>
     fetch(`/static/finalData/${file}`).then(res => res.text())
@@ -80,10 +72,12 @@ regionConfigs.forEach(region => {
     metrics.forEach(metric => {
       if (!dataBuffers[metric]) dataBuffers[metric] = {};
       if (!indices[metric]) indices[metric] = {};
+      if (!xIndices[metric]) xIndices[metric] = {};
 
       dataBuffers[metric][region.name] = allData;
       indices[metric][region.name] = 0;
 
+      // ✅ 초기 10개 push
       for (let i = 0; i < 10; i++) {
         const point = allData[i];
         const value = point[metric];
@@ -96,12 +90,15 @@ regionConfigs.forEach(region => {
         }
       }
 
+      // ✅ 초기 xIndex는 10부터 시작!
+      xIndices[metric][region.name] = 10;
+
       charts[metric].update();
     });
   });
 });
 
-// 3) 기존 라인 차트 5초마다 데이터 1개씩 push
+// ✅ 이후 실시간: 5초마다 1개 push
 setInterval(() => {
   metrics.forEach(metric => {
     regionConfigs.forEach(region => {
@@ -114,12 +111,14 @@ setInterval(() => {
 
       if (value !== undefined && value !== null && isFinite(value)) {
         const dataset = charts[metric].data.datasets.find(d => d.label === region.name);
+        
         dataset.data.push({
-          x: dataset.data.length,
+          x: xIndices[metric][region.name], // ✅ X값: 항상 증가하는 카운터 사용
           y: value
         });
+        xIndices[metric][region.name]++; // ✅ 다음 push를 위해 +1
 
-        if (dataset.data.length > 50) {
+        if (dataset.data.length >= 20) {
           dataset.data.shift();
         }
       }
@@ -132,71 +131,4 @@ setInterval(() => {
 
     charts[metric].update();
   });
-}, 5000);
-
-
-// 4) === 여기부터 'chart1'에 실시간 파이차트 생성 및 5개 지역 데이터 표시 ===
-
-// 파이차트 초기 데이터 배열 (0으로 초기화)
-let pieDataValues = [0, 0, 0, 0, 0];
-
-// 파이차트용 차트 인스턴스 저장
-let pieChart = null;
-
-// chart1 캔버스 컨텍스트 가져오기
-const ctxPie = document.getElementById('chart1').getContext('2d');
-
-// 파이차트 초기 생성
-function createPieChart() {
-  pieChart = new Chart(ctxPie, {
-    type: 'pie',
-    data: {
-      labels: regionConfigs.map(r => r.name),
-      datasets: [{
-        data: pieDataValues,
-        backgroundColor: regionConfigs.map(r => r.color),
-        borderColor: '#fff',
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { position: 'right' }
-      }
-    }
-  });
-}
-
-// 실시간 파이차트 데이터 업데이트 함수 (예: 5초마다 랜덤 데이터 넣기 - 실제로는 API나 CSV 데이터를 연동하세요)
-function updatePieChartData() {
-  // 여기선 샘플로 각 지역에 대해 wind_speed 최근값을 pie 데이터로 세팅해봅니다.
-  regionConfigs.forEach((region, idx) => {
-    const metric = 'wind_speed';
-    const buffer = dataBuffers[metric]?.[region.name];
-    const index = indices[metric]?.[region.name];
-
-    if (buffer && index !== undefined && buffer.length > 0) {
-      // bounds check
-      const dataIndex = index > 0 ? index - 1 : 0;
-      const value = buffer[dataIndex]?.[metric] ?? 0;
-      pieDataValues[idx] = value >= 0 ? value : 0;
-    } else {
-      pieDataValues[idx] = 0;
-    }
-  });
-
-  if (pieChart) {
-    pieChart.data.datasets[0].data = pieDataValues;
-    pieChart.update();
-  }
-}
-
-// 최초 생성
-createPieChart();
-
-// 5초마다 실시간 업데이트 (라인차트랑 동일 주기)
-setInterval(() => {
-  updatePieChartData();
 }, 5000);
