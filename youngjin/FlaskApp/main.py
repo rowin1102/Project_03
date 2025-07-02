@@ -7,7 +7,7 @@ from obs_list import ObsCode
 app = Flask(__name__)
 
 url = 'http://www.khoa.go.kr/api/oceangrid/tideObsRecent/search.do'
-ServiceKey = 'uHRQY9ctKuLtELm0nTRpg=='
+ServiceKey = 'c2jVwblwmcHB5tOEWxEjbg=='
 
 with open('./observatory/jo.json', encoding='utf-8') as f:
     ObsCode_json = json.load(f)
@@ -122,10 +122,6 @@ def obs_map():
     html = m._repr_html_()
     return html
 
-@app.route('/piechart')
-def piechart():
-    return render_template('chart05.html')
-
 @app.route('/winddata')
 def winddata():
     target_names = ['인천', '통영', '태안', '여수', '울진']
@@ -138,6 +134,19 @@ def winddata():
         wind_data.append({'name': obs['name'], 'wind_speed': wind_speed})
 
     return jsonify(wind_data)
+
+@app.route('/tidedata')
+def tidedata():
+    target_names = ['인천', '통영', '태안', '여수', '울진']
+    selected_obs = [obs for obs in ObsCode if obs['name'] in target_names]
+
+    tide_data = []
+    for obs in selected_obs:
+        result = get_obs_data(obs, url, ServiceKey)  # 최신 데이터 호출
+        tide_level = result.get('tide_level', 0) if result else 0
+        tide_data.append({'name': obs['name'], 'tide_level': tide_level})
+
+    return jsonify(tide_data)
 
 if __name__ == '__main__':
   app.run(host='127.0.0.1', port=8080, debug=True)
