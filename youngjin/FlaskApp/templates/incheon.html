@@ -5,8 +5,9 @@
     <title>항구 상세정보</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/subpage.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
-<body>
+<body data-region="인천">
 <div class="container">
     <div style="height:4px"></div>
     <div class="dashboard-grid">
@@ -43,12 +44,12 @@
             </div>
             <div class="card">
                 <div class="columns-grid">
-                    <button class="column-btn active">해수면의 높이</button>
-                    <button class="column-btn">기압</button>
-                    <button class="column-btn">풍속</button>
-                    <button class="column-btn">유속</button>
-                    <button class="column-btn">풍향</button>
-                    <button class="column-btn">유향</button>
+                    <button class="column-btn active" id="tideBtn">해수면의 높이</button>
+                    <button class="column-btn" id="pressureBtn">기압</button>
+                    <button class="column-btn" id="windSpeedBtn">풍속</button>
+                    <button class="column-btn" id="seaSpeedBtn">유속</button>
+                    <button class="column-btn" id="windDirBtn">풍향</button>
+                    <button class="column-btn" id="seaDirBtn">유향</button>
                 </div>
             </div>
         </div>
@@ -58,20 +59,27 @@
                 <div class="chart-header">
                     <div class="chart-title" id="chartTitle">📊 해수면의 높이 변화 추이</div>
                     <div class="chart-nav">
-                        <button class="nav-btn" id="prevMonth">◀ 전월</button>
-                        <button class="nav-btn" id="nextMonth">다음월 ▶</button>
+                        <button class="nav-btn" id="prevHour">←</button>
+                        <span id="chartTimeRange"></span>
+                        <button class="nav-btn" id="nextHour">→</button>
                     </div>
                 </div>
                 <div class="chart-container">
-                    <div class="chart-placeholder" id="chartPlaceholder">
-                        📈 그래프 영역<br>
-                        <small>실제 차트 라이브러리를 연동하여 데이터를 표시할 수 있습니다</small>
-                    </div>
+                    <div id="chartPlaceholder" style="display:none;"></div>
+                    <canvas id="incheonChart"   style="display:block;" width="1000px" height="500"></canvas>
+                    <canvas id="pressureChart"  style="display:none;"  width="1000px" height="500"></canvas>
+                    <canvas id="windChart"      style="display:none;"  width="1000px" height="500"></canvas>
+                    <canvas id="seaChart"       style="display:none;"  width="1000px" height="500"></canvas>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='js/subpage.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+<script src="{{ url_for('static', filename='js/incheon_chart.js') }}"></script>
+<script src="{{ url_for('static', filename='js/chart_windDir.js') }}"></script>
+<script src="{{ url_for('static', filename='js/chart_seaDir.js') }}"></script>
 </body>
 </html>

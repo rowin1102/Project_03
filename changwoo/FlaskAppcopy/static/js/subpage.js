@@ -1,5 +1,6 @@
 // ============ 달력 (기존 코드) ============
 let currentMonth = 5;
+const currentYear = 2025; // 연도 고정
 
 function generateCalendar(month) {
     const calendar = document.getElementById('calendar');
@@ -16,15 +17,10 @@ function generateCalendar(month) {
     const isCurrentMonth = (month === today.getMonth() + 1);
     for (let i = 1; i <= daysInMonth; i++) {
         const dayElement = document.createElement('div');
-        dayElement.className = 'calendar-day date';
+        dayElement.className = 'calendar-day calendar-date date';
         dayElement.textContent = i;
         dayElement.style.justifyContent = 'center';
-        dayElement.addEventListener('click', () => {
-            document.querySelectorAll('.calendar-day.selected').forEach(el => {
-                el.classList.remove('selected');
-            });
-            dayElement.classList.add('selected');
-        });
+        dayElement.setAttribute('data-date', `${currentYear}-${String(month).padStart(2, '0')}-${String(i).padStart(2, '0')}`);
         if (isCurrentMonth && i === today.getDate()) {
             dayElement.classList.add('selected');
         }
@@ -32,61 +28,108 @@ function generateCalendar(month) {
     }
 }
 
-// ============ 그래프 타이틀/내용 전환 기능 ============
-const chartColumnMap = {
-    '해수면의 높이': { title: "📊 해수면의 높이 변화 추이", field: "tide_level" },
-    '기압': { title: "📊 기압 변화 추이", field: "air_press" },
-    '풍속': { title: "📊 풍속 변화 추이", field: "wind_speed" },
-    '유속': { title: "📊 유속 변화 추이", field: "current_speed" },
-    '풍향': { title: "📊 풍향 변화 추이", field: "wind_dir" },
-    '유향': { title: "📊 유향 변화 추이", field: "current_dir" }
-};
+// ============ 그래프/컬럼/구간 이동 통합 ============
 
-document.addEventListener('DOMContentLoaded', function() {
-    // 달력 기능
+let chartStart = '2025-05-31 21:00:00'; // 기본 시작시간
+let hour = 6; // 6시간 단위
+let currentCol = 'sea_high';
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function updateChartImg() {
+    const dt = new Date(chartStart.replace(/-/g, '/'));
+    const y = dt.getFullYear();
+    const m = pad(dt.getMonth() + 1);
+    const d = pad(dt.getDate());
+    const h = pad(dt.getHours());
+    const min = pad(dt.getMinutes());
+
+    // 풍향/유향은 Plotly JS로 따로 처리 → 이미지 요청 안함
+    if (currentCol === 'wind_dir' || currentCol === 'sea_dir_i') {
+        // 시간범위 표시는 계속 업데이트
+        document.getElementById('timeRange').innerText =
+            `${y}-${m}-${d} ${h}:${min} ~ ` +
+            `${new Date(dt.getTime() + hour * 60 * 60 * 1000).toISOString().slice(11, 16)}`;
+        return;
+    }
+
+    let src = `/taean/graph.png?start=${y}-${m}-${d} ${h}:${min}:00&col=${currentCol}&_=` + Date.now();
+    const img = document.getElementById('chartImg');
+    img.style.opacity = 0;
+    img.onload = function () { img.style.opacity = 1; };
+    img.src = src;
+
+    // 시간범위 표시
+    document.getElementById('timeRange').innerText =
+        `${y}-${m}-${d} ${h}:${min} ~ ` +
+        `${new Date(dt.getTime() + hour * 60 * 60 * 1000).toISOString().slice(11, 16)}`;
+}
+
+function setChartStartFromDate(y, m, d) {
+    chartStart = `${y}-${pad(m)}-${pad(d)} 00:00:00`;
+}
+
+// DOMContentLoaded 이후 바인딩
+document.addEventListener('DOMContentLoaded', function () {
+    // 달력 생성 및 월 버튼 바인딩
     generateCalendar(currentMonth);
     document.querySelectorAll('.month-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             currentMonth = parseInt(this.dataset.month);
             generateCalendar(currentMonth);
         });
     });
-    document.getElementById('prevMonth').addEventListener('click', function() {
-        if (currentMonth > 1) {
-            currentMonth--;
-            document.querySelectorAll('.month-btn').forEach(b => {
-                b.classList.toggle('active', parseInt(b.dataset.month) === currentMonth);
-            });
-            generateCalendar(currentMonth);
-        }
-    });
-    document.getElementById('nextMonth').addEventListener('click', function() {
-        if (currentMonth < 12) {
-            currentMonth++;
-            document.querySelectorAll('.month-btn').forEach(b => {
-                b.classList.toggle('active', parseInt(b.dataset.month) === currentMonth);
-            });
-            generateCalendar(currentMonth);
-        }
-    });
 
-    // 컬럼 버튼 클릭 시 그래프 타이틀/내용 바꾸기
+    // 달력 날짜 클릭 → 그래프 구간 변경
+    document.getElementById('calendar').onclick = function (e) {
+        let btn = e.target;
+        if (btn.classList.contains('calendar-date') && btn.hasAttribute('data-date')) {
+            const ymd = btn.getAttribute('data-date');
+            if (!ymd) return;
+            document.querySelectorAll('.calendar-date.selected').forEach(el => el.classList.remove('selected'));
+            btn.classList.add('selected');
+            const [y, m, d] = ymd.split('-');
+            setChartStartFromDate(y, m, d);
+            updateChartImg();
+        }
+    };
+
+    // 컬럼 버튼 클릭 → 그래프 컬럼 전환
     document.querySelectorAll('.column-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            // 활성화 표시
+        btn.addEventListener('click', function () {
             document.querySelectorAll('.column-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-
-            // 그래프 타이틀/내용 변경
-            const selected = this.textContent.trim();
-            const titleEl = document.getElementById('chartTitle');
-            const chartEl = document.getElementById('chartPlaceholder');
-            if (chartColumnMap[selected]) {
-                titleEl.textContent = chartColumnMap[selected].title;
-                chartEl.innerHTML = `🔄 [${chartColumnMap[selected].title}]<br><small>이 자리에 실시간 차트/그래프가 표시됩니다</small>`;
-            }
+            btn.classList.add('active');
+            currentCol = btn.dataset.col;
+            document.getElementById('chartTitle').innerText = "📊 " + btn.innerText;
+            updateChartImg();
         });
     });
+
+    // 좌/우 구간 이동
+    document.getElementById('prevBtn').onclick = function () {
+        let dt = new Date(chartStart.replace(/-/g, '/'));
+        dt.setHours(dt.getHours() - hour);
+        chartStart =
+            dt.getFullYear() + '-' +
+            pad(dt.getMonth() + 1) + '-' +
+            pad(dt.getDate()) + ' ' +
+            pad(dt.getHours()) + ':00:00';
+        updateChartImg();
+    };
+
+    document.getElementById('nextBtn').onclick = function () {
+        let dt = new Date(chartStart.replace(/-/g, '/'));
+        dt.setHours(dt.getHours() + hour);
+        chartStart =
+            dt.getFullYear() + '-' +
+            pad(dt.getMonth() + 1) + '-' +
+            pad(dt.getDate()) + ' ' +
+            pad(dt.getHours()) + ':00:00';
+        updateChartImg();
+    };
+
+    // 최초 표시
+    updateChartImg();
 });
