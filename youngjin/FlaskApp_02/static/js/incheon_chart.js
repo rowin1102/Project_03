@@ -14,7 +14,7 @@ const titleMap = {
     sea_speed: "유속",
     wind_dir: '풍향',
     current_dir: '유향'
-}
+};
 
 async function fetchChartData() {
   const res = await fetch("/api/incheon_chart_data");
@@ -48,7 +48,7 @@ function drawChart(type) {
   }
 
   if (type === "wind_dir" || type === "current_dir") {
-    updateTimeRangeLabel(); // 시간 범위는 유지
+    updateTimeRangeLabel();
     const titleEl = document.getElementById("chartTitle");
     if (titleEl) {
       titleEl.innerText = `${titleMap[type]} 변화 추이`;
@@ -91,7 +91,7 @@ function drawChart(type) {
           borderWidth: 2,
           pointRadius: 2,
           tension: 0.5,
-          borderDash: [5, 5], // 점선
+          borderDash: [5, 5],
         }
       ],
     },
@@ -151,23 +151,22 @@ function drawChart(type) {
 window.addEventListener("load", () => {
   fetchChartData();
 
-  document.querySelectorAll(".column-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      currentType =
-        btn.innerText === "해수면의 높이"
-          ? "sea_high"
-          : btn.innerText === "풍속"
-          ? "wind_speed"
-          : btn.innerText === "기압"
-          ? "pressure"
-          : btn.innerText === "유속"
-          ? "sea_speed"
-          : btn.innerText === "풍향"
-          ? "wind_dir"
-          : btn.innerText === "유향"
-          ? "current_dir"
-          : "sea_high";
+  // 해수면, 기압, 풍속, 유속만 drawChart에 연결 (풍향/유향은 제외)
+  const btnTypeMap = {
+    btnSeaHigh: "sea_high",
+    btnPressure: "pressure",
+    btnWindSpeed: "wind_speed",
+    btnSeaSpeed: "sea_speed"
+    // 풍향, 유향 제외
+  };
 
+  Object.entries(btnTypeMap).forEach(([btnId, type]) => {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+    btn.addEventListener("click", function() {
+      currentType = type;
+
+      // active 클래스 이동
       document.querySelectorAll(".column-btn").forEach((b) =>
         b.classList.remove("active")
       );
@@ -176,6 +175,8 @@ window.addEventListener("load", () => {
       drawChart(currentType);
     });
   });
+
+  // 풍향/유향은 별도 js(chart_windDir.js, chart_seaDir.js)에서 이벤트 등록
 
   const prev = document.getElementById("prevHour");
   const next = document.getElementById("nextHour");

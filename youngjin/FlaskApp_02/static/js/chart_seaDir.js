@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-  let chartPlaceholder = document.getElementById('chartPlaceholder');
+  const chartPlaceholder = document.getElementById('chartPlaceholder');
   const chartTitle = document.getElementById('chartTitle');
-  const windDirBtn = document.getElementById('windDirBtn');
+  const seaDirBtn = document.getElementById('seaDirBtn');
 
   // 지역별 config: 이름, csv 경로
   const regionConfigs = {
@@ -23,9 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const allDegrees = Array.from({length: 16}, (_, i) => i * 22.5);
 
   let interval;
-  let windDirs = [];
+  let seaDirs = [];
 
-  windDirBtn.addEventListener('click', async () => {
+  seaDirBtn.addEventListener('click', async () => {
     clearInterval(interval);
 
     // 현재 지역 읽기
@@ -36,34 +36,34 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    chartTitle.textContent = `🌬️ ${config.name} 풍향`;
+    chartTitle.textContent = `🌬️ ${config.name} 유향`;
 
     // windDirs 초기화(다시 지역 버튼 클릭시 새로 fetch)
-    windDirs = [];
+    seaDirs = [];
 
     // CSV 데이터 fetch & windDirs 추출
     const resp = await fetch(config.csv);
     const text = await resp.text();
     const lines = text.trim().split('\n');
     const headers = lines[0].split(',');
-    const dirIdx = headers.indexOf('wind_dir');
+    const dirIdx = headers.indexOf('sea_dir_i');
     if (dirIdx === -1) {
-      alert('CSV에 wind_dir 컬럼이 없습니다!');
+      alert('CSV에 sea_dir 컬럼이 없습니다!');
       return;
     }
     for (let i = 1; i < lines.length; i++) {
       const cols = lines[i].split(',').map(c => c.trim());
       const dir = parseFloat(cols[dirIdx]);
-      if (!isNaN(dir)) windDirs.push(dir);
+      if (!isNaN(dir)) seaDirs.push(dir);
     }
-    if (windDirs.length === 0) {
-      alert('풍향 데이터 없음');
+    if (seaDirs.length === 0) {
+      alert('유향 데이터 없음');
       return;
     }
 
     // (1) 배경 고정(나침반, skyblue)
     const layout = {
-      title: `${config.name} 풍향`,
+      title: `${config.name} 유향`,
       width: 600,
       height: 600,
       margin: { t: 60, r: 40, b: 40, l: 40 },
@@ -122,15 +122,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let idx = 0;
 
     interval = setInterval(() => {
-      if (idx >= windDirs.length) {
+      if (idx >= seaDirs.length) {
         clearInterval(interval);
         return;
       }
       // 실선 화살표(현재 데이터)
-      const angleSolid = (windDirs[idx] + 180) % 360;
+      const angleSolid = (seaDirs[idx] + 180) % 360;
       let angleDashed = null;
-      if (idx + 1 < windDirs.length) {
-        angleDashed = (windDirs[idx + 1] + 180) % 360;
+      if (idx + 1 < seaDirs.length) {
+        angleDashed = (seaDirs[idx + 1] + 180) % 360;
       }
 
       // 실선/점선 화살표만 restyle!
