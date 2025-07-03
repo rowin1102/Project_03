@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/subpage.css') }}">
 </head>
-<body>
+<body data-region="인천">
 <div class="container">
     <div style="height:4px"></div>
     <div class="dashboard-grid">
@@ -47,8 +47,8 @@
                     <button class="column-btn">기압</button>
                     <button class="column-btn">풍속</button>
                     <button class="column-btn">유속</button>
-                    <button class="column-btn">풍향</button>
-                    <button class="column-btn">유향</button>
+                    <button class="column-btn" id="windDirBtn">풍향</button>
+                    <button class="column-btn" id="seaDirBtn">유향</button>
                 </div>
             </div>
         </div>
@@ -74,5 +74,7 @@
 <script src="{{ url_for('static', filename='js/subpage.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
 <script src="{{ url_for('static', filename='js/incheon_chart.js') }}"></script>
+<script src="{{ url_for('static', filename='js/chart_windDir.js') }}"></script>
+<script src="{{ url_for('static', filename='js/chart_seaDir.js') }}"></script>
 </body>
 </html>
