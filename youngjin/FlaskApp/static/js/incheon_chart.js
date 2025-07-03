@@ -82,7 +82,7 @@ function drawChart(type) {
           borderColor: "#007bff",
           borderWidth: 2,
           pointRadius: 2,
-          tension: 0.2,
+          tension: 0.5,
         },
         {
           label: "6월 (예측)",
@@ -90,12 +90,15 @@ function drawChart(type) {
           borderColor: "#ff0000",
           borderWidth: 2,
           pointRadius: 2,
-          tension: 0.2,
+          tension: 0.5,
           borderDash: [5, 5], // 점선
         }
       ],
     },
     options: {
+      animation: {
+        duration: 0
+      },
       parsing: false,
       responsive: true,
       scales: {

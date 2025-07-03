@@ -206,9 +206,7 @@ def incheon_chart_data():
 
     def parse(df):
         df['datetime'] = pd.to_datetime(df['datetime']).dt.strftime('%Y-%m-%dT%H:%M:%S')
-        return df[['datetime', 'sea_high', 'wind_speed', 'pressure', 'sea_speed']]\
-            .rename(columns={'wind_speed': 'wind_speed'})\
-            .dropna()
+        return df[['datetime', 'sea_high', 'wind_speed', 'pressure', 'sea_speed']].dropna()
 
     obs = parse(obs_df)
     pred = parse(pred_df)
