@@ -171,29 +171,18 @@
 //     }, 1000);
 //   });
 // });
-window.addEventListener('load', () => {
+function drawWindDirPlotly(chartStart, hour) {
   const chartPlaceholder = document.getElementById('chartPlaceholder');
   const chartTitle = document.getElementById('chartTitle');
-  const windDirBtn = document.getElementById('windDirBtn');
-  
   const regionName = document.body.dataset.region || '태안';
-  if (!windDirBtn) {
-    console.error('[ERROR] windDirBtn 요소를 찾을 수 없음!');
-    return;
-  }
-  console.log('[DEBUG] regionName =', regionName);
 
-  console.log('[DEBUG] windDirBtn =', windDirBtn);
-
-  // 지역별 config: 이름, csv 경로
   const regionConfigs = {
     '인천':   { name: '인천',   csv: './static/finalData/InCheon_05.csv' },
     '목포':   { name: '목포',   csv: './static/finalData/Mokpo_05.csv' },
     '여수':   { name: '여수',   csv: './static/finalData/Yeosu_05.csv' },
     '울산':   { name: '울산',   csv: './static/finalData/Ulsan_05.csv' },
-    '태안':   { name: '태안',   csv: '/static/finalData/Taean_05.csv' } 
+    '태안':   { name: '태안',   csv: '/static/finalData/Taean_05.csv' }
   };
-
   const allDirections = [
     'N', 'NNE', 'NE', 'ENE',
     'E', 'ESE', 'SE', 'SSE',
@@ -202,22 +191,12 @@ window.addEventListener('load', () => {
   ];
   const allDegrees = Array.from({length: 16}, (_, i) => i * 22.5);
 
-  let interval;
-  let windDirs = [];
-
-    windDirBtn.addEventListener('click', async () => {
-    console.log('[DEBUG] 풍향 버튼 클릭됨 ✅');
-
-    clearInterval(interval);
-    windDirs = [];
-
-    const regionName = document.body.dataset.region || '태안';
+  (async () => {
     const config = regionConfigs[regionName];
     if (!config) {
       alert('지원하지 않는 지역입니다!');
       return;
     }
-
     chartTitle.textContent = `🌬️ ${config.name} 풍향`;
 
     const resp = await fetch(config.csv);
@@ -227,30 +206,35 @@ window.addEventListener('load', () => {
     }
     const text = await resp.text();
     const lines = text.trim().split('\n');
-    const headers = lines[0].split('\t').map(h => h.trim());
+    const headers = lines[0].split(',').map(h => h.trim());
     const dirIdx = headers.indexOf('wind_dir');
     if (dirIdx === -1) {
       alert('CSV에 wind_dir 컬럼이 없습니다!');
       return;
     }
-    console.log('[DEBUG] headers =', headers);
-    console.log('[DEBUG] wind_dir index =', dirIdx);
-
+    let windDirs = [];
     for (let i = 1; i < lines.length; i++) {
-      const cols = lines[i].split('\t').map(c => c.trim());
+      const cols = lines[i].split(',').map(c => c.trim());
       const dir = parseFloat(cols[dirIdx]);
       if (!isNaN(dir)) windDirs.push(dir);
     }
-
     if (windDirs.length === 0) {
       alert('풍향 데이터 없음');
       return;
     }
 
+    if (window._windInterval) clearInterval(window._windInterval);
+
+    // 컨테이너 크기에 맞춰서 차트 높이 지정!
+    const placeholderRect = chartPlaceholder.getBoundingClientRect();
+    const plotWidth = placeholderRect.width || 600;
+    const plotHeight = placeholderRect.height || 600;
+
     const layout = {
       title: `${config.name} 풍향`,
-      width: 600,
-      height: 600,
+      autosize: true,
+      width: plotWidth,
+      height: plotHeight,
       margin: { t: 60, r: 40, b: 40, l: 40 },
       polar: {
         bgcolor: 'skyblue',
@@ -301,38 +285,28 @@ window.addEventListener('load', () => {
       showlegend: false
     };
 
-    Plotly.newPlot(chartPlaceholder, [arrowSolid, arrowDashed], layout);
+    Plotly.newPlot(chartPlaceholder, [arrowSolid, arrowDashed], layout, {responsive: true});
     Plotly.Plots.resize(chartPlaceholder);
+
     let idx = 0;
-    interval = setInterval(() => {
+    window._windInterval = setInterval(() => {
       if (idx >= windDirs.length) {
-        clearInterval(interval);
+        clearInterval(window._windInterval);
         return;
       }
-
       const angleSolid = (windDirs[idx] + 180) % 360;
       let angleDashed = null;
       if (idx + 1 < windDirs.length) {
         angleDashed = (windDirs[idx + 1] + 180) % 360;
       }
-
-      Plotly.restyle(chartPlaceholder, {
-        r: [[0, 0.8]],
-        theta: [[angleSolid, angleSolid]]
-      }, [0]);
-
+      Plotly.restyle(chartPlaceholder, { r: [[0, 0.8]], theta: [[angleSolid, angleSolid]] }, [0]);
       if (angleDashed !== null) {
-        Plotly.restyle(chartPlaceholder, {
-          r: [[0, 0.8]],
-          theta: [[angleDashed, angleDashed]]
-        }, [1]);
+        Plotly.restyle(chartPlaceholder, { r: [[0, 0.8]], theta: [[angleDashed, angleDashed]] }, [1]);
       } else {
-        Plotly.restyle(chartPlaceholder, {
-          r: [[null, null]],
-          theta: [[null, null]]
-        }, [1]);
+        Plotly.restyle(chartPlaceholder, { r: [[null, null]], theta: [[null, null]] }, [1]);
       }
       idx++;
     }, 1000);
-  });
-});
+  })();
+}
+window.drawWindDirPlotly = drawWindDirPlotly;

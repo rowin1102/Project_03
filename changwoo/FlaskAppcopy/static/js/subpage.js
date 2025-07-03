@@ -1,6 +1,5 @@
-// ============ 달력 (기존 코드) ============
 let currentMonth = 5;
-const currentYear = 2025; // 연도 고정
+const currentYear = 2025;
 
 function generateCalendar(month) {
     const calendar = document.getElementById('calendar');
@@ -28,10 +27,8 @@ function generateCalendar(month) {
     }
 }
 
-// ============ 그래프/컬럼/구간 이동 통합 ============
-
-let chartStart = '2025-05-31 21:00:00'; // 기본 시작시간
-let hour = 6; // 6시간 단위
+let chartStart = '2025-05-31 21:00:00';
+let hour = 6;
 let currentCol = 'sea_high';
 
 function pad(n) { return String(n).padStart(2, '0'); }
@@ -44,14 +41,27 @@ function updateChartImg() {
     const h = pad(dt.getHours());
     const min = pad(dt.getMinutes());
 
-    // 풍향/유향은 Plotly JS로 따로 처리 → 이미지 요청 안함
-    if (currentCol === 'wind_dir' || currentCol === 'sea_dir_i') {
-        // 시간범위 표시는 계속 업데이트
+    if (currentCol === 'wind_dir') {
+        document.getElementById('chartImg').style.display = 'none';
+        document.getElementById('chartPlaceholder').style.display = 'block';
         document.getElementById('timeRange').innerText =
             `${y}-${m}-${d} ${h}:${min} ~ ` +
             `${new Date(dt.getTime() + hour * 60 * 60 * 1000).toISOString().slice(11, 16)}`;
+        if (typeof drawWindDirPlotly === 'function') drawWindDirPlotly(chartStart, hour);
         return;
     }
+    if (currentCol === 'sea_dir_i') {
+        document.getElementById('chartImg').style.display = 'none';
+        document.getElementById('chartPlaceholder').style.display = 'block';
+        document.getElementById('timeRange').innerText =
+            `${y}-${m}-${d} ${h}:${min} ~ ` +
+            `${new Date(dt.getTime() + hour * 60 * 60 * 1000).toISOString().slice(11, 16)}`;
+        if (typeof drawSeaDirPlotly === 'function') drawSeaDirPlotly(chartStart, hour);
+        return;
+    }
+
+    document.getElementById('chartPlaceholder').style.display = 'none';
+    document.getElementById('chartImg').style.display = 'block';
 
     let src = `/taean/graph.png?start=${y}-${m}-${d} ${h}:${min}:00&col=${currentCol}&_=` + Date.now();
     const img = document.getElementById('chartImg');
@@ -59,7 +69,6 @@ function updateChartImg() {
     img.onload = function () { img.style.opacity = 1; };
     img.src = src;
 
-    // 시간범위 표시
     document.getElementById('timeRange').innerText =
         `${y}-${m}-${d} ${h}:${min} ~ ` +
         `${new Date(dt.getTime() + hour * 60 * 60 * 1000).toISOString().slice(11, 16)}`;
@@ -69,10 +78,9 @@ function setChartStartFromDate(y, m, d) {
     chartStart = `${y}-${pad(m)}-${pad(d)} 00:00:00`;
 }
 
-// DOMContentLoaded 이후 바인딩
 document.addEventListener('DOMContentLoaded', function () {
-    // 달력 생성 및 월 버튼 바인딩
     generateCalendar(currentMonth);
+
     document.querySelectorAll('.month-btn').forEach(btn => {
         btn.addEventListener('click', function () {
             document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
@@ -82,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // 달력 날짜 클릭 → 그래프 구간 변경
     document.getElementById('calendar').onclick = function (e) {
         let btn = e.target;
         if (btn.classList.contains('calendar-date') && btn.hasAttribute('data-date')) {
@@ -96,7 +103,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    // 컬럼 버튼 클릭 → 그래프 컬럼 전환
     document.querySelectorAll('.column-btn').forEach(btn => {
         btn.addEventListener('click', function () {
             document.querySelectorAll('.column-btn').forEach(b => b.classList.remove('active'));
@@ -107,7 +113,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // 좌/우 구간 이동
     document.getElementById('prevBtn').onclick = function () {
         let dt = new Date(chartStart.replace(/-/g, '/'));
         dt.setHours(dt.getHours() - hour);
@@ -130,6 +135,5 @@ document.addEventListener('DOMContentLoaded', function () {
         updateChartImg();
     };
 
-    // 최초 표시
     updateChartImg();
 });

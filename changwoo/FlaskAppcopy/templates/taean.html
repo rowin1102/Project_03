@@ -18,12 +18,14 @@
         .chart-container { min-height: 800px; }
         .chart-title { transition: color 0.2s; }
     </style>
+    <!-- Plotly CDN 필수! -->
+    <script src="https://cdn.plot.ly/plotly-2.31.1.min.js"></script>
 </head>
 <body data-region="태안">
 <div class="container">
     <div style="height:4px"></div>
     <div class="dashboard-grid">
-        <!-- 좌측 패널 -->
+        <!-- ===== 좌측 패널 ===== -->
         <div class="left-panel">
             <button class="back-btn-mini" onclick="history.back()">← 뒤로가기</button>
             <div class="card port-info">
@@ -66,10 +68,9 @@
             </div>
         </div>
 
-        <!-- 우측 패널 -->
+        <!-- ===== 우측 패널 ===== -->
         <div class="right-panel">
-            <!-- 이미지 기반 chart -->
-            <div class="chart-card" style="padding:0; border-radius:24px; background:#fff; box-shadow:0 2px 16px #d6e5f540;">
+            <div class="chart-card" style="padding:0; border-radius:24px; background:#fff;">
                 <div class="chart-header" style="padding:16px 24px 0 24px;">
                     <div style="font-size:13px; color:#7686a2; margin-bottom:6px; display:flex; gap:18px; align-items:center;">
                         <span>
@@ -89,33 +90,17 @@
                     </div>
                 </div>
                 <div class="chart-container" style="width:100%; height:800px; display:flex; align-items:center; justify-content:center; padding:0;">
-                    <img src="/taean/graph.png?start=2025-05-31 21:00:00&col=sea_high" id="chartImg">
-                </div>
-            </div>
-
-            <!-- 풍향/유향 chart (Plotly) -->
-            <div class="chart-card" style="margin-top: 30px;">
-                <div class="chart-header" style="padding:16px 24px 0 24px;">
-                    <div class="chart-title" style="font-size:20px;">🌬️ 풍향 / 유향 차트</div>
-                </div>
-
-                <div class="columns-grid" style="padding: 0 24px; margin-top: 14px;">
-                    <button id="windDirBtn" class="column-btn">풍향</button>
-                    <button id="seaDirBtn" class="column-btn">유향</button>
-                </div>
-
-               <div class="chart-container" style="margin: 20px 24px;">
-                    <div id="chartPlaceholder" class="chart-placeholder" style="width:100%; height:600px;"></div>
+                    <img src="/taean/graph.png?start=2025-05-31 21:00:00&col=sea_high" id="chartImg" style="display:block; max-width:100%; max-height:100%;">
+                    <div id="chartPlaceholder" style="display:none; width:100%; height:100%;"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- 자바스크립트 로딩 -->
+<!-- js 순서 중요! 반드시 subpage.js가 제일 마지막! -->
 <script defer src="{{ url_for('static', filename='js/chart_windDir.js') }}"></script>
 <script defer src="{{ url_for('static', filename='js/chart_seaDir.js') }}"></script>
 <script defer src="{{ url_for('static', filename='js/subpage.js') }}"></script>
-
 </body>
 </html>
