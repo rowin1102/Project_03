@@ -7,16 +7,16 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/subpage.css') }}">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
-<body>
-<div class="container" data-region="울진">
+<body data-region="여수">
+<div class="container">
     <div style="height:4px"></div>
     <div class="dashboard-grid">
         <!-- 좌측 패널 -->
         <div class="left-panel">
             <button class="back-btn-mini" onclick="history.back()">← 뒤로가기</button>
             <div class="card port-info">
-                <div class="port-title">🚢 울진항</div>
-                <div class="port-detail-row"><span>위치</span><span>경상북도 울진군</span></div>
+                <div class="port-title">🚢 여수항</div>
+                <div class="port-detail-row"><span>위치</span><span>전라남도 여수시</span></div>
                 <div class="port-detail-row"><span>운영상태</span><span>정상</span></div>
                 <div class="port-detail-row"><span>조위</span>
                     <span>
@@ -66,7 +66,7 @@
                 </div>
                 <div class="chart-container">
                     <div id="chartPlaceholder" style="display:none;"></div>
-                    <canvas id="uljinChart"   style="display:block;" width="1000px" height="500"></canvas>
+                    <canvas id="yeosuChart"   style="display:block;" width="1000px" height="500"></canvas>
                     <canvas id="pressureChart"  style="display:none;"  width="1000px" height="500"></canvas>
                     <canvas id="windChart"      style="display:none;"  width="1000px" height="500"></canvas>
                     <canvas id="seaChart"       style="display:none;"  width="1000px" height="500"></canvas>
@@ -78,7 +78,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='js/subpage.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
-<script src="{{ url_for('static', filename='js/uljin_chart.js') }}"></script>
+<script src="{{ url_for('static', filename='js/yeosu_chart.js') }}"></script>
 <script src="{{ url_for('static', filename='js/chart_windDir.js') }}"></script>
 <script src="{{ url_for('static', filename='js/chart_seaDir.js') }}"></script>
 <script src="{{ url_for('static', filename='js/chart_toggle.js') }}"></script>
