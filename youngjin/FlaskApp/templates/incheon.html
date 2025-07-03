@@ -58,7 +58,7 @@
             <div class="card chart-card">
                 <div class="chart-header">
                     <div class="chart-title" id="chartTitle">📊 해수면의 높이 변화 추이</div>
-                    <div class="chart-nav">
+                    <div class="chart-nav" id="chartNavWrap">
                         <button class="nav-btn" id="prevHour">←</button>
                         <span id="chartTimeRange"></span>
                         <button class="nav-btn" id="nextHour">→</button>
@@ -81,5 +81,6 @@
 <script src="{{ url_for('static', filename='js/incheon_chart.js') }}"></script>
 <script src="{{ url_for('static', filename='js/chart_windDir.js') }}"></script>
 <script src="{{ url_for('static', filename='js/chart_seaDir.js') }}"></script>
+<script src="{{ url_for('static', filename='js/chart_toggle.js') }}"></script>
 </body>
 </html>
