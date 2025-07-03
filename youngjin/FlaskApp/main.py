@@ -15,6 +15,11 @@ with open('./observatory/jo.json', encoding='utf-8') as f:
 with open('./observatory/bui.json', encoding='utf-8') as f:
     BuiCode_json = json.load(f)
 
+def show_value(v):
+    if v in (None, '', 'null', 0):
+        return '-'
+    return str(v)
+
 @app.route('/')
 def dashboard():
   warning_msg = []
@@ -135,12 +140,12 @@ def obs_map():
             lon = float(data.get('obs_lon', lon))
             popup = f"""<b>조위관측소</b><br>
               {name}<br>
-              수온: {data.get('water_temp', '')} ℃<br>
-              기온: {data.get('air_temp', '')} ℃<br>
-              기압: {data.get('air_press', '')} hPa<br>
-              풍속: {data.get('wind_speed', '')} m/s<br>
-              조위: {data.get('tide_level', '')} cm<br>
-              유속: {data.get('current_speed', '')} m/s
+              수온: {show_value(data.get('water_temp', ''))} ℃<br>
+              기온: {show_value(data.get('air_temp', ''))} ℃<br>
+              기압: {show_value(data.get('air_press', ''))} hPa<br>
+              풍속: {show_value(data.get('wind_speed', ''))} m/s<br>
+              조위: {show_value(data.get('tide_level', ''))} cm<br>
+              유속: {show_value(data.get('current_speed', ''))} m/s
               """
             folium.Marker([lat, lon], tooltip=popup,
                 icon=folium.Icon(icon='home', prefix='fa', color='orange')).add_to(m)
@@ -158,11 +163,11 @@ def obs_map():
             lon = float(data.get('obs_lon', lon))
             popup = f"""<b>해양관측부이</b><br>
                 {name}<br>
-                수온: {data.get('water_temp', '')} ℃<br>
-                기온: {data.get('air_temp', '')} ℃<br>
-                기압: {data.get('air_press', '')} hPa<br>
-                풍속: {data.get('wind_speed', '')} m/s<br>
-                유속: {data.get('current_speed', '')} cm/s
+                수온: {show_value(data.get('water_temp', ''))} ℃<br>
+                기온: {show_value(data.get('air_temp', ''))} ℃<br>
+                기압: {show_value(data.get('air_press', ''))} hPa<br>
+                풍속: {show_value(data.get('wind_speed', ''))} m/s<br>
+                유속: {show_value(data.get('current_speed', ''))} cm/s
                 """
             folium.Marker(
                 location=[lat, lon], tooltip=popup,
