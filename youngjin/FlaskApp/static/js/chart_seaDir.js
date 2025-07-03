@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 지역별 config: 이름, csv 경로
   const regionConfigs = {
     '인천':   { name: '인천',   csv: '/static/finalData/InCheon_05.csv' },
-    '목포':   { name: '목포',   csv: '/static/finalData/Mokpo_05.csv' },
+    '통영':   { name: '통영',   csv: '/static/finalData/TongYeong_05.csv' },
     '여수':   { name: '여수',   csv: '/static/finalData/Yeosu_05.csv' },
     '울산':   { name: '울산',   csv: '/static/finalData/Ulsan_05.csv' },
     '부산':   { name: '부산',   csv: '/static/finalData/Busan_05.csv' }
