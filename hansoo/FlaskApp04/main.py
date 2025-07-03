@@ -35,177 +35,298 @@ with open('./observatory/bui.json', encoding='utf-8') as f:
 
 @app.route('/test1')
 def test1():
-    #df1 = pd.read_csv('../finalData/InCheon_05.csv', encoding='utf-8')
-    #df2 = pd.read_csv('../pred/this_InCheon_06.csv', encoding='utf-8')
-
-    # sea_high 컬럼 가져오기 + 소수점 제거 (정수형 변환)
-    #series1 = df1['sea_high'].astype(int)
-    #series2 = df2['sea_high'].astype(int)
-    
-
-    # 한글 폰트 설정
-    plt.rcParams['font.family'] = 'Malgun Gothic'  # Windows
-    plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 깨짐 방지
-
-    # 데이터 로드
-    final_data = pd.read_csv('../finalData/InCheon_05.csv')
-    pred_data = pd.read_csv('../pred/this_InCheon_06.csv')
-
-    print("Final data columns:", final_data.columns.tolist())
-    print(final_data.head())
-    print(final_data.info())
-
-    print("Pred data columns:", pred_data.columns.tolist())
-    print(pred_data.head())
-    print(pred_data.info())
-
-    # sea_high 컬럼 숫자 타입 변환 및 결측치 확인
-    if 'sea_high' not in final_data.columns:
-        return "final_data에 sea_high 컬럼이 없습니다."
-
-    if final_data['sea_high'].isnull().any():
-        print("final_data sea_high에 결측치가 있습니다. 결측치 처리 필요")
-        final_data = final_data.dropna(subset=['sea_high'])
-
-    # 시간 컬럼 생성 (10분 간격)
-    final_data = final_data.reset_index(drop=True)
-    pred_data = pred_data.reset_index(drop=True)
-
-    final_data['time'] = pd.date_range(start='2024-05-31 00:00', periods=len(final_data), freq='10min')
-    pred_data['time'] = pd.date_range(start='2024-06-01 00:00', periods=len(pred_data), freq='10min')
-
-    # value_col_final, value_col_pred는 'sea_high' 로 고정 (원본 데이터가 sea_high라 가정)
-    value_col_final = 'sea_high'
-    value_col_pred = 'sea_high'
-
-    # 한글 폰트 설정
     plt.rcParams['font.family'] = 'Malgun Gothic'
     plt.rcParams['axes.unicode_minus'] = False
 
+    # 데이터 로드
+    final_data = pd.read_csv('../finalData/InCheon_05.csv').dropna(subset=['sea_high'])
+    pred_data = pd.read_csv('../pred/this_InCheon_06.csv').dropna(subset=['sea_high'])
+
+    # datetime 컬럼 생성
+    final_data['datetime'] = pd.date_range(start='2025-05-31 00:00', periods=len(final_data), freq='10min')
+    pred_data['datetime'] = pd.date_range(start='2025-06-01 00:00', periods=len(pred_data), freq='10min')
+
+    graph_start = datetime(2025, 5, 31, 0, 0)      # 전체 가능한 시작 시간
+    graph_end = datetime(2025, 6, 1, 23, 50)       # 전체 가능한 끝 시간
+    transition_time = datetime(2025, 6, 1, 0, 0)   # 5월->6월 전환 시점
+    window_hours = 4                                # 표시 시간 길이
+
+    # 쿼리 파라미터로 받은 시작 시간, 없으면 기본값
+    start_str = request.args.get('start', '2025-05-31 22:00')
+    start_time = datetime.strptime(start_str, '%Y-%m-%d %H:%M')
+    end_time = start_time + timedelta(hours=window_hours)
+
+    # 5월 31일 전체 데이터 (회색 실선)
+    may_start = datetime(2025, 5, 31, 0, 0)
+    may_end = datetime(2025, 5, 31, 23, 59, 59)
+    may_data_full = final_data[(final_data['datetime'] >= may_start) & (final_data['datetime'] <= may_end)]
+
+    # 5월 현재 구간 실선 (표시 구간은 end_time이 transition_time 넘지 않도록)
+    may_slice_end = min(end_time, transition_time)
+    final_slice = final_data[(final_data['datetime'] >= start_time) & (final_data['datetime'] < may_slice_end)]
+
+    # 6월 현재 구간 점선 (start_time이 transition_time 이상일 때만)
+    pred_slice_start = max(start_time, transition_time)
+    pred_slice = pred_data[(pred_data['datetime'] >= pred_slice_start) & (pred_data['datetime'] < end_time)]
+
     # 그래프 그리기
-    fig, ax = plt.subplots(figsize=(14, 8))
+    fig, ax = plt.subplots(figsize=(14, 6))
 
-    final_mask = final_data['time'] <= datetime(2024, 5, 31, 23, 59)
-    ax.plot(final_data.loc[final_mask, 'time'], final_data.loc[final_mask, value_col_final],
-            'b-', linewidth=2, marker='o', markersize=3, markevery=1, label='인천 5월 31일')
+    # 5월 전체 데이터 회색 실선
+    ax.plot(may_data_full['datetime'], may_data_full['sea_high'], color='gray', linestyle='-', label='5월 31일 전체 데이터')
 
-    pred_mask = pred_data['time'] >= datetime(2024, 6, 1, 0, 0)
-    ax.plot(pred_data.loc[pred_mask, 'time'], pred_data.loc[pred_mask, value_col_pred],
-            'r--', linewidth=2, label='인천 6월 1일', alpha=0.8)
+    # 5월 현재 구간 파란 실선, 굵게 강조
+    if not final_slice.empty:
+        ax.plot(final_slice['datetime'], final_slice['sea_high'], 'b-', label='5월 실측 (표시 구간)', linewidth=3)
 
-    transition_time = datetime(2024, 6, 1, 0, 0)
-    ax.axvline(x=transition_time, color='black', linestyle=':', alpha=0.8, linewidth=2)
+    # 6월 현재 구간 빨간 점선 유지
+    if not pred_slice.empty:
+        ax.plot(pred_slice['datetime'], pred_slice['sea_high'], 'r--', label='6월 예측 (표시 구간)', linewidth=2)
 
-    y_max = max(final_data[value_col_final].max(), pred_data[value_col_pred].max())
-    y_min = min(final_data[value_col_final].min(), pred_data[value_col_pred].min())
+    # 전환 시점 세로 검정 점선
+    if start_time <= transition_time <= end_time:
+        ax.axvline(x=transition_time, color='black', linestyle='--', linewidth=2, label='전환 시점 (6월 1일 00:00)')
 
-    ax.text(datetime(2024, 5, 31, 12, 0), y_max * 1.05, '5/31', ha='center', va='bottom', fontsize=14, fontweight='bold')
-    ax.text(datetime(2024, 6, 1, 12, 0), y_max * 1.05, '6/1', ha='center', va='bottom', fontsize=14, fontweight='bold')
-
-    ax.set_xlim(datetime(2024, 5, 31, 0, 0), datetime(2024, 6, 1, 23, 59))
-    ax.xaxis.set_major_locator(mdates.HourLocator(interval=1))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%H'))
-
+    # 축 설정 및 스타일 개선
+    ax.set_xlim(start_time, end_time)
+    ax.xaxis.set_major_locator(mdates.MinuteLocator(interval=20))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d %H:%M'))
     ax.yaxis.set_major_locator(ticker.MultipleLocator(100))
 
-    ax.set_xlabel('시간 (시)', fontsize=12)
+    ax.set_xlabel('시간', fontsize=14)
+    ax.set_ylabel('조위 (cm)', fontsize=14)
+    ax.set_title(f'인천 조위 변화: {start_time.strftime("%m-%d %H:%M")} ~ {end_time.strftime("%m-%d %H:%M")}', fontsize=18, weight='bold')
+
+    plt.xticks(rotation=45, fontsize=12)
+    plt.yticks(fontsize=12)
+    ax.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.7)
+
+    # 범례 폰트 키우기
+    ax.legend(fontsize=12)
+
+    plt.tight_layout()
+
+    # 이미지로 변환
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+    graph_url = base64.b64encode(img.getvalue()).decode()
+    plt.close()
+
+    # 이전/다음 1시간씩 이동
+    prev_time = start_time - timedelta(hours=1)
+    next_time = start_time + timedelta(hours=1)
+
+    # 버튼 활성화 조건
+    prev_start = prev_time.strftime('%Y-%m-%d %H:%M') if prev_time >= graph_start else None
+    next_start = next_time.strftime('%Y-%m-%d %H:%M') if next_time + timedelta(hours=window_hours) <= graph_end else None
+
+    return render_template('test.html',
+                        graph_url=graph_url,
+                        current_window=f"{start_time.strftime('%m-%d %H:%M')} ~ {end_time.strftime('%m-%d %H:%M')}",
+                        prev_start=prev_start,
+                        next_start=next_start)
+
+@app.route('/test2', methods=['GET', 'POST'])
+def test2():
+    
+    plt.rcParams['font.family'] = 'Malgun Gothic'
+    plt.rcParams['axes.unicode_minus'] = False
+
+    final_data = pd.read_csv('../finalData/InCheon_05.csv').dropna(subset=['sea_high'])
+    pred_data = pd.read_csv('../pred/this_InCheon_06.csv').dropna(subset=['sea_high'])
+
+    final_data['datetime'] = pd.date_range(start='2025-05-31 00:00', periods=len(final_data), freq='10min')
+    pred_data['datetime'] = pd.date_range(start='2025-06-01 00:00', periods=len(pred_data), freq='10min')
+
+    graph_start = datetime(2025, 5, 31, 0, 0)      # 전체 가능한 시작 시간 (5월 31일 0시)
+    graph_end = datetime(2025, 6, 1, 23, 50)       # 전체 가능한 끝 시간 (6월 1일 마지막 데이터 시간)
+    transition_time = datetime(2025, 6, 1, 0, 0)
+    window_hours = 4
+
+    start_str = request.args.get('start', '2025-05-31 22:00')
+    start_time = datetime.strptime(start_str, '%Y-%m-%d %H:%M')
+    end_time = start_time + timedelta(hours=window_hours)
+
+    # 5월 31일 전체 데이터 (회색 점선)
+    may_start = datetime(2025, 5, 31, 0, 0)
+    may_end = datetime(2025, 5, 31, 23, 59, 59)
+    may_data_full = final_data[(final_data['datetime'] >= may_start) & (final_data['datetime'] <= may_end)]
+
+    # 5월 실측 데이터 (현재 윈도우 내, end_time이 6월 1일 0시를 넘지 않게 제한)
+    may_slice_end = min(end_time, transition_time)
+    final_slice = final_data[(final_data['datetime'] >= start_time) & (final_data['datetime'] < may_slice_end)]
+
+    # 6월 예측 데이터 (현재 윈도우 내, start_time이 6월 1일 0시 이상인 경우)
+    pred_slice_start = max(start_time, transition_time)
+    pred_slice = pred_data[(pred_data['datetime'] >= pred_slice_start) & (pred_data['datetime'] < end_time)]
+
+    fig, ax = plt.subplots(figsize=(14, 6))
+
+    # 5월 전체 회색 점선
+    ax.plot(may_data_full['datetime'], may_data_full['sea_high'], color='gray', linestyle='--', label='5월 31일 전체 데이터')
+
+    # 5월 현재 구간 실선
+    if not final_slice.empty:
+        ax.plot(final_slice['datetime'], final_slice['sea_high'], 'b-', label='5월 실측 (표시 구간)', linewidth=2)
+
+    # 6월 현재 구간 점선
+    if not pred_slice.empty:
+        ax.plot(pred_slice['datetime'], pred_slice['sea_high'], 'r--', label='6월 예측 (표시 구간)', linewidth=2)
+
+    # 5월과 6월 사이 전환 시점 세로 점선
+    if start_time <= transition_time <= end_time:
+        ax.axvline(x=transition_time, color='black', linestyle='--', linewidth=2, label='전환 시점 (6월 1일 00:00)')
+
+    ax.set_xlim(start_time, end_time)
+    ax.xaxis.set_major_locator(mdates.MinuteLocator(interval=20))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d %H:%M'))
+    ax.yaxis.set_major_locator(ticker.MultipleLocator(100))
+
+    ax.set_xlabel('시간', fontsize=12)
     ax.set_ylabel('조위 (cm)', fontsize=12)
-    ax.set_title('인천 조위 데이터', fontsize=16, pad=25, fontweight='bold')
+    ax.set_title(f'인천 조위 변화: {start_time.strftime("%m-%d %H:%M")} ~ {end_time.strftime("%m-%d %H:%M")}', fontsize=16)
 
-    ax.legend(loc='upper left', fontsize=11)
-    ax.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
-
-    ax.set_ylim(y_min * 0.95, y_max * 1.15)
-
+    plt.xticks(rotation=45)
+    ax.grid(True)
+    ax.legend()
     plt.tight_layout()
 
     img = io.BytesIO()
     plt.savefig(img, format='png')
     img.seek(0)
     graph_url = base64.b64encode(img.getvalue()).decode()
-    plt.close(fig)
+    plt.close()
 
-    return render_template('test.html', graph_url=graph_url)
-    #return render_template('test.html')
+    # 이전/다음 1시간씩 이동
+    prev_time = start_time - timedelta(hours=1)
+    next_time = start_time + timedelta(hours=1)
 
-@app.route('/test2', methods=['GET', 'POST'])
-def test2():
+    # 이전/다음 버튼 활성화 조건 - 전체 데이터 범위 내에서만 이동 허용
+    prev_start = prev_time.strftime('%Y-%m-%d %H:%M') if prev_time >= graph_start else None
+    next_start = next_time.strftime('%Y-%m-%d %H:%M') if next_time + timedelta(hours=window_hours) <= graph_end else None
+
+    return render_template('test2.html',
+                           graph_url=graph_url,
+                           current_window=f"{start_time.strftime('%m-%d %H:%M')} ~ {end_time.strftime('%m-%d %H:%M')}",
+                           prev_start=prev_start,
+                           next_start=next_start)
+
+
+@app.route('/test3')
+def test3():
     
-    # 데이터 불러오기
-    df1 = pd.read_csv('../finalData/InCheon_05.csv', encoding='utf-8')
-    df2 = pd.read_csv('../pred/this_InCheon_06.csv', encoding='utf-8')
+    plt.rcParams['font.family'] = 'Malgun Gothic'
+    plt.rcParams['axes.unicode_minus'] = False
 
-    # sea_high 추출
-    series1 = df1['sea_high']
-    series2 = df2['sea_high']
+    # 데이터 로드
+    final_data = pd.read_csv('../finalData/InCheon_05.csv').dropna(subset=['sea_high'])
+    pred_data = pd.read_csv('../pred/this_InCheon_06.csv').dropna(subset=['sea_high'])
 
-    # 한글 폰트 설정 (Windows)
+    # datetime 컬럼 생성
+    final_data['datetime'] = pd.date_range(start='2025-05-31 00:00', periods=len(final_data), freq='10min')
+    pred_data['datetime'] = pd.date_range(start='2025-06-01 00:00', periods=len(pred_data), freq='10min')
+
+    # 그래프 표시 범위
+    graph_start = datetime(2025, 5, 31, 22, 0)
+    graph_end = datetime(2025, 6, 1, 2, 0)
+    transition_time = datetime(2025, 6, 1, 0, 0)
+
+    # 시각화 데이터 슬라이싱
+    final_slice = final_data[(final_data['datetime'] >= graph_start) & (final_data['datetime'] < transition_time)]
+    pred_slice = pred_data[(pred_data['datetime'] >= transition_time) & (pred_data['datetime'] <= graph_end)]
+
+    # 그래프 생성
+    fig, ax = plt.subplots(figsize=(14, 6))
+
+    # 실측 데이터 (파란 선)
+    if not final_slice.empty:
+        ax.plot(final_slice['datetime'], final_slice['sea_high'], 'b-', label='실측 (5월)', linewidth=2)
+
+    # 예측 데이터 (빨간 점선)
+    if not pred_slice.empty:
+        ax.plot(pred_slice['datetime'], pred_slice['sea_high'], 'r--', label='예측 (6월)', linewidth=2)
+
+    # 전환 시점 세로 점선
+    ax.axvline(x=transition_time, color='gray', linestyle='--', linewidth=2, label='전환 시점 (6월 1일 00:00)')
+
+    # 축 설정
+    ax.set_xlim(graph_start, graph_end)
+    ax.xaxis.set_major_locator(mdates.MinuteLocator(interval=20))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d %H:%M'))
+    ax.yaxis.set_major_locator(ticker.MultipleLocator(100))
+
+    # 제목, 레이블
+    ax.set_title('인천 조위 변화 (2025-05-31 22:00 ~ 2025-06-01 02:00)', fontsize=16)
+    ax.set_xlabel('시간', fontsize=12)
+    ax.set_ylabel('조위 (cm)', fontsize=12)
+
+    ax.legend()
+    ax.grid(True)
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+
+    # 그래프 이미지를 base64로 변환
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+    graph_url = base64.b64encode(img.getvalue()).decode()
+    plt.close()
+
+    return render_template('test3.html',
+                           graph_url=graph_url,
+                           current_window="2025-05-31 22:00 ~ 2025-06-01 02:00",
+                           prev_start=None,
+                           next_start=None)
+    
+@app.route('/test4')
+def test4():
+    # 폰트 설정
     plt.rcParams['font.family'] = 'Malgun Gothic'
     plt.rcParams['axes.unicode_minus'] = False
 
     # 데이터 로드 및 전처리
-    final_data = pd.read_csv('../finalData/InCheon_05.csv')
-    pred_data = pd.read_csv('../pred/this_InCheon_06.csv')
+    final_data = pd.read_csv('../finalData/InCheon_05.csv').dropna(subset=['sea_high'])
+    pred_data = pd.read_csv('../pred/this_InCheon_06.csv').dropna(subset=['sea_high'])
 
-    # sea_high 결측치 제거
-    final_data = final_data.dropna(subset=['sea_high']).reset_index(drop=True)
-    pred_data = pred_data.dropna(subset=['sea_high']).reset_index(drop=True)
+    final_data['datetime'] = pd.date_range(start='2025-05-31 00:00', periods=len(final_data), freq='10min')
+    pred_data['datetime'] = pd.date_range(start='2025-06-01 00:00', periods=len(pred_data), freq='10min')
 
-    # 시간 컬럼 생성 (10분 간격)
-    final_data['time'] = pd.date_range(start='2024-05-31 00:00', periods=len(final_data), freq='10min')
-    pred_data['time'] = pd.date_range(start='2024-06-01 00:00', periods=len(pred_data), freq='10min')
+    # 시각화 구간 설정
+    graph_start = datetime(2025, 5, 31, 22, 0)
+    graph_end = datetime(2025, 6, 1, 2, 0)
+    transition_time = datetime(2025, 6, 1, 0, 0)
 
-    # 전체 데이터 합치기(시간순 정렬)
-    data = pd.concat([final_data, pred_data], ignore_index=True).sort_values('time').reset_index(drop=True)
+    # 슬라이싱
+    final_slice = final_data[(final_data['datetime'] >= graph_start) & (final_data['datetime'] < transition_time)]
+    pred_slice = pred_data[(pred_data['datetime'] >= transition_time) & (pred_data['datetime'] <= graph_end)]
 
-    # 시작 시간: POST로 받거나 기본값 설정
-    if request.method == 'POST' and 'start_time' in request.form:
-        try:
-            start_time = datetime.strptime(request.form['start_time'], '%Y-%m-%d %H:%M')
-        except ValueError:
-            start_time = datetime(2024, 5, 31, 0, 0)
-    else:
-        start_time = datetime(2024, 5, 31, 0, 0)
-
-    # 1시간 구간 설정
-    end_time = start_time + timedelta(hours=1)
-
-    # 해당 구간 데이터 필터링
-    window_data = data[(data['time'] >= start_time) & (data['time'] <= end_time)]
-
-    # 그래프 그리기
+    # 그래프 생성
     fig, ax = plt.subplots(figsize=(14, 6))
 
-    # final_data 구간 (파란색, 원형 마커)
-    mask_final = window_data['time'] < datetime(2024, 6, 1, 0, 0)
-    ax.plot(window_data.loc[mask_final, 'time'], window_data.loc[mask_final, 'sea_high'],
-            'bo-', label='인천 5월 31일 (관측)', markersize=4)
+    if not final_slice.empty:
+        ax.plot(final_slice['datetime'], final_slice['sea_high'], 'b-', label='실측 (5월 31일)', linewidth=2)
 
-    # pred_data 구간 (빨간색, 사각형 마커)
-    mask_pred = window_data['time'] >= datetime(2024, 6, 1, 0, 0)
-    ax.plot(window_data.loc[mask_pred, 'time'], window_data.loc[mask_pred, 'sea_high'],
-            'rs--', label='인천 6월 1일 (예측)', markersize=4, alpha=0.8)
+    if not pred_slice.empty:
+        ax.plot(pred_slice['datetime'], pred_slice['sea_high'], 'r--', label='예측 (6월 1일)', linewidth=2)
 
-    # 날짜 구분선
-    ax.axvline(x=datetime(2024, 6, 1, 0, 0), color='black', linestyle=':', linewidth=2, alpha=0.7)
+    # 세로 점선 추가
+    ax.axvline(x=transition_time, color='gray', linestyle='--', linewidth=2, label='전환 시점 (6월 1일 00:00)')
 
     # 축 설정
-    ax.set_xlim(start_time, end_time)
-    ax.xaxis.set_major_locator(mdates.MinuteLocator(interval=10))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
+    ax.set_xlim(graph_start, graph_end)
+    ax.xaxis.set_major_locator(mdates.MinuteLocator(interval=20))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d %H:%M'))
+    ax.yaxis.set_major_locator(ticker.MultipleLocator(100))
 
-    # Y축 범위 설정 (10% 여유)
-    y_max = window_data['sea_high'].max()
-    y_min = window_data['sea_high'].min()
-    ax.set_ylim(y_min * 0.9, y_max * 1.1)
+    # 제목 및 레이블
+    ax.set_title('인천 조위 변화 (5월 31일 22시 ~ 6월 1일 2시)', fontsize=16)
+    ax.set_xlabel('시간', fontsize=12)
+    ax.set_ylabel('조위 (cm)', fontsize=12)
 
-    ax.set_xlabel('시간 (10분 단위)')
-    ax.set_ylabel('조위 (cm)')
-    ax.set_title(f'{start_time.strftime("%Y-%m-%d %H:%M")} ~ {end_time.strftime("%H:%M")} 인천 조위 데이터')
-
-    ax.grid(True, linestyle='--', alpha=0.5)
-    ax.legend(loc='upper left', fontsize=11)
-
+    plt.xticks(rotation=45)
+    ax.grid(True)
+    ax.legend()
     plt.tight_layout()
 
     # 이미지 변환
@@ -213,47 +334,97 @@ def test2():
     plt.savefig(img, format='png')
     img.seek(0)
     graph_url = base64.b64encode(img.getvalue()).decode()
-    plt.close(fig)
+    plt.close()
 
-    # 이전/다음 시간 계산 (1시간씩 이동)
-    prev_time = (start_time - timedelta(hours=1)).strftime('%Y-%m-%d %H:%M')
-    next_time = (start_time + timedelta(hours=1)).strftime('%Y-%m-%d %H:%M')
+    return render_template('test4.html', graph_url=graph_url)
+    #render_template('test4.html')
 
-    return render_template('test.html',
+@app.route('/test5')
+def test5():
+    # 한글 폰트 설정
+    plt.rcParams['font.family'] = 'Malgun Gothic'
+    plt.rcParams['axes.unicode_minus'] = False
+
+    # 데이터 로드
+    final_data = pd.read_csv('../finalData/InCheon_05.csv').dropna(subset=['sea_high'])
+    pred_data = pd.read_csv('../pred/this_InCheon_06.csv').dropna(subset=['sea_high'])
+
+    # datetime 컬럼 생성
+    final_data['datetime'] = pd.date_range(start='2025-05-31 00:00', periods=len(final_data), freq='10min')
+    pred_data['datetime'] = pd.date_range(start='2025-06-01 00:00', periods=len(pred_data), freq='10min')
+
+    # 그래프 기본 범위 설정
+    graph_start = datetime(2025, 5, 31, 22, 0)
+    graph_end = datetime(2025, 6, 1, 2, 0)
+    transition_time = datetime(2025, 6, 1, 0, 0)
+    window_hours = 4  # 표시할 시간 구간 길이 (4시간)
+
+    # 시작시간 파라미터 (없으면 기본값 5/31 22:00)
+    start_str = request.args.get('start', graph_start.strftime('%Y-%m-%d %H:%M'))
+    start_time = datetime.strptime(start_str, '%Y-%m-%d %H:%M')
+
+    # 끝나는 시간
+    end_time = start_time + timedelta(hours=window_hours)
+
+    # 5월 데이터는 전체를 로드했으니 표시 구간에 맞춰 슬라이싱
+    # 단, 5월 데이터는 5/31 00:00~5/31 22:00 이전 데이터도 다 가지고 있지만, 표시범위에 맞춰서 자름
+    final_slice = final_data[(final_data['datetime'] >= start_time) & (final_data['datetime'] < min(end_time, transition_time))]
+
+    # 6월 데이터는 6/1 00:00 이후 데이터만 사용 (전체 데이터에서 슬라이싱)
+    pred_slice = pred_data[(pred_data['datetime'] >= max(start_time, transition_time)) & (pred_data['datetime'] < end_time)]
+
+    # 그래프 생성
+    fig, ax = plt.subplots(figsize=(14, 6))
+
+    # 5월 실측 데이터 파란선
+    if not final_slice.empty:
+        ax.plot(final_slice['datetime'], final_slice['sea_high'], 'b-', label='실측 (5월)', linewidth=2)
+
+    # 6월 예측 데이터 빨간 점선
+    if not pred_slice.empty:
+        ax.plot(pred_slice['datetime'], pred_slice['sea_high'], 'r--', label='예측 (6월)', linewidth=2)
+
+    # 전환 시점 세로 점선
+    if start_time <= transition_time <= end_time:
+        ax.axvline(x=transition_time, color='gray', linestyle='--', linewidth=2, label='전환 시점 (6월 1일 00:00)')
+
+    # 축 설정
+    ax.set_xlim(start_time, end_time)
+    ax.xaxis.set_major_locator(mdates.MinuteLocator(interval=20))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d %H:%M'))
+    ax.yaxis.set_major_locator(ticker.MultipleLocator(100))
+
+    # 레이블 및 제목
+    ax.set_xlabel('시간', fontsize=12)
+    ax.set_ylabel('조위 (cm)', fontsize=12)
+    ax.set_title(f'인천 조위 변화: {start_time.strftime("%m-%d %H:%M")} ~ {end_time.strftime("%m-%d %H:%M")}', fontsize=16)
+
+    plt.xticks(rotation=45)
+    ax.grid(True)
+    ax.legend()
+    plt.tight_layout()
+
+    # 이미지 변환 (base64)
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+    graph_url = base64.b64encode(img.getvalue()).decode()
+    plt.close()
+
+    # 이전/다음 버튼 시간 계산 (1시간 단위)
+    prev_time = start_time - timedelta(hours=1)
+    next_time = start_time + timedelta(hours=1)
+
+    # 범위 제한 (그래프 표시 구간 내)
+    prev_start = prev_time.strftime('%Y-%m-%d %H:%M') if prev_time >= graph_start else None
+    next_start = next_time.strftime('%Y-%m-%d %H:%M') if next_time <= graph_end else None
+
+    return render_template('test5.html',
                            graph_url=graph_url,
-                           prev_time=prev_time,
-                           next_time=next_time)
-
-@app.route('/test3')
-def test3():
-    
-    # # CSV 불러오기
-    # df1 = pd.read_csv('../finalData/InCheon_05.csv', encoding='utf-8')
-    # df2 = pd.read_csv('../pred/this_InCheon_06.csv', encoding='utf-8')
-
-    # # sea_high 값 추출
-    # real = df1['sea_high'].tolist()
-    # pred = df2['sea_high'].tolist()
-    # all_values = real + pred
-
-    # # 시간 생성: 1시간 간격
-    # start_time = datetime(2024, 6, 1, 0, 0)
-    # times = [(start_time + timedelta(hours=i)).strftime('%Y-%m-%d %H:%M') for i in range(len(all_values))]
-    
-    # return render_template('test3.html', times=times, values=all_values)
-    return render_template('test3.html')
-
-@app.route('/data')
-def get_data():
-    df1 = pd.read_csv('../finalData/InCheon_05.csv', encoding='utf-8')
-    df2 = pd.read_csv('../pred/this_InCheon_06.csv', encoding='utf-8')
-    
-    data = {
-        'df1': df1.iloc[:, 1].tolist(),
-        'df2': df2.iloc[:, 1].tolist()
-    }
-    return jsonify(data)
-    
+                           current_window=f"{start_time.strftime('%m-%d %H:%M')} ~ {end_time.strftime('%m-%d %H:%M')}",
+                           prev_start=prev_start,
+                           next_start=next_start)    
+    #return render_template("test5.html")
 
 @app.route('/')
 def dashboard():

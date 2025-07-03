@@ -1,0 +1,34 @@
+<div id="danger-area-list" style="margin-top:30px;">
+    {% if danger_area and danger_area|length > 0 %}
+        <ul>
+        {% for area in danger_area %}
+            <li class="log-entry" style="color:red">{{ area }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <li class="log-entry">출항 금지 지역 없음</li>
+    {% endif %}
+</div>
+<script>
+  // JS로 갱신하는 코드는 그대로 유지
+  function updateDangerArea() {
+    fetch('/api/danger_area')
+      .then(response => response.json())
+      .then(data => {
+        const areaDiv = document.getElementById('danger-area-list');
+        areaDiv.innerHTML = '';
+        if (data.danger_area.length === 0) {
+          areaDiv.innerHTML = '<li class="log-entry">출항 금지 지역 없음</li>';
+        } else {
+          let html = '<ul>';
+          data.danger_area.forEach(function(area) {
+            html += `<li class="log-entry" style="color:red">${area}</li>`;
+          });
+          html += '</ul>';
+          areaDiv.innerHTML = html;
+        }
+      });
+  }
+  setInterval(updateDangerArea, 600000);
+  updateDangerArea();
+</script>

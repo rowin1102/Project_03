@@ -10,7 +10,7 @@
 
     <div style="margin-top: 20px; text-align: center;">
         {% if prev_start %}
-            <a href="{{ url_for('test1') }}?start={{ prev_start }}">
+            <a href="{{ url_for('test2') }}?start={{ prev_start }}">
                 <button>이전 1시간</button>
             </a>
         {% else %}
@@ -18,7 +18,7 @@
         {% endif %}
 
         {% if next_start %}
-            <a href="{{ url_for('test1') }}?start={{ next_start }}">
+            <a href="{{ url_for('test2') }}?start={{ next_start }}">
                 <button>다음 1시간</button>
             </a>
         {% else %}
