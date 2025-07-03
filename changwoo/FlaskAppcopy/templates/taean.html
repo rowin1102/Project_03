@@ -19,7 +19,7 @@
         .chart-title { transition: color 0.2s; }
     </style>
 </head>
-<body>
+<body data-region="태안">
 <div class="container">
     <div style="height:4px"></div>
     <div class="dashboard-grid">
@@ -65,21 +65,23 @@
                 </div>
             </div>
         </div>
+
         <!-- 우측 패널 -->
         <div class="right-panel">
+            <!-- 이미지 기반 chart -->
             <div class="chart-card" style="padding:0; border-radius:24px; background:#fff; box-shadow:0 2px 16px #d6e5f540;">
                 <div class="chart-header" style="padding:16px 24px 0 24px;">
-                        <div style="font-size:13px; color:#7686a2; margin-bottom:6px; display:flex; gap:18px; align-items:center;">
-                            <span>
-                                <span style="color:#2577e3;font-size:16px;vertical-align:middle;">●</span>
-                                <span style="margin-left:4px;">실제 데이터</span>
-                            </span>
-                            <span>
-                                <span style="color:#ff8a57;font-size:16px;vertical-align:middle;">●</span>
-                                <span style="margin-left:4px;">예측(6월)</span>
-                            </span>
-                        </div>
-                                        <div class="chart-title" id="chartTitle" style="font-size:20px;">📊 해수면의 높이</div>
+                    <div style="font-size:13px; color:#7686a2; margin-bottom:6px; display:flex; gap:18px; align-items:center;">
+                        <span>
+                            <span style="color:#2577e3;font-size:16px;vertical-align:middle;">●</span>
+                            <span style="margin-left:4px;">실제 데이터</span>
+                        </span>
+                        <span>
+                            <span style="color:#ff8a57;font-size:16px;vertical-align:middle;">●</span>
+                            <span style="margin-left:4px;">예측(6월)</span>
+                        </span>
+                    </div>
+                    <div class="chart-title" id="chartTitle" style="font-size:20px;">📊 해수면의 높이</div>
                     <div class="chart-nav" style="display:flex;gap:8px;">
                         <button class="nav-btn" id="prevBtn" style="font-size:15px;">◀</button>
                         <span id="timeRange" style="font-size:15px;padding:0 8px;color:#444;font-weight:500"></span>
@@ -90,9 +92,30 @@
                     <img src="/taean/graph.png?start=2025-05-31 21:00:00&col=sea_high" id="chartImg">
                 </div>
             </div>
+
+            <!-- 풍향/유향 chart (Plotly) -->
+            <div class="chart-card" style="margin-top: 30px;">
+                <div class="chart-header" style="padding:16px 24px 0 24px;">
+                    <div class="chart-title" style="font-size:20px;">🌬️ 풍향 / 유향 차트</div>
+                </div>
+
+                <div class="columns-grid" style="padding: 0 24px; margin-top: 14px;">
+                    <button id="windDirBtn" class="column-btn">풍향</button>
+                    <button id="seaDirBtn" class="column-btn">유향</button>
+                </div>
+
+               <div class="chart-container" style="margin: 20px 24px;">
+                    <div id="chartPlaceholder" class="chart-placeholder" style="width:100%; height:600px;"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<script src="{{ url_for('static', filename='js/subpage.js') }}"></script>
+
+<!-- 자바스크립트 로딩 -->
+<script defer src="{{ url_for('static', filename='js/chart_windDir.js') }}"></script>
+<script defer src="{{ url_for('static', filename='js/chart_seaDir.js') }}"></script>
+<script defer src="{{ url_for('static', filename='js/subpage.js') }}"></script>
+
 </body>
 </html>

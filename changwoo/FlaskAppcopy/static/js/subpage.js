@@ -43,18 +43,22 @@ function updateChartImg() {
     const d = pad(dt.getDate());
     const h = pad(dt.getHours());
     const min = pad(dt.getMinutes());
-    let src;
-    if (currentCol === 'wind_dir') {
-        src = `/taean/wind_dir_graph.png?start=${y}-${m}-${d} ${h}:${min}:00&_=` + Date.now();
-    } else if (currentCol === 'sea_dir_i') {
-        src = `/taean/sea_dir_graph.png?start=${y}-${m}-${d} ${h}:${min}:00&_=` + Date.now();
-    } else {
-        src = `/taean/graph.png?start=${y}-${m}-${d} ${h}:${min}:00&col=${currentCol}&_=` + Date.now();
+
+    // 풍향/유향은 Plotly JS로 따로 처리 → 이미지 요청 안함
+    if (currentCol === 'wind_dir' || currentCol === 'sea_dir_i') {
+        // 시간범위 표시는 계속 업데이트
+        document.getElementById('timeRange').innerText =
+            `${y}-${m}-${d} ${h}:${min} ~ ` +
+            `${new Date(dt.getTime() + hour * 60 * 60 * 1000).toISOString().slice(11, 16)}`;
+        return;
     }
+
+    let src = `/taean/graph.png?start=${y}-${m}-${d} ${h}:${min}:00&col=${currentCol}&_=` + Date.now();
     const img = document.getElementById('chartImg');
     img.style.opacity = 0;
     img.onload = function () { img.style.opacity = 1; };
     img.src = src;
+
     // 시간범위 표시
     document.getElementById('timeRange').innerText =
         `${y}-${m}-${d} ${h}:${min} ~ ` +
@@ -66,11 +70,11 @@ function setChartStartFromDate(y, m, d) {
 }
 
 // DOMContentLoaded 이후 바인딩
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // 달력 생성 및 월 버튼 바인딩
     generateCalendar(currentMonth);
     document.querySelectorAll('.month-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             currentMonth = parseInt(this.dataset.month);
@@ -78,8 +82,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // 달력 날짜(동적) 클릭 → 그래프 구간 변경 (이벤트 위임)
-    document.getElementById('calendar').onclick = function(e) {
+    // 달력 날짜 클릭 → 그래프 구간 변경
+    document.getElementById('calendar').onclick = function (e) {
         let btn = e.target;
         if (btn.classList.contains('calendar-date') && btn.hasAttribute('data-date')) {
             const ymd = btn.getAttribute('data-date');
@@ -92,9 +96,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // 컬럼 버튼 클릭(동적) → 그래프 컬럼 전환
+    // 컬럼 버튼 클릭 → 그래프 컬럼 전환
     document.querySelectorAll('.column-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             document.querySelectorAll('.column-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentCol = btn.dataset.col;
@@ -114,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
             pad(dt.getHours()) + ':00:00';
         updateChartImg();
     };
+
     document.getElementById('nextBtn').onclick = function () {
         let dt = new Date(chartStart.replace(/-/g, '/'));
         dt.setHours(dt.getHours() + hour);
