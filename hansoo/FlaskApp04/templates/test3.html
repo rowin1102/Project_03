@@ -1,0 +1,47 @@
+# templates/chart.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>인천 데이터 비교</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div style="width: 80%; margin: 0 auto;">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        fetch('/data')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('myChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: Math.max(data.df1.length, data.df2.length)}, (_, i) => i),
+                    datasets: [{
+                        label: '실제 데이터 (5월)',
+                        data: data.df1,
+                        borderColor: 'blue',
+                        fill: false
+                    }, {
+                        label: '예측 데이터 (6월)',
+                        data: data.df2,
+                        borderColor: 'red',
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: '인천 데이터 비교'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

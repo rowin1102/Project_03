@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>인천 조위 데이터 그래프</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            text-align: center;
+            padding: 30px;
+        }
+        .nav-btn {
+            font-size: 18px;
+            padding: 10px 25px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            background-color: #007BFF;
+            color: white;
+        }
+        .nav-btn:hover {
+            background-color: #0056b3;
+        }
+        img {
+            max-width: 95%;
+            height: auto;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>인천 조위 데이터 (10분 간격, 1시간 단위 이동)</h1>
+    <form method="post" style="display:inline;">
+        <input type="hidden" name="start_time" value="{{ prev_time }}" />
+        <button type="submit" class="nav-btn">← 1시간 전</button>
+    </form>
+    <form method="post" style="display:inline;">
+        <input type="hidden" name="start_time" value="{{ next_time }}" />
+        <button type="submit" class="nav-btn">1시간 후 →</button>
+    </form>
+
+    <div>
+        <img src="data:image/png;base64,{{ graph_url }}" alt="조위 그래프" />
+    </div>
+</body>
+</html>
