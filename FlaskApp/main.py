@@ -216,5 +216,22 @@ def incheon_chart_data():
         'predicted': pred.to_dict(orient='records')
     })
 
+@app.route('/api/yeosu_chart_data')
+def yeosu_chart_data():
+    obs_df = pd.read_csv('./static/finalData/Yeosu_05.csv')
+    pred_df = pd.read_csv('../pred/this_Yeosu_06.csv')
+
+    def parse(df):
+        df['datetime'] = pd.to_datetime(df['datetime']).dt.strftime('%Y-%m-%dT%H:%M:%S')
+        return df[['datetime', 'sea_high', 'wind_speed', 'pressure', 'sea_speed']].dropna()
+
+    obs = parse(obs_df)
+    pred = parse(pred_df)
+
+    return jsonify({
+        'observed': obs.to_dict(orient='records'),
+        'predicted': pred.to_dict(orient='records')
+    })
+
 if __name__ == '__main__':
   app.run(host='127.0.0.1', port=8080, debug=True)

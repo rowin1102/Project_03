@@ -8,12 +8,12 @@ let rawData = {
 let currentType = "sea_high"; // default
 
 const titleMap = {
-    sea_high: "해수면의 높이",
-    wind_speed: "풍속",
-    pressure: "기압",
-    sea_speed: "유속",
-    wind_dir: '풍향',
-    current_dir: '유향'
+  sea_high: "해수면의 높이",
+  wind_speed: "풍속",
+  pressure: "기압",
+  sea_speed: "유속",
+  wind_dir: "풍향",
+  current_dir: "유향"
 };
 
 async function fetchChartData() {
@@ -37,6 +37,26 @@ function updateTimeRangeLabel() {
 
 function drawChart(type) {
   const canvas = document.getElementById("incheonChart");
+  const chartPlaceholder = document.getElementById("chartPlaceholder");
+
+  // --- 차트 show/hide 컨트롤 ---
+  if (type === "wind_dir" || type === "current_dir") {
+    // 풍향/유향 버튼: canvas 숨기고 polar 차트만 보임
+    if (canvas) canvas.style.display = "none";
+    if (chartPlaceholder) chartPlaceholder.style.display = "block";
+    updateTimeRangeLabel();
+    const titleEl = document.getElementById("chartTitle");
+    if (titleEl) {
+      titleEl.innerText = `${titleMap[type]} 변화 추이`;
+    }
+    return;
+  } else {
+    // 나머지 4개: canvas 보이고, polar 차트는 숨김
+    if (canvas) canvas.style.display = "block";
+    if (chartPlaceholder) chartPlaceholder.style.display = "none";
+  }
+  // --------------------------
+
   if (!canvas) {
     console.error("canvas 요소를 찾을 수 없습니다.");
     return;
@@ -45,15 +65,6 @@ function drawChart(type) {
   const ctx = canvas.getContext("2d");
   if (window.myChart) {
     window.myChart.destroy();
-  }
-
-  if (type === "wind_dir" || type === "current_dir") {
-    updateTimeRangeLabel();
-    const titleEl = document.getElementById("chartTitle");
-    if (titleEl) {
-      titleEl.innerText = `${titleMap[type]} 변화 추이`;
-    }
-    return;
   }
 
   const start = new Date(currentStartTime);
@@ -91,7 +102,7 @@ function drawChart(type) {
           borderWidth: 2,
           pointRadius: 2,
           tension: 0.5,
-          borderDash: [5, 5],
+          borderDash: [5, 5], // 점선
         }
       ],
     },
@@ -151,32 +162,35 @@ function drawChart(type) {
 window.addEventListener("load", () => {
   fetchChartData();
 
-  // 해수면, 기압, 풍속, 유속만 drawChart에 연결 (풍향/유향은 제외)
-  const btnTypeMap = {
-    btnSeaHigh: "sea_high",
-    btnPressure: "pressure",
-    btnWindSpeed: "wind_speed",
-    btnSeaSpeed: "sea_speed"
-    // 풍향, 유향 제외
-  };
+  document.querySelectorAll(".column-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      currentType =
+        btn.innerText === "해수면의 높이"
+          ? "sea_high"
+          : btn.innerText === "풍속"
+          ? "wind_speed"
+          : btn.innerText === "기압"
+          ? "pressure"
+          : btn.innerText === "유속"
+          ? "sea_speed"
+          : btn.innerText === "풍향"
+          ? "wind_dir"
+          : btn.innerText === "유향"
+          ? "current_dir"
+          : "sea_high";
 
-  Object.entries(btnTypeMap).forEach(([btnId, type]) => {
-    const btn = document.getElementById(btnId);
-    if (!btn) return;
-    btn.addEventListener("click", function() {
-      currentType = type;
-
-      // active 클래스 이동
       document.querySelectorAll(".column-btn").forEach((b) =>
         b.classList.remove("active")
       );
       btn.classList.add("active");
 
       drawChart(currentType);
+
+      // 풍향/유향 이외의 버튼 클릭 시 Plotly 애니메이션 중단 추가(옵션)
+      // window.clearInterval(window.windDirInterval);
+      // Plotly.purge("chartPlaceholder"); // 필요하면 정리
     });
   });
-
-  // 풍향/유향은 별도 js(chart_windDir.js, chart_seaDir.js)에서 이벤트 등록
 
   const prev = document.getElementById("prevHour");
   const next = document.getElementById("nextHour");
