@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify
 import json, json, folium
+import pandas as pd
 from abnormal import detect_abnormal
 from obs_data import get_obs_data
 from obs_list import ObsCode
@@ -197,6 +198,25 @@ def tidedata():
         tide_data.append({'name': obs['name'], 'tide_level': tide_level})
 
     return jsonify(tide_data)
+
+@app.route('/api/incheon_chart_data')
+def incheon_chart_data():
+    obs_df = pd.read_csv('../finalData/InCheon_05.csv')
+    pred_df = pd.read_csv('../pred/this_InCheon_06.csv')
+
+    def parse(df):
+        df['datetime'] = pd.to_datetime(df['datetime']).dt.strftime('%Y-%m-%dT%H:%M:%S')
+        return df[['datetime', 'sea_high', 'wind_speed', 'pressure', 'sea_speed']]\
+            .rename(columns={'wind_speed': 'wind_speed'})\
+            .dropna()
+
+    obs = parse(obs_df)
+    pred = parse(pred_df)
+
+    return jsonify({
+        'observed': obs.to_dict(orient='records'),
+        'predicted': pred.to_dict(orient='records')
+    })
 
 if __name__ == '__main__':
   app.run(host='127.0.0.1', port=8080, debug=True)
