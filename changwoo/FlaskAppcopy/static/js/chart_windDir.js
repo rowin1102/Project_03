@@ -177,12 +177,14 @@ function drawWindDirPlotly(chartStart, hour) {
   const regionName = document.body.dataset.region || '태안';
 
   const regionConfigs = {
-    '인천':   { name: '인천',   csv: './static/finalData/InCheon_05.csv' },
-    '목포':   { name: '목포',   csv: './static/finalData/Mokpo_05.csv' },
-    '여수':   { name: '여수',   csv: './static/finalData/Yeosu_05.csv' },
-    '울산':   { name: '울산',   csv: './static/finalData/Ulsan_05.csv' },
-    '태안':   { name: '태안',   csv: '/static/finalData/Taean_05.csv' }
+      '인천':   { name: '인천',   csv: '/static/finalData/InCheon_05.csv' },
+      '여수':   { name: '여수',   csv: '/static/finalData/Yeosu_05.csv' },
+      '태안':   { name: '태안',   csv: '/static/finalData/Taean_05.csv' },
+      '울진':   { name: '울진',   csv: '/static/finalData/Uljin_05.csv' }
   };
+
+  const config = regionConfigs[regionName];
+
   const allDirections = [
     'N', 'NNE', 'NE', 'ENE',
     'E', 'ESE', 'SE', 'SSE',
@@ -192,7 +194,6 @@ function drawWindDirPlotly(chartStart, hour) {
   const allDegrees = Array.from({length: 16}, (_, i) => i * 22.5);
 
   (async () => {
-    const config = regionConfigs[regionName];
     if (!config) {
       alert('지원하지 않는 지역입니다!');
       return;

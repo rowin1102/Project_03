@@ -5,17 +5,33 @@
     <title>항구 상세정보</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/subpage.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        #chartImg {
+            width: 100%;
+            max-height: 800px;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.7s;
+            display: block;
+            object-fit: contain;
+        }
+        .chart-container { min-height: 800px; }
+        .chart-title { transition: color 0.2s; }
+    </style>
+    <!-- Plotly CDN 필수! -->
+    <script src="https://cdn.plot.ly/plotly-2.31.1.min.js"></script>
 </head>
-<body>
+<body data-region="울진">
 <div class="container">
     <div style="height:4px"></div>
     <div class="dashboard-grid">
-        <!-- 좌측 패널 -->
+        <!-- ===== 좌측 패널 ===== -->
         <div class="left-panel">
             <button class="back-btn-mini" onclick="history.back()">← 뒤로가기</button>
             <div class="card port-info">
                 <div class="port-title">🚢 울진항</div>
-                <div class="port-detail-row"><span>위치</span><span>경상북도 울진군</span></div>
+                <div class="port-detail-row"><span>위치</span><span>경상북도 울진시</span></div>
                 <div class="port-detail-row"><span>운영상태</span><span>정상</span></div>
                 <div class="port-detail-row"><span>조위</span>
                     <span>
@@ -43,35 +59,49 @@
             </div>
             <div class="card">
                 <div class="columns-grid">
-                    <button class="column-btn active">해수면의 높이</button>
-                    <button class="column-btn">기압</button>
-                    <button class="column-btn">풍속</button>
-                    <button class="column-btn">유속</button>
-                    <button class="column-btn">풍향</button>
-                    <button class="column-btn">유향</button>
+                    <button class="column-btn active" data-col="sea_high">해수면의 높이</button>
+                    <button class="column-btn" data-col="pressure">기압</button>
+                    <button class="column-btn" data-col="wind_speed">풍속</button>
+                    <button class="column-btn" data-col="sea_speed">유속</button>
+                    <button class="column-btn" data-col="wind_dir">풍향</button>
+                    <button class="column-btn" data-col="sea_dir_i">유향</button>
                 </div>
             </div>
         </div>
-        <!-- 우측 패널 -->
+
+        <!-- ===== 우측 패널 ===== -->
         <div class="right-panel">
-            <div class="card chart-card">
-                <div class="chart-header">
-                    <div class="chart-title" id="chartTitle">📊 해수면의 높이 변화 추이</div>
-                    <div class="chart-nav">
-                        <button class="nav-btn" id="prevMonth">◀ 전월</button>
-                        <button class="nav-btn" id="nextMonth">다음월 ▶</button>
+            <div class="chart-card" style="padding:0; border-radius:24px; background:#fff;">
+                <div class="chart-header" style="padding:16px 24px 0 24px;">
+                    <div style="font-size:13px; color:#7686a2; margin-bottom:6px; display:flex; gap:18px; align-items:center;">
+                        <span>
+                            <span style="color:#2577e3;font-size:16px;vertical-align:middle;">●</span>
+                            <span style="margin-left:4px;">실제 데이터</span>
+                        </span>
+                        <span>
+                            <span style="color:#ff8a57;font-size:16px;vertical-align:middle;">●</span>
+                            <span style="margin-left:4px;">예측(6월)</span>
+                        </span>
+                    </div>
+                    <div class="chart-title" id="chartTitle" style="font-size:20px;">📊 해수면의 높이</div>
+                    <div class="chart-nav" style="display:flex;gap:8px;">
+                        <button class="nav-btn" id="prevBtn" style="font-size:15px;">◀</button>
+                        <span id="timeRange" style="font-size:15px;padding:0 8px;color:#444;font-weight:500"></span>
+                        <button class="nav-btn" id="nextBtn" style="font-size:15px;">▶</button>
                     </div>
                 </div>
-                <div class="chart-container">
-                    <div class="chart-placeholder" id="chartPlaceholder">
-                        📈 그래프 영역<br>
-                        <small>실제 차트 라이브러리를 연동하여 데이터를 표시할 수 있습니다</small>
-                    </div>
+                <div class="chart-container" style="width:100%; height:800px; display:flex; align-items:center; justify-content:center; padding:0;">
+                    <img src="/uljin/graph.png?start=2025-05-31 21:00:00&col=sea_high" id="chartImg" style="display:block; max-width:100%; max-height:100%;">
+                    <div id="chartPlaceholder" style="display:none; width:100%; height:100%;"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script src="{{ url_for('static', filename='js/subpage.js') }}"></script>
+
+<!-- js 순서 중요! 반드시 subpage.js가 제일 마지막! -->
+<script defer src="{{ url_for('static', filename='js/chart_windDir.js') }}"></script>
+<script defer src="{{ url_for('static', filename='js/chart_seaDir.js') }}"></script>
+<script defer src="{{ url_for('static', filename='js/subpage.js') }}"></script>
 </body>
 </html>

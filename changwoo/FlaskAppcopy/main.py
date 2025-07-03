@@ -7,15 +7,13 @@ from obs_list import ObsCode
 import pandas as pd
 import matplotlib.dates as mdates
 import matplotlib
-matplotlib.use('Agg')  # 서버에서 그래프 생성용
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import io
 import os
 import chardet
-import pandas as pd
-# 한번만 읽어서 메모리에 올려놓기
-import chardet
 
+# ========= CSV 자동 인코딩 읽기 =========
 def read_csv_autoenc(path):
     with open(path, 'rb') as f:
         enc = chardet.detect(f.read())
@@ -24,21 +22,21 @@ def read_csv_autoenc(path):
     except Exception:
         return pd.read_csv(path, encoding='utf-8', errors='replace')
 
+# ========= 데이터 미리 로딩 =========
 df4 = read_csv_autoenc('../finalData/Taean_04.csv')
 df5 = read_csv_autoenc('../finalData/Taean_05.csv')
 df6 = read_csv_autoenc('../pred/this_Taean_06.csv')
+df_uljin_5 = read_csv_autoenc('../finalData/Uljin_05.csv')
+df_uljin_6 = read_csv_autoenc('../pred/this_Uljin_06.csv')
 
-# datetime 컬럼 파싱
-for df in [df4, df5, df6]:
+for df in [df4, df5, df6, df_uljin_5, df_uljin_6]:
     if 'dt' in df.columns:
         df['datetime'] = pd.to_datetime(df['dt'])
     elif 'datetime' in df.columns:
         df['datetime'] = pd.to_datetime(df['datetime'])
 
-
-# 한글 폰트 설정
-matplotlib.rc('font', family='Malgun Gothic')  # 윈도우는 'Malgun Gothic'
-plt.rcParams['axes.unicode_minus'] = False     # 마이너스 기호 깨짐 방지
+matplotlib.rc('font', family='Malgun Gothic')
+plt.rcParams['axes.unicode_minus'] = False
 
 app = Flask(__name__)
 
@@ -50,6 +48,7 @@ with open('./observatory/jo.json', encoding='utf-8') as f:
 with open('./observatory/bui.json', encoding='utf-8') as f:
     BuiCode_json = json.load(f)
 
+# ========= 대시보드 =========
 @app.route('/')
 def dashboard():
     warning_msg = []
@@ -63,6 +62,7 @@ def dashboard():
             danger_msg.append(f"{obs['name']} 출항 금지")
     return render_template('mainPage.html', warning=warning_msg, danger_area=danger_msg)
 
+# ========= 상세페이지 =========
 @app.route('/incheon')
 def incheon_detail():
     obs_code = 'DT_0011'
@@ -73,7 +73,6 @@ def incheon_detail():
                            wind_speed=data.get('wind_speed', 0),
                            current_speed=data.get('current_speed', 0))
 
-
 @app.route('/taean')
 def taean_detail():
     obs_code = 'DT_0025'
@@ -83,72 +82,21 @@ def taean_detail():
                            tide_level=data.get('tide_level', 0),
                            wind_speed=data.get('wind_speed', 0),
                            current_speed=data.get('current_speed', 0))
-    
-    
-@app.route('/taean/graph.png')
-def taean_graph():
-    # ----------- 핵심: col 받아오기! -----------
-    col = request.args.get('col', 'sea_high')  # 기본값 'sea_high'
-    col_label = {
-        'sea_high': '해수면의 높이',
-        'pressure': '기압',
-        'wind_speed': '풍속',
-        'sea_speed': '유속',
-        # 'wind_dir': '풍향',
-        # 'sea_dir_i': '유향',
-    }.get(col, col)
 
-    start_str = request.args.get('start', '2025-05-31 21:00:00')
-    start_time = pd.to_datetime(start_str)
-    end_time = start_time + pd.Timedelta(hours=6)
+@app.route('/uljin')
+def uljin_detail():
+    obs_code = 'DT_0036'
+    city_name = '울진'
+    data = get_obs_data({'code': obs_code, 'name': city_name}, url, ServiceKey)
+    print(df_uljin_5.columns)
+    print(df_uljin_6.columns)
+    print(df_uljin_5['sea_dir_i'].tail(20))
+    print(df_uljin_6['sea_dir_i'].head(20))
 
-    # 데이터 (전역 df4/df5/df6 미리 불러와 있어야 함)
-    df_real = pd.concat([df4, df5])
-    df_pred = df6
-
-    df_real_sel = df_real[(df_real['datetime'] >= start_time) & (df_real['datetime'] < end_time)]
-    df_pred_sel = df_pred[(df_pred['datetime'] >= start_time) & (df_pred['datetime'] < end_time)]
-
-    # ---------- 그래프 ----------
-    plt.figure(figsize=(18, 8), facecolor='#eaf3fb')
-    ax = plt.gca()
-    if not df_real_sel.empty and col in df_real_sel:
-        ax.plot(
-            df_real_sel['datetime'], df_real_sel[col],
-            color='#2577e3', linewidth=4, marker='o', markersize=9, alpha=0.97
-        )
-    if not df_pred_sel.empty and col in df_pred_sel:
-        ax.plot(
-            df_pred_sel['datetime'], df_pred_sel[col],
-            color='#ff8a57', linewidth=4, marker='o', markersize=9, linestyle='--', alpha=0.88
-        )
-
-    # 6월 경계선
-    june_start = pd.Timestamp('2025-06-01 00:00:00')
-    if not df_real_sel.empty and not df_pred_sel.empty:
-        if (df_real_sel['datetime'] < june_start).any() and (df_pred_sel['datetime'] >= june_start).any():
-            ax.axvline(x=june_start, color='#888', linestyle='--', linewidth=2.6, alpha=0.72)
-
-    ax.set_xlabel('')
-    ax.set_ylabel('')
-    ax.set_title('')
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.spines['left'].set_color('#bfd7ee')
-    ax.spines['bottom'].set_color('#bfd7ee')
-    ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d\n%H시"))
-    plt.xticks(rotation=28, fontsize=20, color='#222')
-    plt.yticks(fontsize=20, color='#222')
-    ax.grid(True, linestyle=':', linewidth=1.2, color='#c9e0f7', alpha=0.94)
-    plt.tight_layout(pad=0.5)
-
-    buf = io.BytesIO()
-    plt.savefig(buf, format='png', transparent=True, dpi=140)
-    plt.close()
-    buf.seek(0)
-    return send_file(buf, mimetype='image/png')
-
-
+    return render_template('uljin.html',
+                           tide_level=data.get('tide_level', 0),
+                           wind_speed=data.get('wind_speed', 0),
+                           current_speed=data.get('current_speed', 0))
 
 @app.route('/tongyeong')
 def tongyeong_detail():
@@ -170,36 +118,57 @@ def yeosu_detail():
                            wind_speed=data.get('wind_speed', 0),
                            current_speed=data.get('current_speed', 0))
 
-@app.route('/uljin')
-def uljin_detail():
-    obs_code = 'DT_0036'
-    city_name = '울진'
-    data = get_obs_data({'code': obs_code, 'name': city_name}, url, ServiceKey)
-    return render_template('uljin.html',
-                           tide_level=data.get('tide_level', 0),
-                           wind_speed=data.get('wind_speed', 0),
-                           current_speed=data.get('current_speed', 0))
+# ========= 그래프 엔드포인트 (태안) =========
+@app.route('/taean/graph.png')
+def taean_graph():
+    col = request.args.get('col', 'sea_high')
+    start_str = request.args.get('start', '2025-05-31 21:00:00')
+    df_real = pd.concat([df4, df5])
+    df_pred = df6
+    return send_file(plot_graph(df_real, df_pred, col, start_str), mimetype='image/png')
 
-@app.route('/api/warning')
-def api_warning():
-    warning_msg = []
-    for obs in ObsCode:
-        data = get_obs_data(obs, url, ServiceKey)
-        warning = detect_abnormal(data)
-        for w in warning:
-            warning_msg.append(f"{obs['name']} {w}")
-    return jsonify({'warning': warning_msg})
+# ========= 그래프 엔드포인트 (울진) =========
+@app.route('/uljin/graph.png')
+def uljin_graph():
+    col = request.args.get('col', 'sea_high')
+    start_str = request.args.get('start', '2025-05-31 21:00:00')
+    return send_file(plot_graph(df_uljin_5, df_uljin_6, col, start_str), mimetype='image/png')
 
-@app.route('/api/danger_area')
-def api_danger_area():
-    danger_msg = []
-    for obs in ObsCode:
-        data = get_obs_data(obs, url, ServiceKey)
-        warning = detect_abnormal(data)
-        if any('위험' in w for w in warning):
-            danger_msg.append(f"{obs['name']} 출항 금지")
-    return jsonify({'danger_area': danger_msg})
+# ========= 그래프 공통 함수 =========
+def plot_graph(df_real, df_pred, col, start_str):
+    start_time = pd.to_datetime(start_str)
+    end_time = start_time + pd.Timedelta(hours=6)
+    df_real_sel = df_real[(df_real['datetime'] >= start_time) & (df_real['datetime'] < end_time)]
+    df_pred_sel = df_pred[(df_pred['datetime'] >= start_time) & (df_pred['datetime'] < end_time)]
+    plt.figure(figsize=(18, 8), facecolor='#eaf3fb')
+    ax = plt.gca()
+    if not df_real_sel.empty and col in df_real_sel:
+        ax.plot(df_real_sel['datetime'], df_real_sel[col], color='#2577e3', linewidth=4, marker='o', markersize=9, alpha=0.97)
+    if not df_pred_sel.empty and col in df_pred_sel:
+        ax.plot(df_pred_sel['datetime'], df_pred_sel[col], color='#ff8a57', linewidth=4, marker='o', markersize=9, linestyle='--', alpha=0.88)
+    june_start = pd.Timestamp('2025-06-01 00:00:00')
+    if not df_real_sel.empty and not df_pred_sel.empty:
+        if (df_real_sel['datetime'] < june_start).any() and (df_pred_sel['datetime'] >= june_start).any():
+            ax.axvline(x=june_start, color='#888', linestyle='--', linewidth=2.6, alpha=0.72)
+    ax.set_xlabel('')
+    ax.set_ylabel('')
+    ax.set_title('')
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_color('#bfd7ee')
+    ax.spines['bottom'].set_color('#bfd7ee')
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d\n%H시"))
+    plt.xticks(rotation=28, fontsize=20, color='#222')
+    plt.yticks(fontsize=20, color='#222')
+    ax.grid(True, linestyle=':', linewidth=1.2, color='#c9e0f7', alpha=0.94)
+    plt.tight_layout(pad=0.5)
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', transparent=True, dpi=140)
+    plt.close()
+    buf.seek(0)
+    return buf
 
+# ========= 지도(관측소) =========
 @app.route('/obs_map')
 def obs_map():
     m = folium.Map(location=[36.5, 127.8], zoom_start=6, width="100%", height="420px")
@@ -251,6 +220,27 @@ def obs_map():
     html = m._repr_html_()
     return html
 
+# ========= API =========
+@app.route('/api/warning')
+def api_warning():
+    warning_msg = []
+    for obs in ObsCode:
+        data = get_obs_data(obs, url, ServiceKey)
+        warning = detect_abnormal(data)
+        for w in warning:
+            warning_msg.append(f"{obs['name']} {w}")
+    return jsonify({'warning': warning_msg})
+
+@app.route('/api/danger_area')
+def api_danger_area():
+    danger_msg = []
+    for obs in ObsCode:
+        data = get_obs_data(obs, url, ServiceKey)
+        warning = detect_abnormal(data)
+        if any('위험' in w for w in warning):
+            danger_msg.append(f"{obs['name']} 출항 금지")
+    return jsonify({'danger_area': danger_msg})
+
 @app.route('/winddata')
 def winddata():
     target_names = ['인천', '통영', '태안', '여수', '울진']
@@ -273,6 +263,7 @@ def tidedata():
         tide_data.append({'name': obs['name'], 'tide_level': tide_level})
     return jsonify(tide_data)
 
+# ========= 데이터 경로 유틸 =========
 def get_data_path(city, month):
     city_map = {
         'incheon': 'InCheon',
@@ -289,89 +280,6 @@ def get_data_path(city, month):
     else:
         path = f'../finalData/{city_name}_05.csv'
     return path if os.path.exists(path) else None
-
-import matplotlib.dates as mdates
-
-# def plot_graph(city, start_str):
-#     start_time = pd.to_datetime(start_str)
-#     end_time = start_time + pd.Timedelta(hours=6)
-
-#     month5_path = get_data_path(city, 5)
-#     month6_path = get_data_path(city, 6)
-
-#     dfs = []
-#     for path in [month5_path, month6_path]:
-#         if path:
-#             df = pd.read_csv(path, encoding='cp949')
-#             for col in ['dt', 'datetime']:
-#                 if col in df.columns:
-#                     df[col] = pd.to_datetime(df[col])
-#             if 'dt' in df.columns:
-#                 df = df.rename(columns={'dt': 'datetime'})
-#             dfs.append(df)
-
-#     if not dfs:
-#         plt.figure(figsize=(8, 3))
-#         plt.text(0.5, 0.5, "데이터 없음", ha='center', va='center', fontsize=20, color='#666666')
-#         plt.axis('off')
-#         buf = io.BytesIO()
-#         plt.savefig(buf, format='png', transparent=True)
-#         plt.close()
-#         buf.seek(0)
-#         return buf
-
-#     df_all = pd.concat(dfs)
-#     df_sel = df_all[(df_all['datetime'] >= start_time) & (df_all['datetime'] <= end_time)]
-
-#     plt.figure(figsize=(8, 3), facecolor='#f8fbfe')  # 아주 연한 하늘색 배경
-#     ax = plt.gca()
-#     if len(df_sel) > 0:
-#         # 실제 데이터 파란 실선
-#         ax.plot(df_sel['datetime'], df_sel['sea_high'], color='#4a90e2', linewidth=2, linestyle='-', label='실제 데이터')
-#         # 예측 데이터 주황 점선 (6월 데이터)
-#         june_df = df_sel[df_sel['datetime'] >= pd.Timestamp("2025-06-01 00:00")]
-#         if not june_df.empty:
-#             ax.plot(june_df['datetime'], june_df['sea_high'], color='#f5a623', linewidth=2, linestyle='--', label='예측 데이터')
-#         # 기준선 점선 검정
-#         ax.axvline(x=pd.Timestamp("2025-06-01 00:00"), color='#333333', linestyle='--', linewidth=1.5, label='기준선')
-#     else:
-#         ax.text(0.5, 0.5, "데이터 없음", ha='center', va='center', fontsize=20, color='#666666')
-#         ax.axis('off')
-
-#     ax.set_xlabel("시간", color='#555555')
-#     ax.set_ylabel("해수면 높이 (cm)", color='#555555')
-#     ax.set_title(f"{city.title()} 해수면 높이 변화 추이", fontsize=14, color='#333333')
-
-#     # 축 스타일 조절
-#     ax.spines['top'].set_visible(False)
-#     ax.spines['right'].set_visible(False)
-#     ax.spines['bottom'].set_color('#cccccc')
-#     ax.spines['left'].set_color('#cccccc')
-
-#     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d %H시"))
-#     ax.xaxis.set_major_locator(mdates.HourLocator(interval=1))
-#     plt.xticks(rotation=45, fontsize=9, color='#555555')
-#     plt.yticks(color='#555555', fontsize=9)
-
-#     ax.grid(True, linestyle=':', linewidth=0.6, color='#cccccc')
-#     # ax.legend(frameon=False, fontsize=10, loc='upper left')
-
-#     plt.tight_layout()
-#     buf = io.BytesIO()
-#     plt.savefig(buf, format='png', transparent=True)
-#     plt.close()
-#     buf.seek(0)
-#     return buf
-
-
-# @app.route('/<city>/graph.png')
-# def city_graph(city):
-#     start = request.args.get('start', '2025-05-31 21:00:00')
-#     img = plot_graph(city, start)
-#     if img:
-#         return send_file(img, mimetype='image/png')
-#     else:
-#         return 'No data', 404
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)

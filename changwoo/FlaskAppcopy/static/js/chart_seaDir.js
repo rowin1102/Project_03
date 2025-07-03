@@ -162,12 +162,14 @@ function drawSeaDirPlotly(chartStart, hour) {
   const regionName = document.body.dataset.region || '태안';
 
   const regionConfigs = {
-    '인천':   { name: '인천',   csv: './static/finalData/InCheon_05.csv' },
-    '목포':   { name: '목포',   csv: './static/finalData/Mokpo_05.csv' },
-    '여수':   { name: '여수',   csv: './static/finalData/Yeosu_05.csv' },
-    '울산':   { name: '울산',   csv: './static/finalData/Ulsan_05.csv' },
-    '태안':   { name: '태안',   csv: '/static/finalData/Taean_05.csv' }
+      '인천':   { name: '인천',   csv: '/static/finalData/InCheon_05.csv' },
+      '여수':   { name: '여수',   csv: '/static/finalData/Yeosu_05.csv' },
+      '태안':   { name: '태안',   csv: '/static/finalData/Taean_05.csv' },
+      '울진':   { name: '울진',   csv: '/static/finalData/Uljin_05.csv' }
   };
+
+  const config = regionConfigs[regionName];
+
   const allDirections = [
     'N', 'NNE', 'NE', 'ENE',
     'E', 'ESE', 'SE', 'SSE',
@@ -177,7 +179,6 @@ function drawSeaDirPlotly(chartStart, hour) {
   const allDegrees = Array.from({length: 16}, (_, i) => i * 22.5);
 
   (async () => {
-    const config = regionConfigs[regionName];
     if (!config) {
       alert('지원하지 않는 지역입니다!');
       return;
@@ -192,6 +193,9 @@ function drawSeaDirPlotly(chartStart, hour) {
     const text = await resp.text();
     const lines = text.trim().split('\n');
     const headers = lines[0].split(',').map(h => h.trim());
+    if (headers[0].charCodeAt(0) === 65279) {
+    headers[0] = headers[0].replace(/^\uFEFF/, '');
+    }
     const dirIdx = headers.indexOf('sea_dir_i');
     if (dirIdx === -1) {
       alert('CSV에 sea_dir_i 컬럼이 없습니다!');
@@ -203,6 +207,13 @@ function drawSeaDirPlotly(chartStart, hour) {
       const dir = parseFloat(cols[dirIdx]);
       if (!isNaN(dir)) seaDirs.push(dir);
     }
+    console.log("seaDirs length:", seaDirs, seaDirs.length);
+    console.log("config.csv", config.csv);
+    console.log("headers", headers);
+    console.log("dirIdx", dirIdx);
+    console.log("seaDirs length:", seaDirs, seaDirs.length);
+
+
     if (seaDirs.length === 0) {
       alert('유향 데이터 없음');
       return;
