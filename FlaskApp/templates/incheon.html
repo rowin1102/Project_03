@@ -5,6 +5,7 @@
     <title>항구 상세정보</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/subpage.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body data-region="인천">
 <div class="container">
@@ -43,10 +44,10 @@
             </div>
             <div class="card">
                 <div class="columns-grid">
-                    <button class="column-btn active">해수면의 높이</button>
-                    <button class="column-btn">기압</button>
-                    <button class="column-btn">풍속</button>
-                    <button class="column-btn">유속</button>
+                    <button class="column-btn active" id="tideBtn">해수면의 높이</button>
+                    <button class="column-btn" id="pressureBtn">기압</button>
+                    <button class="column-btn" id="windSpeedBtn">풍속</button>
+                    <button class="column-btn" id="seaSpeedBtn">유속</button>
                     <button class="column-btn" id="windDirBtn">풍향</button>
                     <button class="column-btn" id="seaDirBtn">유향</button>
                 </div>
@@ -64,7 +65,11 @@
                     </div>
                 </div>
                 <div class="chart-container">
-                    <canvas id="incheonChart" width="1000px" height="500"></canvas>
+                    <div id="chartPlaceholder" style="display:none;"></div>
+                    <canvas id="incheonChart"   style="display:block;" width="1000px" height="500"></canvas>
+                    <canvas id="pressureChart"  style="display:none;"  width="1000px" height="500"></canvas>
+                    <canvas id="windChart"      style="display:none;"  width="1000px" height="500"></canvas>
+                    <canvas id="seaChart"       style="display:none;"  width="1000px" height="500"></canvas>
                 </div>
             </div>
         </div>

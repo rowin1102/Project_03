@@ -44,10 +44,10 @@
             </div>
             <div class="card">
                 <div class="columns-grid">
-                    <button class="column-btn active">해수면의 높이</button>
-                    <button class="column-btn">기압</button>
-                    <button class="column-btn">풍속</button>
-                    <button class="column-btn">유속</button>
+                    <button class="column-btn active" id="tideBtn">해수면의 높이</button>
+                    <button class="column-btn" id="pressureBtn">기압</button>
+                    <button class="column-btn" id="windSpeedBtn">풍속</button>
+                    <button class="column-btn" id="seaSpeedBtn">유속</button>
                     <button class="column-btn" id="windDirBtn">풍향</button>
                     <button class="column-btn" id="seaDirBtn">유향</button>
                 </div>
@@ -59,20 +59,27 @@
                 <div class="chart-header">
                     <div class="chart-title" id="chartTitle">📊 해수면의 높이 변화 추이</div>
                     <div class="chart-nav">
-                        <button class="nav-btn" id="prevMonth">◀ 전월</button>
-                        <button class="nav-btn" id="nextMonth">다음월 ▶</button>
+                        <button class="nav-btn" id="prevHour">←</button>
+                        <span id="chartTimeRange"></span>
+                        <button class="nav-btn" id="nextHour">→</button>
                     </div>
                 </div>
                 <div class="chart-container">
-                   <div id="chartPlaceholder" style="width:100%;height:800px;"></div>
+                    <div id="chartPlaceholder" style="display:none;"></div>
+                    <canvas id="incheonChart"   style="display:block;" width="1000px" height="500"></canvas>
+                    <canvas id="pressureChart"  style="display:none;"  width="1000px" height="500"></canvas>
+                    <canvas id="windChart"      style="display:none;"  width="1000px" height="500"></canvas>
+                    <canvas id="seaChart"       style="display:none;"  width="1000px" height="500"></canvas>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='js/subpage.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+<script src="{{ url_for('static', filename='js/incheon_chart.js') }}"></script>
 <script src="{{ url_for('static', filename='js/chart_windDir.js') }}"></script>
 <script src="{{ url_for('static', filename='js/chart_seaDir.js') }}"></script>
-
 </body>
 </html>

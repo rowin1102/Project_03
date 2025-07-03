@@ -3,6 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const chartTitle = document.getElementById('chartTitle');
   const windDirBtn = document.getElementById('windDirBtn');
 
+  // 여러 버튼(해수면, 기압 등) id를 가져온다고 가정 (없으면 querySelectorAll(".column-btn")로 사용)
+  const tideBtn      = document.getElementById('tideBtn');
+  const pressureBtn  = document.getElementById('pressureBtn');
+  const windSpeedBtn = document.getElementById('windSpeedBtn');
+  const seaSpeedBtn  = document.getElementById('seaSpeedBtn');
+  // 필요하면 seaDirBtn 등도 추가
+
   // 지역별 config: 이름, csv 경로
   const regionConfigs = {
     '인천':   { name: '인천',   csv: '/static/finalData/InCheon_05.csv' },
@@ -10,10 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     '여수':   { name: '여수',   csv: '/static/finalData/Yeosu_05.csv' },
     '울산':   { name: '울산',   csv: '/static/finalData/Ulsan_05.csv' },
     '부산':   { name: '부산',   csv: '/static/finalData/Busan_05.csv' }
-    // 필요하면 더 추가
   };
 
-  // 16방위 ticktext와 각도
   const allDirections = [
     'N', 'NNE', 'NE', 'ENE',
     'E', 'ESE', 'SE', 'SSE',
@@ -22,13 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
   const allDegrees = Array.from({length: 16}, (_, i) => i * 22.5);
 
-  let interval;
-  let windDirs = [];
+  let interval = null;  // 전역으로 유지
 
+  // 🔹 "풍향" 버튼 클릭시
   windDirBtn.addEventListener('click', async () => {
-    clearInterval(interval);
+    // 1. 항상 interval 중단(중복방지)
+    if (interval) {
+      clearInterval(interval);
+      interval = null;
+    }
 
-    // 현재 지역 읽기
     const regionName = document.body.dataset.region || '인천';
     const config = regionConfigs[regionName];
     if (!config) {
@@ -38,30 +46,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     chartTitle.textContent = `🌬️ ${config.name} 풍향`;
 
-    // windDirs 초기화(다시 지역 버튼 클릭시 새로 fetch)
-    windDirs = [];
-
-    // CSV 데이터 fetch & windDirs 추출
-    const resp = await fetch(config.csv);
-    const text = await resp.text();
-    const lines = text.trim().split('\n');
-    const headers = lines[0].split(',');
-    const dirIdx = headers.indexOf('wind_dir');
-    if (dirIdx === -1) {
-      alert('CSV에 wind_dir 컬럼이 없습니다!');
-      return;
-    }
-    for (let i = 1; i < lines.length; i++) {
-      const cols = lines[i].split(',').map(c => c.trim());
-      const dir = parseFloat(cols[dirIdx]);
-      if (!isNaN(dir)) windDirs.push(dir);
-    }
-    if (windDirs.length === 0) {
-      alert('풍향 데이터 없음');
+    // windDirs 새로 읽기
+    let windDirs = [];
+    try {
+      const resp = await fetch(config.csv);
+      const text = await resp.text();
+      const lines = text.trim().split('\n');
+      const headers = lines[0].split(',');
+      const dirIdx = headers.indexOf('wind_dir');
+      if (dirIdx === -1) throw new Error('CSV에 wind_dir 컬럼이 없습니다!');
+      for (let i = 1; i < lines.length; i++) {
+        const cols = lines[i].split(',').map(c => c.trim());
+        const dir = parseFloat(cols[dirIdx]);
+        if (!isNaN(dir)) windDirs.push(dir);
+      }
+      if (windDirs.length === 0) throw new Error('풍향 데이터 없음');
+    } catch (err) {
+      alert(err.message);
       return;
     }
 
-    // (1) 배경 고정(나침반, skyblue)
+    // polar plot 배경
     const layout = {
       title: `${config.name} 풍향`,
       width: 600,
@@ -95,12 +100,11 @@ document.addEventListener('DOMContentLoaded', () => {
       showlegend: false
     };
 
-    // (2) 최초: 화살표 2개(실선, 점선) 빈 상태
     const arrowSolid = {
       type: 'scatterpolar',
       mode: 'lines',
-      r: [0, 0.8],
-      theta: [0, 0],
+      r: [null, null],
+      theta: [null, null],
       line: { color: '#0033CC', width: 6, dash: 'solid' },
       marker: { color: '#0033CC' },
       hoverinfo: 'none',
@@ -109,8 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const arrowDashed = {
       type: 'scatterpolar',
       mode: 'lines',
-      r: [0, 0.8],
-      theta: [0, 0],
+      r: [null, null],
+      theta: [null, null],
       line: { color: '#3399FF', width: 4, dash: 'dash' },
       marker: { color: '#3399FF' },
       hoverinfo: 'none',
@@ -124,27 +128,31 @@ document.addEventListener('DOMContentLoaded', () => {
     interval = setInterval(() => {
       if (idx >= windDirs.length) {
         clearInterval(interval);
-        return;
-      }
-      // 실선 화살표(현재 데이터)
-      const angleSolid = (windDirs[idx] + 180) % 360;
-      let angleDashed = null;
-      if (idx + 1 < windDirs.length) {
-        angleDashed = (windDirs[idx + 1] + 180) % 360;
-      }
-
-      // 실선/점선 화살표만 restyle!
-      Plotly.restyle(chartPlaceholder, {
-        r: [[0, 0.8]],
-        theta: [[angleSolid, angleSolid]]
-      }, [0]);
-      if (angleDashed !== null) {
+        interval = null;
         Plotly.restyle(chartPlaceholder, {
           r: [[0, 0.8]],
-          theta: [[angleDashed, angleDashed]]
+          theta: [[(windDirs[windDirs.length - 1] + 180) % 360, (windDirs[windDirs.length - 1] + 180) % 360]]
+        }, [0]);
+        Plotly.restyle(chartPlaceholder, {
+          r: [[null, null]],
+          theta: [[null, null]]
+        }, [1]);
+        return;
+      }
+      // 실선: 현재 방향
+      const solidAngle = (windDirs[idx] + 180) % 360;
+      Plotly.restyle(chartPlaceholder, {
+        r: [[0, 0.8]],
+        theta: [[solidAngle, solidAngle]]
+      }, [0]);
+      // 점선: 다음 방향(없으면 null)
+      if (idx + 1 < windDirs.length) {
+        const dashedAngle = (windDirs[idx + 1] + 180) % 360;
+        Plotly.restyle(chartPlaceholder, {
+          r: [[0, 0.8]],
+          theta: [[dashedAngle, dashedAngle]]
         }, [1]);
       } else {
-        // 다음 데이터 없으면 점선 없앰
         Plotly.restyle(chartPlaceholder, {
           r: [[null, null]],
           theta: [[null, null]]
@@ -152,5 +160,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       idx++;
     }, 1000);
+  });
+
+  // 🔹 "해수면", "기압", "풍속", "유속" 등 다른 버튼을 클릭하면 interval 종료, plotly 숨김!
+  // (버튼 id를 위에서 가져오거나, 아래처럼 querySelectorAll(".column-btn")로 써도 무방)
+  [tideBtn, pressureBtn, windSpeedBtn, seaSpeedBtn].forEach(btn => {
+    if (btn) {
+      btn.addEventListener('click', () => {
+        if (interval) {
+          clearInterval(interval);
+          interval = null;
+        }
+        chartPlaceholder.style.display = 'none';
+        const incheonChart = document.getElementById('incheonChart');
+        if (incheonChart) incheonChart.style.display = 'block';
+        // Plotly.purge(chartPlaceholder); // 필요시 완전 삭제, (필요없으면 주석처리)
+      });
+    }
   });
 });
