@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const chartPlaceholder = document.getElementById('chartPlaceholder');
   const chartTitle = document.getElementById('chartTitle');
-  const windDirBtn = document.getElementById('windDirBtn');
+  const windDirBtn = document.getElementById('seaDirBtn');
 
   // 지역별 config: 이름, csv 경로
   const regionConfigs = {
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    chartTitle.textContent = `🌬️ ${config.name} 풍향`;
+    chartTitle.textContent = `🌬️ ${config.name} 유향`;
 
     // windDirs 초기화(다시 지역 버튼 클릭시 새로 fetch)
     windDirs = [];
@@ -46,9 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const text = await resp.text();
     const lines = text.trim().split('\n');
     const headers = lines[0].split(',');
-    const dirIdx = headers.indexOf('wind_dir');
+    const dirIdx = headers.indexOf('sea_dir_i');
     if (dirIdx === -1) {
-      alert('CSV에 wind_dir 컬럼이 없습니다!');
+      alert('CSV에 sea_dir 컬럼이 없습니다!');
       return;
     }
     for (let i = 1; i < lines.length; i++) {
@@ -57,13 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!isNaN(dir)) windDirs.push(dir);
     }
     if (windDirs.length === 0) {
-      alert('풍향 데이터 없음');
+      alert('유향 데이터 없음');
       return;
     }
 
     // (1) 배경 고정(나침반, skyblue)
     const layout = {
-      title: `${config.name} 풍향`,
+      title: `${config.name} 유향`,
       width: 600,
       height: 600,
       margin: { t: 60, r: 40, b: 40, l: 40 },
