@@ -24,8 +24,8 @@ def read_csv_autoenc(path):
         return pd.read_csv(path, encoding='utf-8', errors='replace')
 
 # ========= 데이터 미리 로딩 (태안만) =========
-df4 = read_csv_autoenc('../finalData/Taean_04.csv')
-df5 = read_csv_autoenc('../finalData/Taean_05.csv')
+df4 = read_csv_autoenc('./static/finalData/Taean_04.csv')
+df5 = read_csv_autoenc('./static/finalData/Taean_05.csv')
 df6 = read_csv_autoenc('../pred/this_Taean_06.csv')
 
 for df in (df4, df5, df6):
@@ -37,6 +37,11 @@ for df in (df4, df5, df6):
 # 한글 폰트 설정
 matplotlib.rc('font', family='Malgun Gothic')
 plt.rcParams['axes.unicode_minus'] = False
+
+def show_value(v):
+    if v in (None, '', 'null', 0):
+        return '-'
+    return str(v)
 
 # ========= 공통 설정 =========
 url = 'http://www.khoa.go.kr/api/oceangrid/tideObsRecent/search.do'
@@ -121,39 +126,56 @@ def uljin_detail():
 # ========= OBS MAP =========
 @app.route('/obs_map')
 def obs_map():
-    m = folium.Map(location=[36.5,127.8], zoom_start=6, width="100%", height="420px")
+    m = folium.Map(location=[36.5, 127.8], zoom_start=6, width="100%", height="420px")
+
+    url_jo = 'http://www.khoa.go.kr/api/oceangrid/tideObsRecent/search.do'
     for name, code in ObsCode_json.items():
-        data = get_obs_data({'code':code,'name':name}, url, ServiceKey)
+        obs = {'code': code, 'name': name}
+        data = get_obs_data(obs, url_jo, ServiceKey)
+        lat = 35.1
+        lon = 129.1
         try:
-            lat = float(data['obs_lat']); lon = float(data['obs_lon'])
-            popup = (f"<b>조위관측소</b><br>{name}<br>"
-                     f"수온: {data.get('water_temp','')}℃<br>"
-                     f"기온: {data.get('air_temp','')}℃<br>"
-                     f"기압: {data.get('air_press','')}hPa<br>"
-                     f"풍속: {data.get('wind_speed','')}m/s<br>"
-                     f"조위: {data.get('tide_level','')}cm<br>"
-                     f"유속: {data.get('current_speed','')}m/s")
-            folium.Marker([lat,lon], tooltip=popup,
-                          icon=folium.Icon(icon='home', prefix='fa', color='orange')
-                         ).add_to(m)
-        except: pass
+            lat = float(data.get('obs_lat', lat))
+            lon = float(data.get('obs_lon', lon))
+            popup = f"""<b>조위관측소</b><br>
+              {name}<br>
+              수온: {show_value(data.get('water_temp', ''))} ℃<br>
+              기온: {show_value(data.get('air_temp', ''))} ℃<br>
+              기압: {show_value(data.get('air_press', ''))} hPa<br>
+              풍속: {show_value(data.get('wind_speed', ''))} m/s<br>
+              조위: {show_value(data.get('tide_level', ''))} cm<br>
+              유속: {show_value(data.get('current_speed', ''))} m/s
+              """
+            folium.Marker([lat, lon], tooltip=popup,
+                icon=folium.Icon(icon='home', prefix='fa', color='orange')).add_to(m)
+        except Exception as e:
+            print(f'조위관측소 {name} 위치 정보 없음: {e}')
+
+    url_bui = 'http://www.khoa.go.kr/api/oceangrid/buObsRecent/search.do'
     for name, code in BuiCode_json.items():
-        data = get_obs_data({'code':code,'name':name},
-                            'http://www.khoa.go.kr/api/oceangrid/buObsRecent/search.do',
-                            ServiceKey)
+        obs = {'code': code, 'name': name}
+        data = get_obs_data(obs, url_bui, ServiceKey)
+        lat = 34.5
+        lon = 126.5
         try:
-            lat = float(data['obs_lat']); lon = float(data['obs_lon'])
-            popup = (f"<b>해양관측부이</b><br>{name}<br>"
-                     f"수온: {data.get('water_temp','')}℃<br>"
-                     f"기온: {data.get('air_temp','')}℃<br>"
-                     f"기압: {data.get('air_press','')}hPa<br>"
-                     f"풍속: {data.get('wind_speed','')}m/s<br>"
-                     f"유속: {data.get('current_speed','')}cm/s")
-            folium.Marker([lat,lon], tooltip=popup,
-                          icon=folium.Icon(icon='star', prefix='fa', color='blue')
-                         ).add_to(m)
-        except: pass
-    return m._repr_html_()
+            lat = float(data.get('obs_lat', lat))
+            lon = float(data.get('obs_lon', lon))
+            popup = f"""<b>해양관측부이</b><br>
+                {name}<br>
+                수온: {show_value(data.get('water_temp', ''))} ℃<br>
+                기온: {show_value(data.get('air_temp', ''))} ℃<br>
+                기압: {show_value(data.get('air_press', ''))} hPa<br>
+                풍속: {show_value(data.get('wind_speed', ''))} m/s<br>
+                유속: {show_value(data.get('current_speed', ''))} cm/s
+                """
+            folium.Marker(
+                location=[lat, lon], tooltip=popup,
+                icon=folium.Icon(icon='star', prefix='fa', color='blue')
+            ).add_to(m)
+        except Exception as e:
+            print(f'부이 {name} 위치 정보 없음: {e}')
+    html = m._repr_html_()
+    return html
 
 # ========= WIND/TIDE API =========
 @app.route('/winddata')
@@ -256,6 +278,23 @@ def yeosu_chart_data():
 def tongyeong_chart_data():
     obs_df = pd.read_csv('./static/finalData/TongYeong_05.csv')
     pred_df = pd.read_csv('../pred/this_TongYeong_06.csv')
+
+    def parse(df):
+        df['datetime'] = pd.to_datetime(df['datetime']).dt.strftime('%Y-%m-%dT%H:%M:%S')
+        return df[['datetime', 'sea_high', 'wind_speed', 'pressure', 'sea_speed']].dropna()
+
+    obs = parse(obs_df)
+    pred = parse(pred_df)
+
+    return jsonify({
+        'observed': obs.to_dict(orient='records'),
+        'predicted': pred.to_dict(orient='records')
+    })
+
+@app.route('/api/uljin_chart_data')
+def uljin_chart_data():
+    obs_df = pd.read_csv('./static/finalData/Uljin_05.csv')
+    pred_df = pd.read_csv('../pred/this_Uljin_06.csv')
 
     def parse(df):
         df['datetime'] = pd.to_datetime(df['datetime']).dt.strftime('%Y-%m-%dT%H:%M:%S')
