@@ -10,7 +10,7 @@
     {% endif %}
 </div>
 <script>
-  // JS로 갱신하는 코드는 그대로 유지
+
   function updateDangerArea() {
     fetch('/api/danger_area')
       .then(response => response.json())
@@ -31,4 +31,5 @@
   }
   setInterval(updateDangerArea, 600000);
   updateDangerArea();
+  
 </script>

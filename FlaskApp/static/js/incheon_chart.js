@@ -39,9 +39,7 @@ function drawChart(type) {
   const canvas = document.getElementById("incheonChart");
   const chartPlaceholder = document.getElementById("chartPlaceholder");
 
-  // --- 차트 show/hide 컨트롤 ---
   if (type === "wind_dir" || type === "current_dir") {
-    // 풍향/유향 버튼: canvas 숨기고 polar 차트만 보임
     if (canvas) canvas.style.display = "none";
     if (chartPlaceholder) chartPlaceholder.style.display = "block";
     updateTimeRangeLabel();
@@ -51,10 +49,10 @@ function drawChart(type) {
     }
     return;
   } else {
-    // 나머지 4개: canvas 보이고, polar 차트는 숨김
     if (canvas) canvas.style.display = "block";
     if (chartPlaceholder) chartPlaceholder.style.display = "none";
   }
+  
   // --------------------------
 
   if (!canvas) {
@@ -78,9 +76,7 @@ function drawChart(type) {
     .map((d) => ({ x: new Date(d.datetime), y: d[type] }))
     .filter((d) => d.x >= start && d.x <= end);
 
-  // 실측: 5월까지만
   const observed = allData.filter((d) => d.x < cutoff);
-  // 예측: 6월부터
   const predicted = allData.filter((d) => d.x >= cutoff);
 
   window.myChart = new Chart(ctx, {
@@ -186,9 +182,6 @@ window.addEventListener("load", () => {
 
       drawChart(currentType);
 
-      // 풍향/유향 이외의 버튼 클릭 시 Plotly 애니메이션 중단 추가(옵션)
-      // window.clearInterval(window.windDirInterval);
-      // Plotly.purge("chartPlaceholder"); // 필요하면 정리
     });
   });
 

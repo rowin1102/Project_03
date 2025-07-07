@@ -21,6 +21,7 @@
     </ul>
 
     <script>
+      
       const updateWarning = () => {
         fetch('/api/warning')
           .then(respose => respose.json())
@@ -45,6 +46,7 @@
           });
       }
     setInterval(updateWarning, 600000)
-    </script>
+    
+  </script>
 </body>
 </html>
