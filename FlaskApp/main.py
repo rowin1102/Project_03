@@ -1,8 +1,5 @@
 from flask import Flask, render_template, jsonify, send_file, request
-import json
-import folium
-import io
-import chardet
+import json, folium, io, chardet
 import pandas as pd
 from abnormal import detect_abnormal
 from obs_data import get_obs_data
